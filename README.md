@@ -10,7 +10,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Groq AI](https://img.shields.io/badge/Groq-AI-FF6B2B?style=for-the-badge)](https://console.groq.com/)
 
-[**Live Demo**](https://code-buddy-ul4r.vercel.app/) • [**Report Bug**](https://github.com/Khushant15/CodeBuddyWebApp/issues) • [**Request Feature**](https://github.com/Khushant15/CodeBuddyWebApp/issues)
+[**Live Demo**](https://code-buddy-eta.vercel.app/) • [**Report Bug**](https://github.com/Khushant15/CodeBuddyWebApp/issues) • [**Request Feature**](https://github.com/Khushant15/CodeBuddyWebApp/issues)
 
 **Learn by doing.** Master Python, Web Development, and React through interactive lessons, real-world debugging challenges, and an AI mentor that never sleeps.
 
