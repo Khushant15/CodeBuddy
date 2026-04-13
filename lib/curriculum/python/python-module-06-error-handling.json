@@ -1,0 +1,194 @@
+{
+  "id": "python-module-06-error-handling",
+  "title": "Error Handling & Exceptions",
+  "description": "Write robust Python programs that handle the unexpected gracefully. Master try/except/else/finally blocks, learn to raise and propagate exceptions, create custom exception classes, and build programs that fail loudly with helpful messages instead of cryptic crashes.",
+  "track": "python",
+  "order": 6,
+  "estimatedHours": 7,
+  "difficulty": "intermediate",
+  "prerequisites": ["python-module-05-file-io"],
+  "learningObjectives": [
+    "Catch and handle exceptions with try/except",
+    "Use else and finally blocks appropriately",
+    "Raise exceptions with descriptive messages",
+    "Create custom exception classes",
+    "Choose the right exception type for each situation",
+    "Build a robust input validation layer"
+  ],
+  "lessons": [
+    {
+      "id": "py-051-try-except",
+      "title": "try/except Basics",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["exceptions", "try", "except", "error-handling"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "What Are Exceptions?" },
+          { "type": "text", "content": "An exception is an event that disrupts normal program flow. Python uses exceptions for error handling rather than error codes. When something goes wrong, Python raises (throws) an exception. If not caught, the program crashes with a traceback." },
+          { "type": "code", "language": "python", "content": "# Basic try/except\ntry:\n    number = int(input('Enter a number: '))\n    result = 100 / number\n    print(f'Result: {result}')\nexcept ValueError:\n    print('That was not a valid number!')\nexcept ZeroDivisionError:\n    print('Cannot divide by zero!')\n\n# Catching multiple exceptions in one handler\ntry:\n    risky_operation()\nexcept (TypeError, AttributeError) as e:\n    print(f'Type/attribute problem: {e}')\n\n# Catch ANY exception (use sparingly!)\ntry:\n    risky_operation()\nexcept Exception as e:\n    print(f'Something went wrong: {e}')\n    # log it, then re-raise or handle\n\n# Accessing exception info\ntry:\n    x = int('abc')\nexcept ValueError as e:\n    print(f'Error: {e}')          # invalid literal for int()...\n    print(type(e).__name__)       # 'ValueError'" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Never use bare except: (without an exception type) — it catches even KeyboardInterrupt and SystemExit, making your program impossible to stop. Always specify the exception type." }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Safe File Reader",
+          "code": "def safe_read_file(filepath):\n    try:\n        with open(filepath, 'r') as f:\n            return f.read()\n    except FileNotFoundError:\n        print(f'Error: File not found: {filepath}')\n        return None\n    except PermissionError:\n        print(f'Error: No permission to read: {filepath}')\n        return None\n    except UnicodeDecodeError:\n        print('Error: File contains non-UTF-8 characters')\n        return None\n\ncontent = safe_read_file('data.txt')\nif content is not None:\n    print(content)",
+          "output": "Error: File not found: data.txt",
+          "explanation": "Each except clause catches a specific error type. Returning None as a sentinel lets callers check for failure.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "py-ex-051-mc",
+          "type": "multiple-choice",
+          "question": "What type of exception is raised when you try to convert 'hello' to an integer?",
+          "options": ["TypeError", "ValueError", "AttributeError", "NameError"],
+          "correctAnswer": "ValueError",
+          "hints": ["The type is correct (str), but the value is wrong for int()"],
+          "explanation": "ValueError is raised when an operation receives an argument of the right type but an inappropriate value. int('hello') knows it got a string but that particular string can't be parsed as an integer."
+        }
+      ]
+    },
+    {
+      "id": "py-052-else-finally",
+      "title": "else and finally Clauses",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 70,
+      "estimatedMinutes": 25,
+      "tags": ["finally", "else", "cleanup", "exception"],
+      "prerequisites": ["py-051-try-except"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "The Full try/except/else/finally Pattern" },
+          { "type": "code", "language": "python", "content": "try:\n    result = int(input('Enter a number: '))\nexcept ValueError:\n    print('Invalid input')\nelse:\n    # Runs ONLY if no exception was raised in try\n    print(f'You entered: {result}')\nfinally:\n    # ALWAYS runs — exception or not\n    print('Thanks for trying!')\n\n# Real-world pattern: database connection\ndef fetch_user(user_id):\n    connection = None\n    try:\n        connection = db.connect()\n        user = connection.query(f'SELECT * FROM users WHERE id={user_id}')\n        return user\n    except DatabaseError as e:\n        print(f'Database error: {e}')\n        return None\n    else:\n        # Only reached if query succeeded\n        log_access(user_id)\n    finally:\n        # Always close connection\n        if connection:\n            connection.close()" },
+          { "type": "callout", "variant": "info", "content": "💡 else runs when the try block completes WITHOUT raising an exception. It separates 'code that might fail' from 'code that runs on success'. finally runs always — perfect for cleanup (closing files, DB connections, network sockets)." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-052-mc",
+          "type": "multiple-choice",
+          "question": "When does the else clause in a try/except/else block execute?",
+          "options": ["Always, after the finally block", "Only when an exception was raised", "Only when NO exception was raised in the try block", "Only when the except block runs"],
+          "correctAnswer": "Only when NO exception was raised in the try block",
+          "hints": ["else = 'if no exception'"],
+          "explanation": "The else clause runs only when the try block completes successfully (no exception raised). This separates error recovery code (except) from success continuation code (else)."
+        }
+      ]
+    },
+    {
+      "id": "py-053-raising-exceptions",
+      "title": "Raising Exceptions",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 75,
+      "estimatedMinutes": 30,
+      "tags": ["raise", "re-raise", "exceptions"],
+      "prerequisites": ["py-052-else-finally"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Raising Exceptions Intentionally" },
+          { "type": "text", "content": "You raise exceptions to signal that something is wrong to the calling code. Choose a built-in exception type that accurately describes the problem, or create a custom one." },
+          { "type": "code", "language": "python", "content": "# Raise a built-in exception\ndef set_age(age):\n    if not isinstance(age, int):\n        raise TypeError(f'Age must be an integer, got {type(age).__name__}')\n    if age < 0 or age > 150:\n        raise ValueError(f'Age must be between 0 and 150, got {age}')\n    return age\n\n# Raise from another exception (preserve context)\ndef load_config(filepath):\n    try:\n        with open(filepath) as f:\n            return json.load(f)\n    except json.JSONDecodeError as e:\n        raise ValueError(f'Invalid config file: {filepath}') from e\n\n# Re-raise the current exception (add logging then re-raise)\ndef process(data):\n    try:\n        result = complex_operation(data)\n    except Exception as e:\n        logger.error(f'Failed processing: {e}')\n        raise  # bare raise re-raises the SAME exception" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-053-write",
+          "type": "code-write",
+          "question": "Write a function validate_email(email) that raises ValueError if the email doesn't contain exactly one '@' symbol, with a clear error message.",
+          "starterCode": "def validate_email(email):\n    # Your code here\n    pass",
+          "solution": "def validate_email(email):\n    if email.count('@') != 1:\n        raise ValueError(f'Invalid email: must contain exactly one @, got: {email!r}')\n    return email",
+          "hints": ["Use str.count() to count @", "raise ValueError('message')"],
+          "testCases": [{ "input": "test@example.com", "expectedOutput": "", "description": "Valid email passes" }],
+          "explanation": "Raising ValueError with a descriptive message makes it easy for callers to understand exactly what went wrong. !r in f-strings adds quotes around the value."
+        }
+      ]
+    },
+    {
+      "id": "py-054-custom-exceptions",
+      "title": "Custom Exception Classes",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["custom-exceptions", "exception-hierarchy", "inheritance"],
+      "prerequisites": ["py-053-raising-exceptions"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Building Your Own Exceptions" },
+          { "type": "text", "content": "Custom exceptions make your code self-documenting — callers know exactly what category of error to expect. Always inherit from Exception (or a subclass of it), never from BaseException directly." },
+          { "type": "code", "language": "python", "content": "# Base custom exception for your application\nclass AppError(Exception):\n    \"\"\"Base class for all application errors.\"\"\"\n    pass\n\n# Specific error types\nclass ValidationError(AppError):\n    \"\"\"Raised when input fails validation.\"\"\"\n    def __init__(self, field, message):\n        self.field = field\n        self.message = message\n        super().__init__(f'Validation error on {field}: {message}')\n\nclass NotFoundError(AppError):\n    \"\"\"Raised when a requested resource does not exist.\"\"\"\n    def __init__(self, resource, identifier):\n        self.resource = resource\n        self.identifier = identifier\n        super().__init__(f'{resource} not found: {identifier}')\n\n# Using custom exceptions\ndef get_user(user_id, users_db):\n    if not isinstance(user_id, int) or user_id <= 0:\n        raise ValidationError('user_id', 'must be a positive integer')\n    user = users_db.get(user_id)\n    if user is None:\n        raise NotFoundError('User', user_id)\n    return user\n\n# Catching custom exceptions\ntry:\n    user = get_user(-1, {})\nexcept ValidationError as e:\n    print(f'Bad input for field {e.field}: {e.message}')\nexcept NotFoundError as e:\n    print(f'{e.resource} #{e.identifier} does not exist')\nexcept AppError as e:\n    print(f'Application error: {e}')  # catch-all for app errors" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-054-mc",
+          "type": "multiple-choice",
+          "question": "What should all custom exception classes inherit from?",
+          "options": ["object", "BaseException", "Exception", "RuntimeError"],
+          "correctAnswer": "Exception",
+          "hints": ["BaseException is too broad — it includes system-level events"],
+          "explanation": "Custom exceptions should inherit from Exception (or a more specific built-in like ValueError). Inheriting from BaseException would catch system events like KeyboardInterrupt and SystemExit."
+        }
+      ]
+    },
+    {
+      "id": "py-055-exception-hierarchy",
+      "title": "Built-in Exception Hierarchy & Best Practices",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 75,
+      "estimatedMinutes": 30,
+      "tags": ["exception-types", "best-practices", "LBYL", "EAFP"],
+      "prerequisites": ["py-054-custom-exceptions"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Python's Exception Hierarchy" },
+          { "type": "code", "language": "python", "content": "# Common built-in exceptions to know:\n# BaseException\n#   SystemExit          # sys.exit() called\n#   KeyboardInterrupt   # Ctrl+C\n#   Exception\n#     ValueError        # right type, wrong value\n#     TypeError         # wrong type\n#     NameError         # variable not defined\n#     AttributeError    # attribute doesn't exist\n#     IndexError        # list index out of range\n#     KeyError          # dict key not found\n#     FileNotFoundError # file/dir doesn't exist\n#     PermissionError   # no access rights\n#     OSError           # general OS-level error\n#     ZeroDivisionError\n#     OverflowError\n#     MemoryError\n#     RecursionError\n#     StopIteration     # iterator exhausted\n#     NotImplementedError" },
+          { "type": "heading", "content": "LBYL vs EAFP — Python Prefers EAFP" },
+          { "type": "code", "language": "python", "content": "# LBYL — Look Before You Leap (C/Java style)\n# Check before you act (verbose, can have race conditions)\ndef get_value_lbyl(d, key):\n    if key in d:  # extra lookup\n        return d[key]\n    return None\n\n# EAFP — Easier to Ask Forgiveness than Permission (Pythonic)\n# Try it and handle the failure\ndef get_value_eafp(d, key):\n    try:\n        return d[key]\n    except KeyError:\n        return None\n\n# Even simpler with dict.get():\nvalue = d.get(key, default_value)" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Python style (EAFP) says: try the operation and catch exceptions rather than pre-checking conditions. This is especially important in concurrent code where conditions can change between your check and your action." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-055-mc",
+          "type": "multiple-choice",
+          "question": "Which built-in exception is raised when you access a dictionary key that doesn't exist?",
+          "options": ["IndexError", "AttributeError", "KeyError", "LookupError"],
+          "correctAnswer": "KeyError",
+          "hints": ["Dictionary keys... Key Error"],
+          "explanation": "KeyError is raised when a mapping (like dict) key is not found. IndexError is for sequences (lists) with an out-of-range index. Both are subclasses of LookupError."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "py-cap-06",
+    "title": "Robust Calculator",
+    "description": "Build a command-line calculator with comprehensive error handling — no crash is acceptable.",
+    "difficulty": "intermediate",
+    "estimatedHours": 2,
+    "xpReward": 400,
+    "requirements": [
+      "Custom CalcError base class with MathError, InputError, and OverflowError subclasses",
+      "Handles: ZeroDivisionError, OverflowError, ValueError on invalid input",
+      "Operations: +, -, *, /, // (floor div), ** (power), % (modulo), sqrt",
+      "Validate input before every operation using dedicated validate() function",
+      "REPL loop: continues running until user types 'quit' or 'exit'",
+      "All exception handlers print the exception class name and message",
+      "Log every error to errors.log using File I/O from Module 5"
+    ]
+  }
+}

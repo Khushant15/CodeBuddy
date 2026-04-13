@@ -1,0 +1,211 @@
+{
+  "id": "python-module-07-advanced-topics",
+  "title": "Advanced Python Topics",
+  "description": "Take your Python skills to the next level. Master decorators, generators, iterators, regular expressions, and key standard library modules. These features separate intermediate developers from advanced Pythonistas.",
+  "track": "python",
+  "order": 7,
+  "estimatedHours": 12,
+  "difficulty": "intermediate",
+  "prerequisites": ["python-module-06-error-handling"],
+  "learningObjectives": [
+    "Create and apply Python decorators",
+    "Build memory-efficient generators with yield",
+    "Write regular expressions to match and extract text patterns",
+    "Use datetime, collections, itertools, and functools from the standard library",
+    "Understand the iterator protocol"
+  ],
+  "lessons": [
+    {
+      "id": "py-061-decorators",
+      "title": "Decorators",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 90,
+      "estimatedMinutes": 45,
+      "tags": ["decorators", "functools", "wraps", "higher-order"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "What Are Decorators?" },
+          { "type": "text", "content": "A decorator is a function that wraps another function to extend or modify its behaviour without changing its source code. Python's @ syntax is just shorthand for: func = decorator(func)." },
+          { "type": "code", "language": "python", "content": "import functools\nimport time\n\n# Basic decorator structure\ndef timer(func):\n    @functools.wraps(func)  # preserves function metadata\n    def wrapper(*args, **kwargs):\n        start = time.perf_counter()\n        result = func(*args, **kwargs)    # call original\n        elapsed = time.perf_counter() - start\n        print(f'{func.__name__} took {elapsed:.4f}s')\n        return result\n    return wrapper\n\n@timer  # equivalent to: slow_function = timer(slow_function)\ndef slow_function():\n    time.sleep(0.5)\n    return 'done'\n\nresult = slow_function()  # prints: slow_function took 0.5001s\n\n# Decorator with arguments (decorator factory)\ndef retry(max_attempts=3):\n    def decorator(func):\n        @functools.wraps(func)\n        def wrapper(*args, **kwargs):\n            for attempt in range(1, max_attempts + 1):\n                try:\n                    return func(*args, **kwargs)\n                except Exception as e:\n                    if attempt == max_attempts:\n                        raise\n                    print(f'Attempt {attempt} failed: {e}. Retrying...')\n        return wrapper\n    return decorator\n\n@retry(max_attempts=3)\ndef fetch_data():\n    raise ConnectionError('Network timeout')" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Always use @functools.wraps(func) inside your decorator's wrapper. Without it, the wrapped function loses its __name__ and __doc__, making debugging very hard." }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Caching Decorator (Memoization)",
+          "code": "import functools\n\ndef memoize(func):\n    cache = {}\n    @functools.wraps(func)\n    def wrapper(*args):\n        if args not in cache:\n            cache[args] = func(*args)\n        return cache[args]\n    return wrapper\n\n@memoize\ndef fibonacci(n):\n    if n < 2:\n        return n\n    return fibonacci(n - 1) + fibonacci(n - 2)\n\n# Python stdlib has this built-in:\nfrom functools import lru_cache\n\n@lru_cache(maxsize=128)\ndef fibonacci_builtin(n):\n    if n < 2:\n        return n\n    return fibonacci_builtin(n - 1) + fibonacci_builtin(n - 2)\n\nprint(fibonacci(50))  # Instant with memoization!",
+          "output": "12586269025",
+          "explanation": "Without memoization, fib(50) would make billions of recursive calls. The cache stores previously computed values, turning O(2^n) into O(n).",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "py-ex-061-mc",
+          "type": "multiple-choice",
+          "question": "What does @functools.wraps(func) do inside a decorator?",
+          "options": ["It makes the decorator run faster", "It copies the original function's metadata (__name__, __doc__) to the wrapper", "It validates function arguments", "It automatically retries the function on failure"],
+          "correctAnswer": "It copies the original function's metadata (__name__, __doc__) to the wrapper",
+          "hints": ["Without it, the wrapped function's identity is lost"],
+          "explanation": "@functools.wraps(func) preserves the original function's __name__, __doc__, and other attributes on the wrapper. This makes debugging, testing, and documentation tools work correctly on decorated functions."
+        }
+      ]
+    },
+    {
+      "id": "py-062-generators",
+      "title": "Generators & yield",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["generators", "yield", "lazy-evaluation", "iterator"],
+      "prerequisites": ["py-061-decorators"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Lazy Sequences with Generators" },
+          { "type": "text", "content": "A generator function uses yield instead of return. When called, it returns a generator object — a lazy iterator that produces values one at a time, only when requested. This allows processing of potentially infinite sequences without loading all data into memory." },
+          { "type": "code", "language": "python", "content": "# Generator function\ndef count_up(start=0):\n    n = start\n    while True:           # infinite generator!\n        yield n           # pause here, return n\n        n += 1            # resume from here on next()\n\ncounter = count_up(5)\nprint(next(counter))     # 5\nprint(next(counter))     # 6\nprint(next(counter))     # 7\n\n# Process only what you need (memory efficient!)\nfor value in count_up(1):\n    if value > 10:\n        break\n    print(value)\n\n# Generator for large files (never loads entire file)\ndef read_in_chunks(filepath, chunk_size=1024):\n    with open(filepath, 'r') as f:\n        while True:\n            chunk = f.read(chunk_size)\n            if not chunk:\n                break\n            yield chunk\n\nfor chunk in read_in_chunks('huge_file.txt'):\n    process(chunk)  # only chunk_size bytes in memory at a time\n\n# Generator expression (like list comprehension but lazy)\nsequence = [1, 2, 3, 4, 5, 6, 7, 8]\nevens = (x * 2 for x in sequence if x % 2 == 0)  # no computation yet\nprint(list(evens))  # [4, 8, 12, 16]" },
+          { "type": "callout", "variant": "info", "content": "💡 A list comprehension [x for x in range(1000000)] creates 1 million items in memory. A generator expression (x for x in range(1000000)) creates them one at a time on demand — O(1) memory." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-062-mc",
+          "type": "multiple-choice",
+          "question": "What keyword turns a function into a generator?",
+          "options": ["generate", "return", "yield", "async"],
+          "correctAnswer": "yield",
+          "hints": ["It 'yields' control back to the caller while preserving state"],
+          "explanation": "yield pauses the function, returns a value to the caller, and saves all local state. When next() is called again, execution resumes from the line after yield. A function with at least one yield is a generator function."
+        },
+        {
+          "id": "py-ex-062-write",
+          "type": "code-write",
+          "question": "Write a generator function fibonacci_gen() that yields Fibonacci numbers indefinitely (0, 1, 1, 2, 3, 5, 8, ...).",
+          "starterCode": "def fibonacci_gen():\n    # Your code here\n    pass",
+          "solution": "def fibonacci_gen():\n    a, b = 0, 1\n    while True:\n        yield a\n        a, b = b, a + b",
+          "hints": ["Use two variables: a and b", "yield a first, then swap", "while True for infinite generator"],
+          "testCases": [{ "input": "", "expectedOutput": "", "description": "Yields 0, 1, 1, 2, 3, 5..." }],
+          "explanation": "The classic Fibonacci generator. a, b = b, a + b uses tuple unpacking to update both variables simultaneously without a temporary variable."
+        }
+      ]
+    },
+    {
+      "id": "py-063-iterators",
+      "title": "Iterators & the Iterator Protocol",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["iterator", "__iter__", "__next__", "StopIteration"],
+      "prerequisites": ["py-062-generators"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "How Python's for Loop Really Works" },
+          { "type": "text", "content": "Every for loop calls iter() on the object, then calls next() on the iterator repeatedly until StopIteration is raised. Understanding this protocol lets you make any object iterable." },
+          { "type": "code", "language": "python", "content": "# The iterator protocol requires two methods:\n# __iter__: returns the iterator object itself\n# __next__: returns the next value or raises StopIteration\n\nclass CountDown:\n    def __init__(self, start):\n        self.current = start\n\n    def __iter__(self):\n        return self  # this object IS the iterator\n\n    def __next__(self):\n        if self.current < 0:\n            raise StopIteration\n        value = self.current\n        self.current -= 1\n        return value\n\n# Works with for loop, list(), sum(), etc.\nfor n in CountDown(5):\n    print(n)  # 5 4 3 2 1 0\n\nprint(list(CountDown(3)))  # [3, 2, 1, 0]\n\n# Python for loop is roughly:\n# iterator = iter(collection)\n# while True:\n#     try:\n#         item = next(iterator)\n#     except StopIteration:\n#         break\n#     # execute loop body with item" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-063-mc",
+          "type": "multiple-choice",
+          "question": "What exception signals the end of an iterator?",
+          "options": ["EndOfIterator", "IndexError", "StopIteration", "GeneratorExit"],
+          "correctAnswer": "StopIteration",
+          "hints": ["Its name literally describes what it does"],
+          "explanation": "StopIteration is raised by __next__() when there are no more items to return. The for loop catches this exception and stops the loop cleanly."
+        }
+      ]
+    },
+    {
+      "id": "py-064-regex",
+      "title": "Regular Expressions",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 90,
+      "estimatedMinutes": 45,
+      "tags": ["regex", "re", "pattern-matching", "search", "findall"],
+      "prerequisites": ["py-063-iterators"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Pattern Matching with re" },
+          { "type": "text", "content": "Regular expressions are a mini-language for describing text patterns. Python's re module lets you search, match, split, and replace text using these patterns. They are an essential tool for data cleaning, log parsing, and validation." },
+          { "type": "code", "language": "python", "content": "import re\n\n# Pattern characters:\n# .   any character (except newline)\n# \\d  digit (0-9)\n# \\w  word character (a-z, A-Z, 0-9, _)\n# \\s  whitespace\n# *   0 or more of the preceding\n# +   1 or more of the preceding\n# ?   0 or 1 of the preceding\n# ^   start of string\n# $   end of string\n# []  character class [aeiou], [0-9]\n# ()  capture group\n# |   OR operator\n\n# re.search — find first match anywhere in string\nm = re.search(r'\\d+', 'Phone: 01234 567890')\nif m:\n    print(m.group())  # '01234'\n    print(m.start(), m.end())  # 7, 12\n\n# re.findall — find ALL matches as a list\nnumbers = re.findall(r'\\d+', 'Call 123 or 456 or 789')\nprint(numbers)  # ['123', '456', '789']\n\n# re.match — only matches at the START of string\nif re.match(r'Hello', 'Hello, World!'):\n    print('Starts with Hello')\n\n# re.sub — replace matches\ncleaned = re.sub(r'\\s+', ' ', 'too    many   spaces')\nprint(cleaned)  # 'too many spaces'\n\n# Compile for repeated use (faster)\nemail_pattern = re.compile(r'^[\\w.-]+@[\\w.-]+\\.\\w{2,}$')\nprint(email_pattern.match('alice@example.com'))  # Match object\nprint(email_pattern.match('not-an-email'))         # None" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Use raw strings (r'pattern') for regex patterns — this prevents Python from interpreting backslashes before the regex engine sees them." }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Extract All Email Addresses from Text",
+          "code": "import re\n\ndef extract_emails(text):\n    pattern = r'[\\w.+-]+@[\\w-]+\\.[\\w.-]+'\n    return re.findall(pattern, text)\n\ntext = \"\"\"\nContact: alice@example.com\nSupport: help@company.co.uk\nDo not email: not-an@.email.here\n\"\"\"\n\nemails = extract_emails(text)\nprint(emails)",
+          "output": "['alice@example.com', 'help@company.co.uk']",
+          "explanation": "[\\w.+-]+ matches the local part (before @). [\\w-]+ matches the domain. [\\w.-]+ matches the TLD (including subdomains).",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "py-ex-064-mc",
+          "type": "multiple-choice",
+          "question": "What does re.findall(r'\\d+', 'abc 123 def 456') return?",
+          "options": ["'123'", "['123', '456']", "[123, 456]", "('123', '456')"],
+          "correctAnswer": "['123', '456']",
+          "hints": ["findall returns a list, \\d+ matches one or more digits"],
+          "explanation": "re.findall() returns a list of all non-overlapping matches as strings. \\d+ matches one or more digit characters. Both '123' and '456' match, so the result is ['123', '456']."
+        }
+      ]
+    },
+    {
+      "id": "py-065-stdlib",
+      "title": "Essential Standard Library Modules",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["datetime", "collections", "itertools", "functools", "stdlib"],
+      "prerequisites": ["py-064-regex"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Python's Batteries-Included Standard Library" },
+          { "type": "code", "language": "python", "content": "# datetime — dates and times\nfrom datetime import datetime, timedelta, date\n\nnow = datetime.now()\nbirthday = datetime(1998, 5, 15)\nage_days = (now - birthday).days\nprint(f'Age in days: {age_days}')\n\nnext_week = now + timedelta(weeks=1)\nprint(next_week.strftime('%d %B %Y'))  # '20 April 2025'\n\n# collections — specialised data structures\nfrom collections import Counter, defaultdict, deque, namedtuple\n\nwords = 'the quick brown fox the fox'.split()\ncount = Counter(words)\nprint(count.most_common(2))  # [('the', 2), ('fox', 2)]\n\ngraph = defaultdict(list)    # no KeyError for missing keys\ngraph['A'].append('B')\n\nPoint = namedtuple('Point', ['x', 'y'])\np = Point(3, 4)\nprint(p.x, p.y)  # 3 4 (accessed by name!)\n\n# itertools — iterator building blocks\nimport itertools\n\nfor combo in itertools.combinations([1, 2, 3], 2):\n    print(combo)  # (1,2) (1,3) (2,3)\n\nfor perm in itertools.permutations('AB', 2):\n    print(perm)  # ('A','B') ('B','A')\n\n# functools — higher-order function tools\nfrom functools import partial, reduce\n\ndouble = partial(lambda x, n: x * n, n=2)\nprint(double(5))  # 10\n\nproduct = reduce(lambda a, b: a * b, [1, 2, 3, 4, 5])\nprint(product)  # 120" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-065-mc",
+          "type": "multiple-choice",
+          "question": "What does Counter(['a', 'b', 'a', 'c', 'a', 'b']) return?",
+          "options": ["3", "{'a': 3, 'b': 2, 'c': 1}", "['a', 'a', 'a', 'b', 'b', 'c']", "None"],
+          "correctAnswer": "{'a': 3, 'b': 2, 'c': 1}",
+          "hints": ["Counter counts occurrences of each element"],
+          "explanation": "Counter is a dict subclass that counts occurrences. 'a' appears 3 times, 'b' twice, 'c' once. It supports most_common(), arithmetic operators, and dict methods."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "py-cap-07",
+    "title": "Personal Expense Tracker CLI",
+    "description": "Build a full-featured command-line expense tracker using decorators, generators, regex, and stdlib modules.",
+    "difficulty": "intermediate",
+    "estimatedHours": 4,
+    "xpReward": 600,
+    "requirements": [
+      "@timer decorator on report generation function",
+      "@lru_cache on monthly summary computation",
+      "@retry(3) on file save operations",
+      "Generator-based expense reader for large CSV files",
+      "Regex validation for date (YYYY-MM-DD) and amount (positive float) input",
+      "datetime for calculating spending in the last N days",
+      "Counter for category spending totals",
+      "defaultdict for grouping expenses by month",
+      "Save data as JSON, load on startup with error handling from Module 6"
+    ]
+  }
+}

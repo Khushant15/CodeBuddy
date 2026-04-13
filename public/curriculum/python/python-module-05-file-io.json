@@ -1,0 +1,221 @@
+{
+  "id": "python-module-05-file-io",
+  "title": "File I/O",
+  "description": "Learn to make your Python programs persist data beyond a single run. Read and write text files, work with CSV and JSON data formats, handle errors gracefully, and use context managers to ensure files are always closed properly.",
+  "track": "python",
+  "order": 5,
+  "estimatedHours": 8,
+  "difficulty": "intermediate",
+  "prerequisites": ["python-module-04-oop"],
+  "learningObjectives": [
+    "Open, read, and write text files using the open() function",
+    "Use the with statement to manage file resources safely",
+    "Parse and generate CSV files using the csv module",
+    "Read and write structured data with the json module",
+    "Handle file-related exceptions gracefully"
+  ],
+  "lessons": [
+    {
+      "id": "py-041-reading-files",
+      "title": "Reading Files",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["file-io", "open", "read", "readlines"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Opening and Reading Files" },
+          { "type": "text", "content": "Python's built-in open() function returns a file object. The first argument is the path; the second is the mode: 'r' for read (default), 'w' for write, 'a' for append, 'b' for binary. Always close the file after use — or better, use the with statement." },
+          { "type": "code", "language": "python", "content": "# Method 1: Manual open/close (error-prone)\nf = open('data.txt', 'r')\ncontent = f.read()\nf.close()\n\n# Method 2: with statement (always preferred)\nwith open('data.txt', 'r') as f:\n    content = f.read()  # entire file as one string\n\n# Read line by line (memory-efficient for large files)\nwith open('data.txt', 'r') as f:\n    for line in f:\n        print(line.strip())  # strip removes trailing \\n\n\n# Read all lines into a list\nwith open('data.txt', 'r') as f:\n    lines = f.readlines()  # ['line1\\n', 'line2\\n', ...]\n\n# Read one line at a time\nwith open('data.txt', 'r') as f:\n    first_line = f.readline()" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Iterate over the file object directly (for line in f) instead of f.readlines() for large files — it reads one line at a time, saving memory." }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Count Lines and Words in a File",
+          "code": "def analyze_file(filepath):\n    line_count = 0\n    word_count = 0\n    with open(filepath, 'r') as f:\n        for line in f:\n            line_count += 1\n            word_count += len(line.split())\n    return line_count, word_count\n\nlines, words = analyze_file('essay.txt')\nprint(f'Lines: {lines}, Words: {words}')",
+          "output": "Lines: 42, Words: 387",
+          "explanation": "Iterating line by line is memory-efficient. split() on a line returns a list of words by splitting on whitespace.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "py-ex-041-mc",
+          "type": "multiple-choice",
+          "question": "What does f.read() return when called on an open file?",
+          "options": ["A list of lines", "The entire file content as a single string", "The first line only", "A generator of characters"],
+          "correctAnswer": "The entire file content as a single string",
+          "hints": ["read() vs readlines() vs readline()"],
+          "explanation": "f.read() returns the entire file as one string. f.readlines() returns a list where each item is a line (including \\n). f.readline() returns only the next line."
+        },
+        {
+          "id": "py-ex-041-write",
+          "type": "code-write",
+          "question": "Write a function read_first_n_lines(filepath, n) that returns the first n lines of a file as a list of stripped strings.",
+          "starterCode": "def read_first_n_lines(filepath, n):\n    # Your code here\n    pass",
+          "solution": "def read_first_n_lines(filepath, n):\n    lines = []\n    with open(filepath, 'r') as f:\n        for i, line in enumerate(f):\n            if i >= n:\n                break\n            lines.append(line.strip())\n    return lines",
+          "hints": ["Use with open(...) as f", "enumerate gives you the line number", "break exits the loop early"],
+          "testCases": [{ "input": "", "expectedOutput": "", "description": "Returns list of first n stripped lines" }],
+          "explanation": "enumerate lets us track which line number we're on. We break as soon as we hit n lines, avoiding reading the whole file."
+        }
+      ]
+    },
+    {
+      "id": "py-042-writing-files",
+      "title": "Writing Files",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 70,
+      "estimatedMinutes": 25,
+      "tags": ["file-io", "write", "append"],
+      "prerequisites": ["py-041-reading-files"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Writing and Appending to Files" },
+          { "type": "code", "language": "python", "content": "# 'w' mode: creates or OVERWRITES existing file\nwith open('output.txt', 'w') as f:\n    f.write('Hello, file!\\n')       # no automatic newline\n    f.write('Second line\\n')\n    f.writelines(['a\\n', 'b\\n', 'c\\n'])  # write list of strings\n\n# 'a' mode: creates or APPENDS to existing file\nwith open('log.txt', 'a') as f:\n    f.write('New log entry\\n')\n\n# 'x' mode: creates file, FAILS if it already exists\ntry:\n    with open('new_only.txt', 'x') as f:\n        f.write('Created fresh')\nexcept FileExistsError:\n    print('File already exists!')\n\n# Encoding: always specify for non-ASCII content\nwith open('data.txt', 'w', encoding='utf-8') as f:\n    f.write('Héllo Wörld')  # handles special characters" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ 'w' mode silently destroys an existing file's content before writing. Always double-check you have the right mode and path before writing." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-042-mc",
+          "type": "multiple-choice",
+          "question": "What happens to an existing file when you open it with mode 'w'?",
+          "options": ["Nothing — existing content is preserved", "An error is raised", "Content is erased before writing", "A backup copy is made"],
+          "correctAnswer": "Content is erased before writing",
+          "hints": ["'w' stands for 'write' — it starts from scratch"],
+          "explanation": "'w' mode truncates (empties) the file immediately on opening, even if you never write anything. Use 'a' mode to preserve existing content while adding more."
+        }
+      ]
+    },
+    {
+      "id": "py-043-context-managers",
+      "title": "Context Managers & the with Statement",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 75,
+      "estimatedMinutes": 30,
+      "tags": ["context-manager", "with", "__enter__", "__exit__"],
+      "prerequisites": ["py-042-writing-files"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Why Context Managers?" },
+          { "type": "text", "content": "A context manager is an object that defines setup and teardown logic, triggered by the with statement. For files, it guarantees the file is closed even if an exception occurs — so you never leave a file handle dangling." },
+          { "type": "code", "language": "python", "content": "# Without context manager — file may stay open if error occurs\nf = open('data.txt')\ntry:\n    data = f.read()\n    process(data)  # if this raises, f.close() is skipped!\nfinally:\n    f.close()  # correct but verbose\n\n# With context manager — clean and safe\nwith open('data.txt') as f:\n    data = f.read()\n    process(data)  # exception? file is still closed automatically\n# f is automatically closed here\n\n# Multiple files at once\nwith open('input.txt', 'r') as src, open('output.txt', 'w') as dst:\n    content = src.read()\n    dst.write(content.upper())\n\n# Custom context manager using contextlib\nfrom contextlib import contextmanager\n\n@contextmanager\ndef managed_resource():\n    print('Setup')\n    try:\n        yield\n    finally:\n        print('Teardown')\n\nwith managed_resource():\n    print('Using resource')" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-043-mc",
+          "type": "multiple-choice",
+          "question": "What is the main benefit of using with open(...) over manually calling f.close()?",
+          "options": ["It reads files faster", "It is shorter to type", "The file is closed automatically even if an exception occurs", "It supports more file modes"],
+          "correctAnswer": "The file is closed automatically even if an exception occurs",
+          "hints": ["Think about what happens when an exception is raised in the middle of reading"],
+          "explanation": "with calls __exit__ on the context manager at the end of the block, whether or not an exception occurred. This guarantees the file is always closed, preventing resource leaks."
+        }
+      ]
+    },
+    {
+      "id": "py-044-csv-files",
+      "title": "Working with CSV Files",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["csv", "csv.reader", "csv.DictReader", "DictWriter"],
+      "prerequisites": ["py-043-context-managers"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "CSV — The Universal Data Format" },
+          { "type": "text", "content": "CSV (Comma-Separated Values) is the most common format for tabular data exports from spreadsheets, databases, and APIs. Python's csv module handles quoting, escaping, and different delimiters automatically." },
+          { "type": "code", "language": "python", "content": "import csv\n\n# Reading with csv.reader — rows as lists\nwith open('students.csv', 'r', newline='') as f:\n    reader = csv.reader(f)\n    header = next(reader)  # skip the header row\n    for row in reader:\n        name, grade, score = row\n        print(f'{name}: {score}')\n\n# Reading with DictReader — rows as dicts (much cleaner!)\nwith open('students.csv', 'r', newline='') as f:\n    reader = csv.DictReader(f)\n    students = list(reader)\n\n# Access by column name:\nfor s in students:\n    print(s['name'], s['score'])\n\n# Writing with csv.writer\nwith open('results.csv', 'w', newline='') as f:\n    writer = csv.writer(f)\n    writer.writerow(['name', 'score', 'grade'])  # header\n    writer.writerow(['Alice', 95, 'A'])\n    writer.writerows([['Bob', 82, 'B'], ['Carol', 91, 'A']])\n\n# Writing with DictWriter\nfieldnames = ['name', 'score', 'grade']\nwith open('results.csv', 'w', newline='') as f:\n    writer = csv.DictWriter(f, fieldnames=fieldnames)\n    writer.writeheader()\n    writer.writerow({'name': 'Alice', 'score': 95, 'grade': 'A'})" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Always use newline='' when opening CSV files — the csv module handles line endings itself. Without it, you may get extra blank rows on Windows." }
+        ]
+      },
+      "examples": [
+        {
+          "title": "CSV Grade Analyser",
+          "code": "import csv\n\ndef analyse_grades(filepath):\n    totals = {}\n    counts = {}\n    with open(filepath, 'r', newline='') as f:\n        reader = csv.DictReader(f)\n        for row in reader:\n            subject = row['subject']\n            score = float(row['score'])\n            totals[subject] = totals.get(subject, 0) + score\n            counts[subject] = counts.get(subject, 0) + 1\n    averages = {s: totals[s]/counts[s] for s in totals}\n    return averages\n\nresult = analyse_grades('grades.csv')\nfor subject, avg in result.items():\n    print(f'{subject}: {avg:.1f}')",
+          "output": "Maths: 87.3\nScience: 91.2\nEnglish: 84.7",
+          "explanation": "DictReader gives column-name access. We accumulate totals and counts per subject, then compute averages with a dict comprehension.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "py-ex-044-write",
+          "type": "code-write",
+          "question": "Write a function csv_to_dicts(filepath) that reads a CSV file and returns a list of dictionaries using csv.DictReader.",
+          "starterCode": "import csv\n\ndef csv_to_dicts(filepath):\n    # Your code here\n    pass",
+          "solution": "import csv\n\ndef csv_to_dicts(filepath):\n    with open(filepath, 'r', newline='') as f:\n        reader = csv.DictReader(f)\n        return list(reader)",
+          "hints": ["DictReader uses column names as keys", "list() materialises the reader into a list"],
+          "testCases": [{ "input": "", "expectedOutput": "", "description": "Returns list of dicts" }],
+          "explanation": "DictReader automatically uses the first row as field names. list() converts the reader (a lazy iterator) into a concrete list."
+        }
+      ]
+    },
+    {
+      "id": "py-045-json-files",
+      "title": "Working with JSON Files",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["json", "json.load", "json.dump", "serialisation"],
+      "prerequisites": ["py-044-csv-files"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "JSON — Python's Native Exchange Format" },
+          { "type": "text", "content": "JSON (JavaScript Object Notation) maps directly to Python's built-in types: objects → dicts, arrays → lists, strings → str, numbers → int/float, true/false → True/False, null → None. The json module handles conversion automatically." },
+          { "type": "code", "language": "python", "content": "import json\n\n# Write Python data to a JSON file\nuser_data = {\n    'name': 'Alice',\n    'age': 25,\n    'scores': [95, 87, 92],\n    'active': True,\n    'address': None\n}\n\nwith open('user.json', 'w') as f:\n    json.dump(user_data, f, indent=2)  # indent makes it human-readable\n\n# Read JSON from a file into Python\nwith open('user.json', 'r') as f:\n    loaded = json.load(f)  # returns Python dict/list/...\n\nprint(loaded['name'])   # 'Alice'\nprint(loaded['scores']) # [95, 87, 92]\n\n# json.dumps / json.loads — for strings (not files)\njson_string = json.dumps(user_data)  # Python → JSON string\npython_obj = json.loads(json_string) # JSON string → Python\n\n# Pretty-print any JSON\nprint(json.dumps(user_data, indent=2, sort_keys=True))" },
+          { "type": "callout", "variant": "info", "content": "💡 json.dump (no 's') writes to a file. json.dumps (with 's') returns a string. Same pattern: json.load reads a file, json.loads reads a string." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-045-mc",
+          "type": "multiple-choice",
+          "question": "Which json function converts a Python dictionary to a JSON-formatted string?",
+          "options": ["json.load()", "json.dump()", "json.dumps()", "json.encode()"],
+          "correctAnswer": "json.dumps()",
+          "hints": ["The 's' suffix stands for 'string'"],
+          "explanation": "json.dumps() (dump to String) serialises Python objects to a JSON string. json.dump() (without 's') writes directly to a file object. Similarly json.loads() parses a string, json.load() reads from a file."
+        },
+        {
+          "id": "py-ex-045-write",
+          "type": "code-write",
+          "question": "Write a function save_config(filepath, config_dict) that saves a dictionary as formatted JSON (with 2-space indent), and a load_config(filepath) function that reads it back.",
+          "starterCode": "import json\n\ndef save_config(filepath, config_dict):\n    # Your code here\n    pass\n\ndef load_config(filepath):\n    # Your code here\n    pass",
+          "solution": "import json\n\ndef save_config(filepath, config_dict):\n    with open(filepath, 'w') as f:\n        json.dump(config_dict, f, indent=2)\n\ndef load_config(filepath):\n    with open(filepath, 'r') as f:\n        return json.load(f)",
+          "hints": ["json.dump takes (obj, file)", "json.load takes (file)"],
+          "testCases": [{ "input": "", "expectedOutput": "", "description": "Saves and loads config correctly" }],
+          "explanation": "indent=2 produces human-readable JSON. json.load() restores the exact Python structure including nested dicts, lists, booleans, and None."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "py-cap-05",
+    "title": "CSV Data Analyser",
+    "description": "Build a command-line tool that reads a CSV dataset, computes statistics, and saves a JSON report.",
+    "difficulty": "intermediate",
+    "estimatedHours": 3,
+    "xpReward": 500,
+    "requirements": [
+      "Accept a CSV filepath as a command-line argument (sys.argv)",
+      "Use csv.DictReader to parse the file",
+      "Compute: row count, column names, min/max/average for all numeric columns",
+      "Identify any rows with missing values",
+      "Save the full report as a formatted JSON file",
+      "Handle FileNotFoundError and ValueError with descriptive messages",
+      "Display a summary table to the console"
+    ]
+  }
+}

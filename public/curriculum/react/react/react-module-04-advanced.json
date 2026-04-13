@@ -1,0 +1,179 @@
+{
+  "id": "react-module-04-advanced",
+  "title": "Advanced React Patterns",
+  "description": "Graduate to professional-level React. Master the Context API for global state, React Router for navigation, data fetching patterns, performance optimisation with React.memo, and error boundaries.",
+  "track": "react",
+  "order": 4,
+  "estimatedHours": 16,
+  "difficulty": "intermediate",
+  "prerequisites": ["react-module-03-hooks"],
+  "learningObjectives": [
+    "Share global state without prop drilling using Context + useContext",
+    "Build multi-page apps with React Router v6",
+    "Implement optimistic UI updates and data mutation patterns",
+    "Prevent unnecessary re-renders with React.memo",
+    "Handle runtime errors gracefully with error boundaries"
+  ],
+  "lessons": [
+    {
+      "id": "react-031-context",
+      "title": "Context API & useContext",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 90,
+      "estimatedMinutes": 45,
+      "tags": ["context", "useContext", "global-state", "theme"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Solving Prop Drilling with Context" },
+          { "type": "code", "language": "jsx", "content": "import { createContext, useContext, useState } from 'react';\n\n// 1. Create the context\nconst ThemeContext = createContext({\n  theme: 'dark',\n  toggleTheme: () => {}\n});\n\n// 2. Create a provider component with the state\nexport function ThemeProvider({ children }) {\n  const [theme, setTheme] = useState('dark');\n  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');\n\n  return (\n    <ThemeContext.Provider value={{ theme, toggleTheme }}>\n      {children}\n    </ThemeContext.Provider>\n  );\n}\n\n// 3. Custom hook for clean usage\nexport function useTheme() {\n  const context = useContext(ThemeContext);\n  if (!context) throw new Error('useTheme must be used within ThemeProvider');\n  return context;\n}\n\n// 4. Consume anywhere in the tree — no prop drilling\nfunction ThemeToggle() {\n  const { theme, toggleTheme } = useTheme();\n  return (\n    <button onClick={toggleTheme}>\n      Switch to {theme === 'dark' ? 'light' : 'dark'} mode\n    </button>\n  );\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-031-mc",
+          "type": "multiple-choice",
+          "question": "What problem does the Context API primarily solve?",
+          "options": ["Managing server state", "Prop drilling — passing props through many intermediate layers", "Replacing useState for all state", "Fetching data from APIs"],
+          "correctAnswer": "Prop drilling — passing props through many intermediate layers",
+          "hints": ["Think about passing a theme through 10 component levels"],
+          "explanation": "Context provides a channel to 'teleport' data from a provider to any deeply nested consumer without passing props through every intermediate component. It's not a replacement for all state management."
+        }
+      ]
+    },
+    {
+      "id": "react-032-router",
+      "title": "React Router v6",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 90,
+      "estimatedMinutes": 45,
+      "tags": ["react-router", "routing", "navigate", "params"],
+      "prerequisites": ["react-031-context"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Client-Side Routing" },
+          { "type": "code", "language": "jsx", "content": "import { BrowserRouter, Routes, Route, Link, NavLink,\n         useParams, useNavigate, useSearchParams, Outlet } from 'react-router-dom';\n\n// App setup\nexport default function App() {\n  return (\n    <BrowserRouter>\n      <Routes>\n        <Route path=\"/\" element={<Layout />}>\n          <Route index element={<Home />} />\n          <Route path=\"courses\" element={<CourseList />} />\n          <Route path=\"courses/:courseId\" element={<CourseDetail />} />\n          <Route path=\"courses/:courseId/lessons/:lessonId\" element={<Lesson />} />\n          <Route path=\"*\" element={<NotFound />} />\n        </Route>\n      </Routes>\n    </BrowserRouter>\n  );\n}\n\n// Layout with Outlet\nfunction Layout() {\n  return (\n    <>\n      <nav>\n        <NavLink to=\"/\" end className={({ isActive }) => isActive ? 'active' : ''}>\n          Home\n        </NavLink>\n        <NavLink to=\"/courses\">Courses</NavLink>\n      </nav>\n      <Outlet /> {/* renders matched child route */}\n    </>\n  );\n}\n\n// Route with params\nfunction CourseDetail() {\n  const { courseId } = useParams();\n  const navigate = useNavigate();\n  const [search] = useSearchParams();\n\n  return (\n    <div>\n      <h1>Course: {courseId}</h1>\n      <button onClick={() => navigate(-1)}>Back</button>\n      <button onClick={() => navigate('/courses')}>All Courses</button>\n    </div>\n  );\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-032-mc",
+          "type": "multiple-choice",
+          "question": "In React Router v6, which component renders the matched child route inside a layout?",
+          "options": ["<View />", "<ChildRoute />", "<Outlet />", "<RouterView />"],
+          "correctAnswer": "<Outlet />",
+          "hints": ["It 'outlets' the child into the parent layout"],
+          "explanation": "<Outlet /> is a placeholder in a parent route's element that renders whichever child route matches. This enables shared layouts (nav, footer) across multiple pages."
+        }
+      ]
+    },
+    {
+      "id": "react-033-memo-performance",
+      "title": "React.memo & Performance Optimization",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["React.memo", "performance", "profiler", "re-render"],
+      "prerequisites": ["react-032-router"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Preventing Unnecessary Re-renders" },
+          { "type": "code", "language": "jsx", "content": "import { memo, useCallback, useMemo } from 'react';\n\n// React.memo: skip re-render if props haven't changed\nconst ExpensiveList = memo(function ExpensiveList({ items, onItemClick }) {\n  console.log('Rendering ExpensiveList');\n  return (\n    <ul>\n      {items.map(item => (\n        <li key={item.id} onClick={() => onItemClick(item.id)}>\n          {item.name}\n        </li>\n      ))}\n    </ul>\n  );\n});\n\nfunction Parent() {\n  const [count, setCount] = useState(0);\n  const [items] = useState([{id:1,name:'A'},{id:2,name:'B'}]);\n\n  // Without useCallback, new function ref on every render\n  // → ExpensiveList re-renders even though items didn't change\n  const handleClick = useCallback((id) => {\n    console.log('Clicked:', id);\n  }, []); // stable reference\n\n  return (\n    <>\n      <button onClick={() => setCount(c => c + 1)}>Count: {count}</button>\n      {/* Won't re-render when count changes — thanks to memo + useCallback */}\n      <ExpensiveList items={items} onItemClick={handleClick} />\n    </>\n  );\n}" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Use the React DevTools Profiler to identify components that re-render frequently. Optimise only components that are measurably slow — not everything." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-033-mc",
+          "type": "multiple-choice",
+          "question": "React.memo prevents a component from re-rendering when:",
+          "options": ["State changes in the component itself", "Its parent re-renders but its props haven't changed", "It's wrapped in Suspense", "The router navigates to a different page"],
+          "correctAnswer": "Its parent re-renders but its props haven't changed",
+          "hints": ["memo = memoize based on props"],
+          "explanation": "React.memo wraps a component and performs a shallow props comparison. If props are the same as the last render (by reference), React skips re-rendering that component."
+        }
+      ]
+    },
+    {
+      "id": "react-034-error-boundaries",
+      "title": "Error Boundaries & Suspense",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["error-boundary", "suspense", "fallback"],
+      "prerequisites": ["react-033-memo-performance"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Handling Runtime Errors Gracefully" },
+          { "type": "code", "language": "jsx", "content": "import { Component, Suspense, lazy } from 'react';\n\n// Error Boundary (must be a class component)\nclass ErrorBoundary extends Component {\n  state = { hasError: false, error: null };\n\n  static getDerivedStateFromError(error) {\n    return { hasError: true, error };\n  }\n\n  componentDidCatch(error, info) {\n    console.error('Error caught:', error, info.componentStack);\n    // Send to error tracking service (e.g., Sentry)\n  }\n\n  render() {\n    if (this.state.hasError) {\n      return this.props.fallback || (\n        <div className=\"error-card\">\n          <h2>Something went wrong</h2>\n          <button onClick={() => this.setState({ hasError: false })}>\n            Try again\n          </button>\n        </div>\n      );\n    }\n    return this.props.children;\n  }\n}\n\n// Lazy loading with Suspense\nconst HeavyChart = lazy(() => import('./HeavyChart'));\n\nfunction Dashboard() {\n  return (\n    <ErrorBoundary fallback={<p>Chart failed to load</p>}>\n      <Suspense fallback={<Spinner />}>\n        <HeavyChart />\n      </Suspense>\n    </ErrorBoundary>\n  );\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-034-mc",
+          "type": "multiple-choice",
+          "question": "What does React.lazy() and Suspense enable?",
+          "options": ["Server-side rendering", "Code splitting — loading component code only when needed", "Lazy evaluation of state updates", "Deferred prop updates"],
+          "correctAnswer": "Code splitting — loading component code only when needed",
+          "hints": ["'Lazy' means it loads later, not immediately"],
+          "explanation": "React.lazy() dynamically imports a component only when it's rendered. Combined with Suspense's fallback, this enables code splitting — the bundle is split and heavy components load on demand, reducing initial load time."
+        }
+      ]
+    },
+    {
+      "id": "react-035-patterns",
+      "title": "Advanced Component Patterns",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 90,
+      "estimatedMinutes": 45,
+      "tags": ["compound", "render-props", "polymorphic", "patterns"],
+      "prerequisites": ["react-034-error-boundaries"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Compound Components Pattern" },
+          { "type": "code", "language": "jsx", "content": "// Compound Components — API like <Select><Option /></Select>\nconst TabsContext = createContext(null);\n\nfunction Tabs({ children, defaultTab }) {\n  const [active, setActive] = useState(defaultTab);\n  return (\n    <TabsContext.Provider value={{ active, setActive }}>\n      <div className=\"tabs\">{children}</div>\n    </TabsContext.Provider>\n  );\n}\n\nfunction TabList({ children }) {\n  return <div className=\"tab-list\" role=\"tablist\">{children}</div>;\n}\n\nfunction Tab({ id, children }) {\n  const { active, setActive } = useContext(TabsContext);\n  return (\n    <button\n      role=\"tab\"\n      aria-selected={active === id}\n      onClick={() => setActive(id)}\n    >\n      {children}\n    </button>\n  );\n}\n\nfunction TabPanel({ id, children }) {\n  const { active } = useContext(TabsContext);\n  return active === id ? <div role=\"tabpanel\">{children}</div> : null;\n}\n\n// Usage: clean, declarative, flexible\n<Tabs defaultTab=\"react\">\n  <TabList>\n    <Tab id=\"html\">HTML</Tab>\n    <Tab id=\"react\">React</Tab>\n  </TabList>\n  <TabPanel id=\"html\"><p>HTML content</p></TabPanel>\n  <TabPanel id=\"react\"><p>React content</p></TabPanel>\n</Tabs>" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-035-mc",
+          "type": "multiple-choice",
+          "question": "What is the main benefit of the Compound Components pattern?",
+          "options": ["Better performance than normal components", "Encapsulates shared state while giving consumers control over structure and rendering", "Makes components work without props", "Reduces the number of useState calls"],
+          "correctAnswer": "Encapsulates shared state while giving consumers control over structure and rendering",
+          "hints": ["Think about how HTML's <select> and <option> work together"],
+          "explanation": "Compound components share state implicitly through context while exposing composable sub-components. Consumers control the structure — enabling flexible API design without an explosion of configuration props."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "react-cap-04",
+    "title": "Full-Stack React Application",
+    "description": "Build a complete multi-page React application with auth, routing, global state, data fetching, error handling, and performance optimization.",
+    "difficulty": "intermediate",
+    "estimatedHours": 6,
+    "xpReward": 700,
+    "requirements": [
+      "React Router v6 with nested routes and layout",
+      "Auth context (login/logout/user state) via Context API",
+      "Protected routes that redirect to login",
+      "Data fetching with custom useFetch hook + loading/error states",
+      "React.memo on expensive list components",
+      "Error Boundary around the main content area",
+      "Lazy loaded routes using React.lazy + Suspense",
+      "useReducer for complex feature state",
+      "Compound component pattern for a reusable UI element"
+    ]
+  }
+}

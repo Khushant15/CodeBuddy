@@ -1,0 +1,180 @@
+{
+  "id": "js-module-02-functions-scope",
+  "title": "Functions, Scope & Modern ES6+",
+  "description": "Master JavaScript functions in all their forms — declarations, expressions, arrow functions, closures, and higher-order functions. Add modern ES6+ features like destructuring, spread, rest, and modules to your toolkit.",
+  "track": "javascript",
+  "order": 2,
+  "estimatedHours": 12,
+  "difficulty": "beginner",
+  "prerequisites": ["js-module-01-fundamentals"],
+  "learningObjectives": [
+    "Write functions using declarations, expressions, and arrow syntax",
+    "Understand scope: global, function, block, and lexical",
+    "Explain closures and why they matter",
+    "Use destructuring, spread, rest, and optional chaining",
+    "Import and export with ES6 modules"
+  ],
+  "lessons": [
+    {
+      "id": "js-011-functions",
+      "title": "Functions — All Forms",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 35,
+      "tags": ["functions", "arrow", "parameters", "return"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Three Ways to Write a Function" },
+          { "type": "code", "language": "javascript", "content": "// 1. Function Declaration (hoisted — can call before declaration)\nfunction greet(name) {\n  return `Hello, ${name}!`;\n}\n\n// 2. Function Expression (not hoisted)\nconst greet2 = function(name) {\n  return `Hello, ${name}!`;\n};\n\n// 3. Arrow Function — concise, no own 'this'\nconst greet3 = (name) => `Hello, ${name}!`;\n\n// Arrow function with body\nconst greet4 = (name) => {\n  const msg = `Hello, ${name}!`;\n  return msg;\n};\n\n// Default parameters\nconst createUser = (name, role = 'viewer', active = true) => ({\n  name, role, active\n});\n\n// Rest parameters — gather remaining args into array\nconst sum = (...nums) => nums.reduce((a, b) => a + b, 0);\nsum(1, 2, 3, 4, 5); // 15" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-011-mc",
+          "type": "multiple-choice",
+          "question": "What does an arrow function return when used without curly braces? e.g., const double = x => x * 2",
+          "options": ["undefined", "The expression value (implicit return)", "An error", "null"],
+          "correctAnswer": "The expression value (implicit return)",
+          "hints": ["No curly braces = concise body = implicit return"],
+          "explanation": "Arrow functions without curly braces use an implicit return — the expression result is automatically returned. With curly braces, you must use explicit return."
+        }
+      ]
+    },
+    {
+      "id": "js-012-scope-closure",
+      "title": "Scope & Closures",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["scope", "closure", "lexical", "var-let-const"],
+      "prerequisites": ["js-011-functions"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Variable Scope" },
+          { "type": "code", "language": "javascript", "content": "// Global scope\nconst globalVar = 'I am everywhere';\n\nfunction outer() {\n  const outerVar = 'outer scope'; // function scope\n\n  if (true) {\n    const blockVar = 'block scope'; // only inside this {}\n    var varVar = 'function scope'; // var ignores blocks!\n    console.log(blockVar); // ✅\n  }\n  console.log(varVar);   // ✅ var leaks out of block\n  // console.log(blockVar); // ❌ ReferenceError\n\n  function inner() {\n    // inner can access outer's variables (lexical scope)\n    console.log(outerVar); // ✅\n    console.log(globalVar); // ✅\n  }\n  inner();\n}" },
+          { "type": "heading", "content": "Closures" },
+          { "type": "text", "content": "A closure is a function that remembers the variables from its outer scope even after that outer function has finished executing. This is one of JavaScript's most powerful and commonly-used features." },
+          { "type": "code", "language": "javascript", "content": "// Closure — the returned function 'remembers' count\nfunction makeCounter(startFrom = 0) {\n  let count = startFrom;\n\n  return {\n    increment() { count++; },\n    decrement() { count--; },\n    value()     { return count; }\n  };\n}\n\nconst counter1 = makeCounter(10);\nconst counter2 = makeCounter(0);\n\ncounter1.increment(); // count: 11\ncounter1.increment(); // count: 12\ncounter2.increment(); // count: 1 (independent closure!)\n\nconsole.log(counter1.value()); // 12\nconsole.log(counter2.value()); // 1" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-012-mc",
+          "type": "multiple-choice",
+          "question": "What is a closure in JavaScript?",
+          "options": ["A way to close a browser window", "A function that has access to its outer scope's variables even after the outer function returns", "A method to end a loop early", "A private class variable"],
+          "correctAnswer": "A function that has access to its outer scope's variables even after the outer function returns",
+          "hints": ["The inner function 'closes over' the outer variables"],
+          "explanation": "A closure is formed when an inner function retains access to its outer function's variables after the outer function has completed. This enables patterns like private state, factory functions, and memoization."
+        }
+      ]
+    },
+    {
+      "id": "js-013-destructuring-spread",
+      "title": "Destructuring, Spread & Rest",
+      "order": 3,
+      "difficulty": "beginner",
+      "xpReward": 75,
+      "estimatedMinutes": 35,
+      "tags": ["destructuring", "spread", "rest", "optional-chaining"],
+      "prerequisites": ["js-012-scope-closure"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Modern Syntax Essentials" },
+          { "type": "code", "language": "javascript", "content": "// Object destructuring\nconst { name, age, address: { city } = {} } = user;\n\n// Array destructuring\nconst [first, second, ...rest] = [1, 2, 3, 4, 5];\n\n// Destructuring in function params\nconst getDisplayName = ({ firstName, lastName, username }) =>\n  firstName ? `${firstName} ${lastName}` : username;\n\n// Spread operator\nconst arr1 = [1, 2, 3];\nconst arr2 = [4, 5, 6];\nconst combined = [...arr1, ...arr2];  // [1,2,3,4,5,6]\n\nconst obj1 = { a: 1, b: 2 };\nconst obj2 = { b: 99, c: 3 };\nconst merged = { ...obj1, ...obj2 }; // { a:1, b:99, c:3 }\n\n// Optional chaining — avoids TypeError on undefined\nconst city = user?.address?.city;           // undefined if missing\nconst first2 = user?.friends?.[0]?.name;   // safe array access\nconst status = user?.getStatus?.();        // safe method call\n\n// Nullish coalescing — only falls back on null/undefined\nconst displayName = user.name ?? 'Anonymous'; // not '' or 0" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-013-mc",
+          "type": "multiple-choice",
+          "question": "What does the ?. (optional chaining) operator do?",
+          "options": ["It makes properties optional in TypeScript", "It returns undefined instead of throwing if the object is null/undefined", "It checks if a value is defined before assigning", "It is the same as && for null checks"],
+          "correctAnswer": "It returns undefined instead of throwing if the object is null/undefined",
+          "hints": ["It 'optionally chains' property access"],
+          "explanation": "user?.address?.city returns undefined if user or address is null/undefined, instead of throwing a TypeError. It short-circuits the whole chain as soon as a null/undefined is encountered."
+        }
+      ]
+    },
+    {
+      "id": "js-014-higher-order",
+      "title": "Higher-Order Functions",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["higher-order", "callback", "map", "filter", "curry"],
+      "prerequisites": ["js-013-destructuring-spread"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Functions as First-Class Citizens" },
+          { "type": "text", "content": "In JavaScript, functions are values — they can be assigned to variables, passed as arguments, and returned from other functions. A higher-order function either takes a function as an argument or returns one." },
+          { "type": "code", "language": "javascript", "content": "// Functions passed as arguments (callbacks)\nconst nums = [5, 3, 8, 1, 9, 2];\nconst sorted  = nums.sort((a, b) => a - b);    // compare fn\nconst evens   = nums.filter(n => n % 2 === 0);\nconst doubled = nums.map(n => n * 2);\n\n// Functions returned from functions\nconst multiply = (factor) => (number) => number * factor;\nconst double   = multiply(2);\nconst triple   = multiply(3);\n\nconsole.log(double(5));  // 10\nconsole.log(triple(5));  // 15\n\n// Composing functions\nconst compose = (...fns) => (x) => fns.reduceRight((v, f) => f(v), x);\nconst add1 = n => n + 1;\nconst times2 = n => n * 2;\nconst square = n => n * n;\n\nconst transform = compose(square, times2, add1);\ntransform(3); // square(times2(add1(3))) = square(8) = 64" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-014-mc",
+          "type": "multiple-choice",
+          "question": "Which correctly defines a higher-order function?",
+          "options": ["A function defined inside a class", "A function that only uses const variables", "A function that accepts a function as argument or returns a function", "A function called more than once"],
+          "correctAnswer": "A function that accepts a function as argument or returns a function",
+          "hints": ["Higher order = operates on functions"],
+          "explanation": "A higher-order function treats functions as values — either by accepting them as parameters (like Array.map(callback)) or returning new functions (like factory functions and currying)."
+        }
+      ]
+    },
+    {
+      "id": "js-015-modules",
+      "title": "ES6 Modules",
+      "order": 5,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["modules", "import", "export", "default"],
+      "prerequisites": ["js-014-higher-order"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Organizing Code with Modules" },
+          { "type": "code", "language": "javascript", "content": "// math.js — named exports\nexport const PI = 3.14159;\nexport function add(a, b) { return a + b; }\nexport const multiply = (a, b) => a * b;\n\n// Default export (one per file)\nexport default function Calculator() { /* ... */ }\n\n// user.js — mixed exports\nexport const createUser = (name, role) => ({ id: Date.now(), name, role });\nexport const deleteUser = (id) => { /* ... */ };\n\n// main.js — importing\nimport Calculator from './math.js';           // default import\nimport { add, multiply, PI } from './math.js'; // named imports\nimport { add as sum } from './math.js';        // renamed import\nimport * as MathUtils from './math.js';        // namespace import\n\n// Dynamic import (lazy loading)\nconst { parse } = await import('./parser.js');" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-015-mc",
+          "type": "multiple-choice",
+          "question": "How many default exports can a single ES6 module file have?",
+          "options": ["Unlimited", "Two", "One", "Zero"],
+          "correctAnswer": "One",
+          "hints": ["'default' implies there is only one of them"],
+          "explanation": "Each module can have only one default export, but unlimited named exports. Named exports are imported with { } and must match the export name (unless aliased with 'as')."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "js-cap-02",
+    "title": "Utility Library",
+    "description": "Build a modular JavaScript utility library with functions organized across multiple ES6 module files.",
+    "difficulty": "intermediate",
+    "estimatedHours": 3,
+    "xpReward": 450,
+    "requirements": [
+      "array.js: chunk(), flatten(), unique(), groupBy() utility functions",
+      "string.js: capitalize(), truncate(), slugify(), countWords()",
+      "math.js: clamp(), random(), average(), median()",
+      "Each function is a named export",
+      "index.js re-exports all functions from one entry point",
+      "All functions use closures or higher-order patterns where appropriate",
+      "Test each function in a demo.js file using dynamic imports"
+    ]
+  }
+}

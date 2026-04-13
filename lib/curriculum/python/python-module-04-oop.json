@@ -1,0 +1,44 @@
+{
+  "id": "python-module-04-oop",
+  "title": "Object-Oriented Programming",
+  "description": "Learn the power of Object-Oriented Programming to build sophisticated, modular applications in Python.",
+  "track": "python",
+  "order": 4,
+  "estimatedHours": 12,
+  "difficulty": "intermediate",
+  "prerequisites": ["python-module-03-functions"],
+  "learningObjectives": [
+    "Understand classes and objects",
+    "Define methods and attributes",
+    "Implement constructor logic with __init__",
+    "Learn about inheritance and polymorphism"
+  ],
+  "lessons": [
+    {
+      "id": "py-016-classes",
+      "title": "Introduction to Classes",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 100,
+      "estimatedMinutes": 45,
+      "tags": ["oop", "classes", "objects"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "What is OOP?" },
+          { "type": "text", "content": "OOP stands for Object-Oriented Programming. It lets you create your own data types using classes." },
+          { "type": "code", "language": "python", "content": "class Dog:\n    def __init__(self, name):\n        self.name = name\n\nmy_dog = Dog(\"Buddy\")\nprint(my_dog.name)  # Output: Buddy" }
+        ]
+      },
+      "exercises": [
+        {
+          "id": "ex-016-class-cat",
+          "type": "code-write",
+          "question": "Create a class called `Cat` with an `__init__` method that takes a `name`. Create an instance called `my_cat` with the name \"Whiskers\" and print the name.",
+          "starterCode": "# Define your class here\n\n\n# Create instance and print name",
+          "solution": "class Cat:\n    def __init__(self, name):\n        self.name = name\n\nmy_cat = Cat(\"Whiskers\")\nprint(my_cat.name)",
+          "testCases": [{ "expectedOutput": "Whiskers" }]
+        }
+      ]
+    }
+  ]
+}

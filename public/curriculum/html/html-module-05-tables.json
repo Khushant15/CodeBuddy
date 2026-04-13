@@ -1,0 +1,197 @@
+{
+  "id": "html-module-05-tables",
+  "title": "Tables",
+  "description": "Learn to present tabular data the right way. Master table structure, headers, captions, spanning columns/rows, and how to make tables accessible and keyboard-navigable.",
+  "track": "html",
+  "order": 5,
+  "estimatedHours": 6,
+  "difficulty": "intermediate",
+  "prerequisites": ["html-module-04-media-embedding"],
+  "learningObjectives": [
+    "Structure a data table with thead, tbody, tfoot",
+    "Use th with scope for accessible column and row headers",
+    "Span cells with colspan and rowspan",
+    "Add captions and summaries for accessibility",
+    "Know when NOT to use tables (layout vs data)"
+  ],
+  "lessons": [
+    {
+      "id": "html-041-table-basics",
+      "title": "Table Structure",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 65,
+      "estimatedMinutes": 30,
+      "tags": ["table", "tr", "td", "th"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Table Anatomy" },
+          { "type": "text", "content": "An HTML table has a specific structure. <table> is the container. <tr> (table row) creates a row. <td> (table data) creates a data cell. <th> (table header) creates a header cell — bold and centered by default, and critically, it communicates header information to screen readers." },
+          { "type": "code", "language": "html", "content": "<table>\n  <caption>Q1 Sales Data</caption>\n  <thead>\n    <tr>\n      <th scope=\"col\">Product</th>\n      <th scope=\"col\">Units Sold</th>\n      <th scope=\"col\">Revenue</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Pro Plan</td>\n      <td>1,240</td>\n      <td>$62,000</td>\n    </tr>\n    <tr>\n      <td>Enterprise</td>\n      <td>85</td>\n      <td>$127,500</td>\n    </tr>\n  </tbody>\n  <tfoot>\n    <tr>\n      <td>Total</td>\n      <td>1,325</td>\n      <td>$189,500</td>\n    </tr>\n  </tfoot>\n</table>" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Never use tables for page layout. Tables are for tabular data only. Use CSS Flexbox or Grid for layout." },
+          { "type": "callout", "variant": "tip", "content": "🎯 thead/tbody/tfoot semantically divide the table. Browsers can also use these to keep headers visible when scrolling long tables." }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Course Schedule Table",
+          "code": "<table>\n  <caption>Spring 2025 Schedule</caption>\n  <thead>\n    <tr>\n      <th scope=\"col\">Time</th>\n      <th scope=\"col\">Monday</th>\n      <th scope=\"col\">Wednesday</th>\n      <th scope=\"col\">Friday</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th scope=\"row\">9:00 AM</th>\n      <td>HTML</td>\n      <td>CSS</td>\n      <td>JavaScript</td>\n    </tr>\n    <tr>\n      <th scope=\"row\">11:00 AM</th>\n      <td>React</td>\n      <td>Node.js</td>\n      <td>Project</td>\n    </tr>\n  </tbody>\n</table>",
+          "output": "A schedule table with column and row headers",
+          "explanation": "scope='col' on column headers and scope='row' on row headers gives screen readers full context: 'HTML, Monday, 9:00 AM'.",
+          "language": "html"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "html-ex-041-write",
+          "type": "code-write",
+          "question": "Create a simple comparison table with a caption 'Plan Comparison'. Three columns: Feature, Free, Pro. Two rows: Storage (1GB / 100GB) and Support (Community / 24/7).",
+          "starterCode": "<!-- Comparison table -->",
+          "solution": "<table>\n  <caption>Plan Comparison</caption>\n  <thead>\n    <tr>\n      <th scope=\"col\">Feature</th>\n      <th scope=\"col\">Free</th>\n      <th scope=\"col\">Pro</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Storage</td>\n      <td>1GB</td>\n      <td>100GB</td>\n    </tr>\n    <tr>\n      <td>Support</td>\n      <td>Community</td>\n      <td>24/7</td>\n    </tr>\n  </tbody>\n</table>",
+          "hints": ["caption goes first inside table", "thead wraps header row", "tbody wraps data rows"],
+          "testCases": [{ "input": "", "expectedOutput": "<caption>", "description": "Has a caption" }, { "input": "", "expectedOutput": "<thead>", "description": "Has a thead" }],
+          "explanation": "caption describes the whole table. thead holds the column headers. tbody holds the data rows."
+        }
+      ]
+    },
+    {
+      "id": "html-042-colspan-rowspan",
+      "title": "Colspan & Rowspan",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 75,
+      "estimatedMinutes": 30,
+      "tags": ["colspan", "rowspan", "merging", "cells"],
+      "prerequisites": ["html-041-table-basics"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Merging Cells" },
+          { "type": "text", "content": "colspan makes a cell span multiple columns. rowspan makes a cell span multiple rows. The value is the number of columns/rows to span. When you span cells, you must remove the equivalent number of cells from other rows/columns." },
+          { "type": "code", "language": "html", "content": "<table border=\"1\">\n  <tr>\n    <!-- Spans 2 columns -->\n    <th colspan=\"2\">Name</th>\n    <th>Score</th>\n  </tr>\n  <tr>\n    <td>First</td>\n    <td>Last</td>\n    <td>95</td>\n  </tr>\n</table>\n\n<!-- rowspan example -->\n<table border=\"1\">\n  <tr>\n    <th rowspan=\"2\">Weekend</th>\n    <td>Saturday</td>\n  </tr>\n  <tr>\n    <!-- No first cell — covered by rowspan above -->\n    <td>Sunday</td>\n  </tr>\n</table>" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-042-mc",
+          "type": "multiple-choice",
+          "question": "If a cell has colspan=\"3\", how many columns must be removed from adjacent rows to maintain table integrity?",
+          "options": ["1", "2", "3", "0"],
+          "correctAnswer": "2",
+          "hints": ["The spanning cell itself counts as 1"],
+          "explanation": "colspan='3' means this cell occupies 3 column slots. It already counts as 1, so 2 td/th elements must be removed from the same row or adjacent rows where applicable."
+        }
+      ]
+    },
+    {
+      "id": "html-043-accessible-tables",
+      "title": "Accessible & SEO-Friendly Tables",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 70,
+      "estimatedMinutes": 25,
+      "tags": ["scope", "headers", "accessibility", "caption"],
+      "prerequisites": ["html-042-colspan-rowspan"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Making Tables Screen Reader Friendly" },
+          { "type": "text", "content": "Screen readers navigate tables cell-by-cell. Without proper headers, a user hears '$127,500' with zero context. With scope and headers attributes, they hear 'Enterprise plan, Revenue column, $127,500'. The difference is critical for usability." },
+          { "type": "code", "language": "html", "content": "<!-- Simple table: use scope -->\n<table>\n  <caption>Monthly Expenses</caption>\n  <thead>\n    <tr>\n      <th scope=\"col\">Category</th>\n      <th scope=\"col\">Amount</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th scope=\"row\">Rent</th>\n      <td>$1,500</td>\n    </tr>\n    <tr>\n      <th scope=\"row\">Food</th>\n      <td>$400</td>\n    </tr>\n  </tbody>\n</table>" },
+          { "type": "callout", "variant": "info", "content": "💡 scope='col' on column headers and scope='row' on row headers is sufficient for most tables. For complex tables with irregular spans, use the headers attribute with matching IDs." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-043-mc",
+          "type": "multiple-choice",
+          "question": "What does the scope='row' attribute on a <th> cell tell a screen reader?",
+          "options": ["This is a column header", "This cell spans multiple rows", "This is a header for the cells in its row", "This table has only one row"],
+          "correctAnswer": "This is a header for the cells in its row",
+          "hints": ["scope describes what the header is *for*"],
+          "explanation": "scope='row' declares this th as a header for all cells in the same row. The screen reader then announces the row header when reading each data cell in that row."
+        }
+      ]
+    },
+    {
+      "id": "html-044-styling-tables",
+      "title": "Table Best Practices & When Not to Use Tables",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 55,
+      "estimatedMinutes": 20,
+      "tags": ["best-practices", "layout", "data"],
+      "prerequisites": ["html-043-accessible-tables"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "The Golden Rule: Data vs Layout" },
+          { "type": "text", "content": "Tables existed long before CSS. Old websites used tables for entire page layouts — headers, columns, footers. This is now deeply wrong. Tables are exclusively for tabular data: data with meaningful row/column relationships. Use Flexbox and Grid for everything else." },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Using tables for layout breaks accessibility (screen readers announce row/column info), breaks responsive design, and is flagged by validators." },
+          { "type": "heading", "content": "When Tables ARE Appropriate" },
+          { "type": "text", "content": "Use tables for: pricing comparison charts, data exports, schedules/timetables, sports statistics, financial reports, spreadsheet-like data. All of these have a genuine rows × columns data relationship." },
+          { "type": "code", "language": "html", "content": "<!-- GOOD: Tabular data -->\n<table>\n  <caption>Server Response Times</caption>\n  <thead><tr><th>Region</th><th>p50</th><th>p95</th><th>p99</th></tr></thead>\n  <tbody>\n    <tr><th scope=\"row\">US East</th><td>12ms</td><td>45ms</td><td>120ms</td></tr>\n    <tr><th scope=\"row\">EU West</th><td>18ms</td><td>62ms</td><td>180ms</td></tr>\n  </tbody>\n</table>\n\n<!-- BAD: Using table for layout (never do this) -->\n<!-- <table>\n  <tr>\n    <td>Sidebar</td>\n    <td>Main content</td>\n  </tr>\n</table> -->" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-044-mc",
+          "type": "multiple-choice",
+          "question": "Which of these scenarios is the CORRECT use of an HTML table?",
+          "options": ["A two-column page layout", "A product pricing comparison with rows for features and columns for plans", "A navigation menu with two columns", "A photo gallery grid"],
+          "correctAnswer": "A product pricing comparison with rows for features and columns for plans",
+          "hints": ["Tables are for data with row AND column relationships"],
+          "explanation": "A pricing comparison has a genuine rows-by-columns data relationship (features × plans). The other options are layout — use CSS Grid or Flexbox for those."
+        }
+      ]
+    },
+    {
+      "id": "html-045-table-project",
+      "title": "Building a Data Table — Practice",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 90,
+      "estimatedMinutes": 40,
+      "tags": ["practice", "table", "project"],
+      "prerequisites": ["html-044-styling-tables"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Putting It All Together" },
+          { "type": "text", "content": "Let's build a realistic data table — a sports leaderboard — using everything we've learned: caption, thead/tbody/tfoot, th with scope, and meaningful data." },
+          { "type": "code", "language": "html", "content": "<table>\n  <caption>Premier League — Top 5 (2025)</caption>\n  <thead>\n    <tr>\n      <th scope=\"col\">#</th>\n      <th scope=\"col\">Club</th>\n      <th scope=\"col\">Played</th>\n      <th scope=\"col\">Won</th>\n      <th scope=\"col\">Lost</th>\n      <th scope=\"col\">Points</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>1</td>\n      <th scope=\"row\">Arsenal</th>\n      <td>32</td>\n      <td>22</td>\n      <td>4</td>\n      <td>72</td>\n    </tr>\n    <tr>\n      <td>2</td>\n      <th scope=\"row\">Man City</th>\n      <td>32</td>\n      <td>21</td>\n      <td>5</td>\n      <td>70</td>\n    </tr>\n  </tbody>\n  <tfoot>\n    <tr>\n      <td colspan=\"2\">Average</td>\n      <td>32</td>\n      <td>21.5</td>\n      <td>4.5</td>\n      <td>71</td>\n    </tr>\n  </tfoot>\n</table>" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-045-write",
+          "type": "code-write",
+          "question": "Build a course schedule table with 4 columns (Time, Monday, Wednesday, Friday) and 3 time slots (9am, 11am, 2pm). Add a caption 'Weekly Class Schedule', thead for headers, and tbody for data.",
+          "starterCode": "<!-- Course schedule table -->",
+          "solution": "<table>\n  <caption>Weekly Class Schedule</caption>\n  <thead>\n    <tr>\n      <th scope=\"col\">Time</th>\n      <th scope=\"col\">Monday</th>\n      <th scope=\"col\">Wednesday</th>\n      <th scope=\"col\">Friday</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th scope=\"row\">9:00 AM</th>\n      <td>HTML & CSS</td>\n      <td>JavaScript</td>\n      <td>React</td>\n    </tr>\n    <tr>\n      <th scope=\"row\">11:00 AM</th>\n      <td>Node.js</td>\n      <td>Databases</td>\n      <td>APIs</td>\n    </tr>\n    <tr>\n      <th scope=\"row\">2:00 PM</th>\n      <td>Project Work</td>\n      <td>Code Review</td>\n      <td>Presentations</td>\n    </tr>\n  </tbody>\n</table>",
+          "hints": ["Use th with scope='col' for time slot column headers", "Use th with scope='row' for each time value", "tbody wraps the data rows"],
+          "testCases": [{ "input": "", "expectedOutput": "<caption>", "description": "Has caption" }, { "input": "", "expectedOutput": "scope=", "description": "Uses scope attribute" }],
+          "explanation": "A schedule table is a classic tabular data use case. Proper scope attributes make it fully accessible."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "html-cap-05",
+    "title": "Course Schedule Table",
+    "description": "Build an accessible, multi-section data table for a full degree programme schedule.",
+    "difficulty": "intermediate",
+    "estimatedHours": 2,
+    "xpReward": 350,
+    "requirements": [
+      "At least 5 columns and 8 rows of meaningful data",
+      "caption describing the table content",
+      "thead, tbody, and tfoot sections",
+      "All column headers use scope='col'",
+      "All row headers use scope='row'",
+      "At least one colspan or rowspan for a merged cell",
+      "Table passes WCAG 2.1 AA accessibility criteria"
+    ]
+  }
+}

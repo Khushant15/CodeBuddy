@@ -1,0 +1,231 @@
+{
+  "id": "html-module-03-forms-input",
+  "title": "Forms & User Input",
+  "description": "Learn to collect user data effectively and accessibly. Master every input type, form validation attributes, labels, fieldsets, and the submit flow — the gateway to interactive web applications.",
+  "track": "html",
+  "order": 3,
+  "estimatedHours": 10,
+  "difficulty": "intermediate",
+  "prerequisites": ["html-module-02-semantic"],
+  "learningObjectives": [
+    "Build complete forms using the form element and its attributes",
+    "Use all major input types: text, email, password, number, date, range, color, file",
+    "Distinguish textarea, select, and datalist elements",
+    "Add built-in validation with required, min, max, pattern",
+    "Write accessible forms with labels, fieldsets, and ARIA"
+  ],
+  "lessons": [
+    {
+      "id": "html-021-form-basics",
+      "title": "The Form Element & Submission",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["form", "action", "method", "submit"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "How Forms Work" },
+          { "type": "text", "content": "The <form> element is a container that groups related inputs. When submitted, it sends data to a server URL (action) using HTTP GET or POST (method). Every input inside needs a name attribute — that becomes the key when the data is sent." },
+          { "type": "code", "language": "html", "content": "<form action=\"/submit\" method=\"POST\">\n  <label for=\"username\">Username:</label>\n  <input type=\"text\" id=\"username\" name=\"username\" />\n  \n  <label for=\"email\">Email:</label>\n  <input type=\"email\" id=\"email\" name=\"email\" />\n  \n  <button type=\"submit\">Sign Up</button>\n</form>" },
+          { "type": "callout", "variant": "info", "content": "💡 GET appends data to the URL (visible, bookmarkable). POST sends data in the request body (hidden, secure). Always use POST for passwords and sensitive data." },
+          { "type": "heading", "content": "Button Types" },
+          { "type": "text", "content": "Inside a form, <button type='submit'> submits the form, <button type='reset'> clears all fields, and <button type='button'> does nothing by default (used for JavaScript). Always specify the type attribute explicitly." },
+          { "type": "code", "language": "html", "content": "<button type=\"submit\">Submit Form</button>\n<button type=\"reset\">Clear Fields</button>\n<button type=\"button\" onclick=\"validate()\">Check</button>" }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Login Form",
+          "code": "<form action=\"/login\" method=\"POST\">\n  <h2>Login</h2>\n  <label for=\"email\">Email</label>\n  <input type=\"email\" id=\"email\" name=\"email\" required />\n  <label for=\"password\">Password</label>\n  <input type=\"password\" id=\"password\" name=\"password\" required />\n  <button type=\"submit\">Log In</button>\n</form>",
+          "output": "A complete login form with email and password",
+          "explanation": "method=POST keeps credentials out of the URL. required adds basic client-side validation. Each label is linked to its input via for/id.",
+          "language": "html"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "html-ex-021-write",
+          "type": "code-write",
+          "question": "Create a sign-up form with action='/register' method='POST'. Include fields for 'name' (text), 'email' (email), and 'password' (password), each with a label. Add a submit button.",
+          "starterCode": "<!-- Registration form -->",
+          "solution": "<form action=\"/register\" method=\"POST\">\n  <label for=\"name\">Name</label>\n  <input type=\"text\" id=\"name\" name=\"name\" />\n  <label for=\"email\">Email</label>\n  <input type=\"email\" id=\"email\" name=\"email\" />\n  <label for=\"password\">Password</label>\n  <input type=\"password\" id=\"password\" name=\"password\" />\n  <button type=\"submit\">Sign Up</button>\n</form>",
+          "hints": ["form needs action and method attributes", "Each input needs a name attribute", "Link label to input with for and id"],
+          "testCases": [
+            { "input": "", "expectedOutput": "method=\"POST\"", "description": "Uses POST method" },
+            { "input": "", "expectedOutput": "type=\"password\"", "description": "Has password field" }
+          ],
+          "explanation": "The form action is where data is sent. method=POST is secure. name attribute identifies each field's value on the server."
+        }
+      ]
+    },
+    {
+      "id": "html-022-input-types",
+      "title": "Input Types — The Full Toolkit",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 75,
+      "estimatedMinutes": 35,
+      "tags": ["input", "types", "email", "number", "date", "range"],
+      "prerequisites": ["html-021-form-basics"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "More Than Just text" },
+          { "type": "text", "content": "HTML5 introduced many specialized input types that automatically handle validation, show platform-appropriate keyboards on mobile, and provide native UI controls — all without JavaScript." },
+          { "type": "code", "language": "html", "content": "<!-- Contact info -->\n<input type=\"text\" placeholder=\"Your name\" />\n<input type=\"email\" placeholder=\"you@example.com\" />\n<input type=\"tel\" placeholder=\"+1 555 0100\" />\n<input type=\"url\" placeholder=\"https://yoursite.com\" />\n\n<!-- Numbers -->\n<input type=\"number\" min=\"1\" max=\"100\" step=\"1\" />\n<input type=\"range\" min=\"0\" max=\"100\" value=\"50\" />\n\n<!-- Dates and times -->\n<input type=\"date\" />\n<input type=\"time\" />\n<input type=\"datetime-local\" />\n<input type=\"month\" />\n\n<!-- Others -->\n<input type=\"color\" value=\"#00ff87\" />\n<input type=\"file\" accept=\".pdf,.docx\" />\n<input type=\"checkbox\" id=\"agree\" />\n<input type=\"radio\" name=\"plan\" value=\"free\" />" },
+          { "type": "callout", "variant": "tip", "content": "🎯 On mobile, type='email' shows a keyboard with @, type='number' shows a numeric pad, type='date' shows a date picker. Use the right type for a better UX!" }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Event Registration Form",
+          "code": "<form>\n  <label for=\"name\">Name</label>\n  <input type=\"text\" id=\"name\" name=\"name\" required />\n\n  <label for=\"email\">Email</label>\n  <input type=\"email\" id=\"email\" name=\"email\" required />\n\n  <label for=\"date\">Preferred Date</label>\n  <input type=\"date\" id=\"date\" name=\"date\" />\n\n  <label for=\"guests\">Number of Guests</label>\n  <input type=\"number\" id=\"guests\" name=\"guests\" min=\"1\" max=\"10\" />\n\n  <label for=\"color\">Badge Color</label>\n  <input type=\"color\" id=\"color\" name=\"color\" value=\"#6366f1\" />\n\n  <button type=\"submit\">Register</button>\n</form>",
+          "output": "A rich registration form with various specialized input types",
+          "explanation": "Each input type triggers the appropriate UI and validation on both desktop and mobile.",
+          "language": "html"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "html-ex-022-mc",
+          "type": "multiple-choice",
+          "question": "Which input type would you use to let a user pick a value between 0–100 using a slider?",
+          "options": ["type=\"number\"", "type=\"range\"", "type=\"slider\"", "type=\"percent\""],
+          "correctAnswer": "type=\"range\"",
+          "hints": ["Think about what a slider control does"],
+          "explanation": "type='range' renders a slider. Combine with min, max, and step attributes. type='number' shows a text box with up/down arrows."
+        }
+      ]
+    },
+    {
+      "id": "html-023-select-textarea-datalist",
+      "title": "Select, Textarea & Datalist",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 65,
+      "estimatedMinutes": 25,
+      "tags": ["select", "textarea", "datalist", "option"],
+      "prerequisites": ["html-022-input-types"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Dropdown Menus with select & option" },
+          { "type": "text", "content": "<select> creates a dropdown list. Each <option> is a choice. The value attribute is what gets sent to the server; the text content is what the user sees. Use <optgroup> to group related options." },
+          { "type": "code", "language": "html", "content": "<label for=\"country\">Country</label>\n<select id=\"country\" name=\"country\">\n  <option value=\"\">-- Select a country --</option>\n  <optgroup label=\"Americas\">\n    <option value=\"us\">United States</option>\n    <option value=\"ca\">Canada</option>\n  </optgroup>\n  <optgroup label=\"Europe\">\n    <option value=\"uk\">United Kingdom</option>\n    <option value=\"de\">Germany</option>\n  </optgroup>\n</select>" },
+          { "type": "heading", "content": "textarea — Multi-line Text" },
+          { "type": "code", "language": "html", "content": "<label for=\"message\">Message</label>\n<textarea id=\"message\" name=\"message\" rows=\"5\" cols=\"40\"\n  placeholder=\"Write your message here...\"></textarea>" },
+          { "type": "heading", "content": "datalist — Autocomplete Suggestions" },
+          { "type": "text", "content": "<datalist> provides autocomplete suggestions for a text input while still allowing free-form text. It's linked to an input via the list attribute." },
+          { "type": "code", "language": "html", "content": "<label for=\"framework\">Favourite Framework</label>\n<input type=\"text\" id=\"framework\" list=\"frameworks\" />\n<datalist id=\"frameworks\">\n  <option value=\"React\" />\n  <option value=\"Vue\" />\n  <option value=\"Angular\" />\n  <option value=\"Svelte\" />\n</datalist>" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-023-write",
+          "type": "code-write",
+          "question": "Create a feedback form with a <select> for rating (options: Excellent, Good, Fair, Poor), a <textarea> for comments (5 rows), and a submit button.",
+          "starterCode": "<!-- Feedback form -->",
+          "solution": "<form>\n  <label for=\"rating\">Rating</label>\n  <select id=\"rating\" name=\"rating\">\n    <option value=\"excellent\">Excellent</option>\n    <option value=\"good\">Good</option>\n    <option value=\"fair\">Fair</option>\n    <option value=\"poor\">Poor</option>\n  </select>\n  <label for=\"comments\">Comments</label>\n  <textarea id=\"comments\" name=\"comments\" rows=\"5\"></textarea>\n  <button type=\"submit\">Submit Feedback</button>\n</form>",
+          "hints": ["select needs option children", "textarea uses rows attribute", "Both need name and id"],
+          "testCases": [
+            { "input": "", "expectedOutput": "<select", "description": "Contains a select" },
+            { "input": "", "expectedOutput": "<textarea", "description": "Contains a textarea" }
+          ],
+          "explanation": "select is for choosing from a fixed list. textarea is for multi-line free-form text. Both need name attributes to submit their values."
+        }
+      ]
+    },
+    {
+      "id": "html-024-validation",
+      "title": "Form Validation",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 30,
+      "tags": ["validation", "required", "pattern", "min", "max"],
+      "prerequisites": ["html-023-select-textarea-datalist"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Native HTML5 Validation" },
+          { "type": "text", "content": "HTML5 provides powerful built-in validation that runs before form submission — no JavaScript needed for basic cases. These constraints appear as browser-native error messages." },
+          { "type": "code", "language": "html", "content": "<!-- required: field must be filled -->\n<input type=\"text\" name=\"name\" required />\n\n<!-- minlength / maxlength: character limits -->\n<input type=\"text\" name=\"username\" minlength=\"3\" maxlength=\"20\" />\n\n<!-- min / max: number ranges -->\n<input type=\"number\" name=\"age\" min=\"18\" max=\"120\" />\n\n<!-- pattern: custom regex -->\n<input type=\"text\" name=\"postcode\" pattern=\"[A-Z]{1,2}[0-9]{1,2}[A-Z]? [0-9][A-Z]{2}\" title=\"UK postcode format\" />\n\n<!-- type validation -->\n<input type=\"email\" name=\"email\" required />\n<input type=\"url\" name=\"website\" />" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Never rely solely on client-side validation! Always validate on the server too, because HTML constraints can be bypassed." },
+          { "type": "heading", "content": "Custom Validation Messages" },
+          { "type": "text", "content": "The title attribute adds a custom hint to the browser's native error message when pattern validation fails. The placeholder attribute gives users formatting hints before they type." },
+          { "type": "code", "language": "html", "content": "<label for=\"phone\">Phone (format: 555-0100)</label>\n<input\n  type=\"tel\"\n  id=\"phone\"\n  name=\"phone\"\n  pattern=\"[0-9]{3}-[0-9]{4}\"\n  placeholder=\"555-0100\"\n  title=\"Please enter phone as: 555-0100\"\n  required\n/>" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-024-write",
+          "type": "code-write",
+          "question": "Create a username input that: is required, has a minimum length of 3 and maximum of 15, only allows letters and numbers (pattern), and has a helpful placeholder.",
+          "starterCode": "<label for=\"username\">Username</label>\n<!-- Input here -->",
+          "solution": "<label for=\"username\">Username</label>\n<input\n  type=\"text\"\n  id=\"username\"\n  name=\"username\"\n  required\n  minlength=\"3\"\n  maxlength=\"15\"\n  pattern=\"[A-Za-z0-9]+\"\n  placeholder=\"e.g. coder123\"\n  title=\"Letters and numbers only, 3-15 characters\"\n/>",
+          "hints": ["required makes it mandatory", "minlength and maxlength set character limits", "pattern takes a regex", "placeholder shows example text"],
+          "testCases": [
+            { "input": "", "expectedOutput": "required", "description": "Has required attribute" },
+            { "input": "", "expectedOutput": "pattern=", "description": "Has pattern validation" }
+          ],
+          "explanation": "Combining multiple validation attributes creates robust client-side constraints. Always pair with server validation."
+        }
+      ]
+    },
+    {
+      "id": "html-025-accessible-forms",
+      "title": "Accessible Forms & Fieldsets",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 35,
+      "tags": ["accessibility", "fieldset", "legend", "aria-describedby"],
+      "prerequisites": ["html-024-validation"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Labels — The Most Critical Accessibility Feature" },
+          { "type": "text", "content": "Every input must have an associated label. Screen readers announce the label when a field receives focus. Link them with matching for (on label) and id (on input) attributes. Alternatively, wrap the input inside the label element." },
+          { "type": "code", "language": "html", "content": "<!-- Method 1: for/id (recommended) -->\n<label for=\"email\">Email address</label>\n<input type=\"email\" id=\"email\" name=\"email\" />\n\n<!-- Method 2: wrap input in label -->\n<label>\n  Full Name\n  <input type=\"text\" name=\"fullname\" />\n</label>\n\n<!-- Method 3: aria-label (when no visible label is possible) -->\n<input type=\"search\" aria-label=\"Search the site\" />" },
+          { "type": "heading", "content": "Fieldset & Legend for Grouping" },
+          { "type": "text", "content": "<fieldset> groups related form controls. <legend> provides a caption for the group. This is especially important for radio buttons and checkboxes." },
+          { "type": "code", "language": "html", "content": "<form>\n  <fieldset>\n    <legend>Subscription Plan</legend>\n    <label>\n      <input type=\"radio\" name=\"plan\" value=\"free\" /> Free\n    </label>\n    <label>\n      <input type=\"radio\" name=\"plan\" value=\"pro\" /> Pro — $9/month\n    </label>\n    <label>\n      <input type=\"radio\" name=\"plan\" value=\"enterprise\" /> Enterprise\n    </label>\n  </fieldset>\n\n  <fieldset>\n    <legend>Notification Preferences</legend>\n    <label><input type=\"checkbox\" name=\"notify\" value=\"email\" /> Email</label>\n    <label><input type=\"checkbox\" name=\"notify\" value=\"sms\" /> SMS</label>\n  </fieldset>\n\n  <button type=\"submit\">Continue</button>\n</form>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Using aria-describedby=\"hint-id\" links a hint/error message to its input so screen readers announce both label and description." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-025-write",
+          "type": "code-write",
+          "question": "Create a form with a fieldset for 'Account Type' containing two radio buttons: 'Personal' and 'Business'. Include a legend and proper labels for each radio.",
+          "starterCode": "<form>\n  <!-- Fieldset here -->\n  <button type=\"submit\">Next</button>\n</form>",
+          "solution": "<form>\n  <fieldset>\n    <legend>Account Type</legend>\n    <label>\n      <input type=\"radio\" name=\"account\" value=\"personal\" /> Personal\n    </label>\n    <label>\n      <input type=\"radio\" name=\"account\" value=\"business\" /> Business\n    </label>\n  </fieldset>\n  <button type=\"submit\">Next</button>\n</form>",
+          "hints": ["fieldset wraps the group", "legend describes the group", "Both radios need the same name"],
+          "testCases": [
+            { "input": "", "expectedOutput": "<fieldset>", "description": "Uses fieldset" },
+            { "input": "", "expectedOutput": "<legend>", "description": "Includes legend" }
+          ],
+          "explanation": "Fieldset + legend groups radio buttons so screen readers announce 'Account Type: Personal, radio button, 1 of 2' — without this, users just hear 'radio button' with no context."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "html-cap-03",
+    "title": "Contact Form",
+    "description": "Build a production-ready contact form with complete validation, accessible labels, and proper grouping.",
+    "difficulty": "intermediate",
+    "estimatedHours": 2,
+    "xpReward": 400,
+    "requirements": [
+      "Name (required, minlength 2), Email (required, type=email), Phone (optional, type=tel, pattern validation)",
+      "Subject dropdown with 5 options grouped by optgroup",
+      "Message textarea (required, minlength 20)",
+      "Checkboxes for contact preference (Email/SMS/Call) in a fieldset",
+      "All inputs have associated labels",
+      "A submit and a reset button",
+      "method=POST action='/contact'"
+    ]
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "track": "html",
+  "title": "HTML Development Track",
+  "description": "Master HTML from the ground up — from your first tags to SEO-optimised, accessible, production-ready pages. 7 comprehensive modules covering every key topic used in professional web development.",
+  "totalModules": 7,
+  "totalLessons": 35,
+  "estimatedHours": 54,
+  "modules": [
+    "html-module-01-fundamentals",
+    "html-module-02-structure",
+    "html-module-03-forms-input",
+    "html-module-04-media-embedding",
+    "html-module-05-tables",
+    "html-module-06-advanced",
+    "html-module-07-best-practices"
+  ],
+  "moduleDetails": [
+    {
+      "id": "html-module-01-fundamentals",
+      "title": "HTML Fundamentals",
+      "lessons": 5,
+      "hours": 7,
+      "difficulty": "beginner",
+      "description": "Tags, elements, attributes, and your first web pages."
+    },
+    {
+      "id": "html-module-02-structure",
+      "title": "Page Structure & Semantic HTML",
+      "lessons": 5,
+      "hours": 8,
+      "difficulty": "beginner",
+      "description": "Semantic elements, headings, lists, links, and navigation."
+    },
+    {
+      "id": "html-module-03-forms-input",
+      "title": "Forms & User Input",
+      "lessons": 5,
+      "hours": 9,
+      "difficulty": "intermediate",
+      "description": "All form controls, validation, accessibility, and styling hooks."
+    },
+    {
+      "id": "html-module-04-media-embedding",
+      "title": "Media & Embedding",
+      "lessons": 5,
+      "hours": 8,
+      "difficulty": "intermediate",
+      "description": "Video, audio, iframes, responsive images with picture/srcset, and inline SVG."
+    },
+    {
+      "id": "html-module-05-tables",
+      "title": "Tables",
+      "lessons": 5,
+      "hours": 6,
+      "difficulty": "intermediate",
+      "description": "Accessible data tables, thead/tbody/tfoot, colspan, and rowspan."
+    },
+    {
+      "id": "html-module-06-advanced",
+      "title": "Advanced HTML",
+      "lessons": 5,
+      "hours": 8,
+      "difficulty": "intermediate",
+      "description": "SEO meta tags, Open Graph, custom data attributes, entities, and Schema.org."
+    },
+    {
+      "id": "html-module-07-best-practices",
+      "title": "Best Practices & Capstone",
+      "lessons": 5,
+      "hours": 10,
+      "difficulty": "intermediate",
+      "description": "Code organization, accessibility audits, performance, W3C validation, and progressive enhancement."
+    }
+  ],
+  "learningPath": [
+    "Tags & Attributes",
+    "Semantic Structure",
+    "Forms & Input",
+    "Media & Embedding",
+    "Tables",
+    "SEO & Metadata",
+    "Best Practices"
+  ]
+}

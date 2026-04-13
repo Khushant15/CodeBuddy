@@ -1,0 +1,44 @@
+{
+  "id": "python-module-02-data-structures",
+  "title": "Data Structures & Control Flow",
+  "description": "Learn how to organize data using lists and dictionaries, and how to control your program's behavior using conditional logic.",
+  "track": "python",
+  "order": 2,
+  "estimatedHours": 10,
+  "difficulty": "beginner",
+  "prerequisites": ["python-module-01-fundamentals"],
+  "learningObjectives": [
+    "Manage collections of data with lists",
+    "Use dictionaries to store key-value pairs",
+    "Implement branching logic with if, elif, and else",
+    "Understand logical operators and comparisons"
+  ],
+  "lessons": [
+    {
+      "id": "py-006-lists",
+      "title": "Working with Lists",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 60,
+      "estimatedMinutes": 30,
+      "tags": ["lists", "collections"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "What is a List?" },
+          { "type": "text", "content": "A list is an ordered collection of items. In Python, lists are created using square brackets []." },
+          { "type": "code", "language": "python", "content": "fruits = [\"apple\", \"banana\", \"cherry\"]\nnumbers = [1, 2, 3, 4, 5]\nmixed = [\"apple\", 42, True]" }
+        ]
+      },
+      "exercises": [
+        {
+          "id": "ex-006-list-create",
+          "type": "code-write",
+          "question": "Create a list called `colors` with three strings: \"red\", \"green\", and \"blue\". Print the list.",
+          "starterCode": "# Create colors list here\n\n# Print it",
+          "solution": "colors = [\"red\", \"green\", \"blue\"]\nprint(colors)",
+          "testCases": [{ "expectedOutput": "['red', 'green', 'blue']" }]
+        }
+      ]
+    }
+  ]
+}

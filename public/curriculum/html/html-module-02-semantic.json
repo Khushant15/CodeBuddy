@@ -1,0 +1,247 @@
+{
+  "id": "html-module-02-semantic",
+  "title": "Semantic HTML",
+  "description": "Go beyond generic divs and spans. Learn how semantic HTML elements give meaning to your content, improve accessibility for screen readers, and boost your SEO rankings.",
+  "track": "html",
+  "order": 2,
+  "estimatedHours": 8,
+  "difficulty": "beginner",
+  "prerequisites": ["html-module-01-fundamentals"],
+  "learningObjectives": [
+    "Use semantic landmark elements: header, nav, main, footer",
+    "Structure articles and sections correctly",
+    "Improve accessibility using ARIA roles and labels",
+    "Write SEO-friendly HTML with semantic elements",
+    "Use time, mark, figure, and aside elements appropriately"
+  ],
+  "lessons": [
+    {
+      "id": "html-011-header-footer-nav",
+      "title": "Header, Footer & Nav",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 60,
+      "estimatedMinutes": 25,
+      "tags": ["semantic", "header", "footer", "nav"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Why Semantic Elements?" },
+          { "type": "text", "content": "Before HTML5, developers used <div id='header'>, <div id='nav'> etc. for everything. Now dedicated semantic elements exist. They tell the browser, search engines, and screen readers exactly what each section does — without relying on CSS class names." },
+          { "type": "callout", "variant": "info", "content": "💡 Semantic HTML is the single biggest thing you can do for accessibility and SEO with zero extra effort." },
+          { "type": "heading", "content": "header, nav, footer" },
+          { "type": "text", "content": "<header> represents the introductory content of a page or section — typically a logo, site title, and navigation. <nav> wraps sets of navigation links. <footer> contains information like copyright, contact links, or secondary navigation at the bottom of a page or section." },
+          { "type": "code", "language": "html", "content": "<header>\n  <img src=\"logo.svg\" alt=\"CodeBuddy\" />\n  <nav>\n    <ul>\n      <li><a href=\"/\">Home</a></li>\n      <li><a href=\"/learn\">Learn</a></li>\n      <li><a href=\"/about\">About</a></li>\n    </ul>\n  </nav>\n</header>\n\n<footer>\n  <p>&copy; 2025 CodeBuddy. All rights reserved.</p>\n  <nav>\n    <a href=\"/privacy\">Privacy</a>\n    <a href=\"/terms\">Terms</a>\n  </nav>\n</footer>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 You can have multiple header and footer elements — one per section, not just one per page." }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Full Page Skeleton with Semantic Elements",
+          "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head><title>Portfolio</title></head>\n<body>\n  <header>\n    <h1>Jane Doe</h1>\n    <nav>\n      <a href=\"#about\">About</a>\n      <a href=\"#work\">Work</a>\n    </nav>\n  </header>\n  <main>\n    <section id=\"about\"><p>About me...</p></section>\n    <section id=\"work\"><p>My projects...</p></section>\n  </main>\n  <footer><p>Contact: jane@example.com</p></footer>\n</body>\n</html>",
+          "output": "A complete accessible page skeleton",
+          "explanation": "This is the gold standard structure for any web page. Screen readers and search engines navigate this predictably.",
+          "language": "html"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "html-ex-011-write",
+          "type": "code-write",
+          "question": "Build a page header with a site title 'TechBlog' inside an h1, and a nav with links to 'Home', 'Articles', and 'Contact'.",
+          "starterCode": "<!-- Build your header here -->",
+          "solution": "<header>\n  <h1>TechBlog</h1>\n  <nav>\n    <a href=\"/\">Home</a>\n    <a href=\"/articles\">Articles</a>\n    <a href=\"/contact\">Contact</a>\n  </nav>\n</header>",
+          "hints": ["Wrap everything in <header>", "Put navigation links inside <nav>", "The site title should be in <h1>"],
+          "testCases": [
+            { "input": "", "expectedOutput": "<header>", "description": "Uses header element" },
+            { "input": "", "expectedOutput": "<nav>", "description": "Uses nav element" }
+          ],
+          "explanation": "header and nav are semantic landmarks. Assistive technologies announce these to users so they can jump directly to navigation."
+        },
+        {
+          "id": "html-ex-011-mc",
+          "type": "multiple-choice",
+          "question": "Which element is best for wrapping a site's primary navigation links?",
+          "options": ["<div class='nav'>", "<nav>", "<menu>", "<ul>"],
+          "correctAnswer": "<nav>",
+          "hints": ["Think semantic — the element name should describe its purpose"],
+          "explanation": "<nav> is the dedicated semantic element for navigation links. div with a class is non-semantic and requires extra ARIA to be accessible."
+        }
+      ]
+    },
+    {
+      "id": "html-012-main-section-article",
+      "title": "Main, Section & Article",
+      "order": 2,
+      "difficulty": "beginner",
+      "xpReward": 65,
+      "estimatedMinutes": 30,
+      "tags": ["main", "section", "article", "semantic"],
+      "prerequisites": ["html-011-header-footer-nav"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "main — The Unique Content Area" },
+          { "type": "text", "content": "<main> wraps the primary, unique content of the page. There should only be one <main> per page, and it should not include repeated content like navigation or footers. Screen reader users can skip directly to <main> to bypass navigation." },
+          { "type": "heading", "content": "section vs article" },
+          { "type": "text", "content": "Both are block-level semantic containers but they serve different purposes. Use <article> for self-contained content that makes sense on its own — blog posts, news articles, comments, product cards. Use <section> to group thematically related content within a page that doesn't stand alone." },
+          { "type": "code", "language": "html", "content": "<main>\n  <section id=\"featured\">\n    <h2>Featured Posts</h2>\n    \n    <article>\n      <h3>Getting Started with CSS Grid</h3>\n      <p>Learn how to build complex layouts...</p>\n      <a href=\"/posts/css-grid\">Read more</a>\n    </article>\n    \n    <article>\n      <h3>JavaScript Closures Explained</h3>\n      <p>Closures are one of the most powerful...</p>\n      <a href=\"/posts/closures\">Read more</a>\n    </article>\n  </section>\n  \n  <section id=\"newsletter\">\n    <h2>Subscribe</h2>\n    <p>Get articles in your inbox.</p>\n  </section>\n</main>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Quick rule: Could this content be dropped into an RSS feed and still make sense? If yes → article. If no → section." }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Blog Page Layout",
+          "code": "<main>\n  <section class=\"hero\">\n    <h1>Welcome to DevBlog</h1>\n    <p>Tutorials for modern developers.</p>\n  </section>\n  <section class=\"posts\">\n    <h2>Latest Posts</h2>\n    <article>\n      <h3>CSS Variables in 2025</h3>\n      <time datetime=\"2025-03-10\">March 10, 2025</time>\n      <p>CSS custom properties have changed how we theme...</p>\n    </article>\n  </section>\n</main>",
+          "output": "A semantically structured blog homepage",
+          "explanation": "The hero section isn't standalone content — it's page-specific, so section is correct. The post is self-contained, so article is correct.",
+          "language": "html"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "html-ex-012-write",
+          "type": "code-write",
+          "question": "Structure a news page with a <main> containing a <section> titled 'Breaking News' with two <article> elements, each with an h3 headline and a paragraph.",
+          "starterCode": "<!-- News page structure -->",
+          "solution": "<main>\n  <section>\n    <h2>Breaking News</h2>\n    <article>\n      <h3>Tech Giants Merge</h3>\n      <p>Two major tech companies announced a merger today.</p>\n    </article>\n    <article>\n      <h3>Climate Summit Begins</h3>\n      <p>World leaders gather to discuss the climate crisis.</p>\n    </article>\n  </section>\n</main>",
+          "hints": ["Wrap in <main>", "Section groups the theme", "Each news story is an <article>"],
+          "testCases": [
+            { "input": "", "expectedOutput": "<main>", "description": "Uses main element" },
+            { "input": "", "expectedOutput": "<article>", "description": "Uses article elements" }
+          ],
+          "explanation": "main holds the unique page content. section groups thematically. article wraps each self-contained news story."
+        }
+      ]
+    },
+    {
+      "id": "html-013-aside-figure",
+      "title": "Aside, Figure & Figurecaption",
+      "order": 3,
+      "difficulty": "beginner",
+      "xpReward": 60,
+      "estimatedMinutes": 25,
+      "tags": ["aside", "figure", "figcaption"],
+      "prerequisites": ["html-012-main-section-article"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "aside — Related but Not Essential" },
+          { "type": "text", "content": "<aside> contains content tangentially related to the main content. Think sidebars with related articles, author bios, pull quotes, or advertisements. The key test: if removed, does the main content still make complete sense? If yes — it belongs in <aside>." },
+          { "type": "code", "language": "html", "content": "<article>\n  <h2>Python vs JavaScript</h2>\n  <p>Both are powerful languages but serve different purposes...</p>\n  \n  <aside>\n    <h3>Related Articles</h3>\n    <ul>\n      <li><a href=\"/python-basics\">Python Basics</a></li>\n      <li><a href=\"/js-intro\">JS Introduction</a></li>\n    </ul>\n  </aside>\n</article>" },
+          { "type": "heading", "content": "figure & figcaption" },
+          { "type": "text", "content": "<figure> wraps self-contained content like images, diagrams, code samples, or charts that are referenced from the main content but could be moved. <figcaption> provides a caption for the figure." },
+          { "type": "code", "language": "html", "content": "<figure>\n  <img src=\"architecture-diagram.png\" alt=\"System architecture showing three tiers\" />\n  <figcaption>Figure 1: Three-tier application architecture</figcaption>\n</figure>\n\n<figure>\n  <pre><code>const sum = (a, b) => a + b;</code></pre>\n  <figcaption>Example: Arrow function syntax</figcaption>\n</figure>" }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Article with Sidebar and Figure",
+          "code": "<article>\n  <h2>Understanding React Hooks</h2>\n  <figure>\n    <img src=\"hooks-diagram.png\" alt=\"React hooks lifecycle\" />\n    <figcaption>How hooks interact with the component lifecycle</figcaption>\n  </figure>\n  <p>Hooks were introduced in React 16.8...</p>\n  <aside>\n    <p>💡 <strong>Did you know?</strong> Over 90% of new React code uses hooks.</p>\n  </aside>\n</article>",
+          "output": "An article with an illustrated figure and a sidebar callout",
+          "explanation": "figure + figcaption pairs an image with its caption semantically. aside holds supplementary info.",
+          "language": "html"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "html-ex-013-mc",
+          "type": "multiple-choice",
+          "question": "Which element is most appropriate for an image with a descriptive caption below it?",
+          "options": ["<div><img /><p>caption</p></div>", "<figure><img /><figcaption>caption</figcaption></figure>", "<section><img /><span>caption</span></section>", "<img title='caption' />"],
+          "correctAnswer": "<figure><img /><figcaption>caption</figcaption></figure>",
+          "hints": ["Think about the semantic meaning of the element"],
+          "explanation": "figure + figcaption is the semantic pairing specifically designed for this use case. It gives search engines and screen readers proper context."
+        }
+      ]
+    },
+    {
+      "id": "html-014-time-mark-details",
+      "title": "Time, Mark, Details & Summary",
+      "order": 4,
+      "difficulty": "beginner",
+      "xpReward": 55,
+      "estimatedMinutes": 20,
+      "tags": ["time", "mark", "details", "summary"],
+      "prerequisites": ["html-013-aside-figure"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "The time Element" },
+          { "type": "text", "content": "The <time> element represents a specific point in time or a date. The datetime attribute provides a machine-readable format (ISO 8601), while the content can be human-readable. This helps search engines display accurate publish dates and enables features like 'Posted 3 days ago'." },
+          { "type": "code", "language": "html", "content": "<!-- Date -->\n<time datetime=\"2025-04-13\">April 13, 2025</time>\n\n<!-- Date and time -->\n<time datetime=\"2025-04-13T09:00\">9am on April 13</time>\n\n<!-- In context -->\n<article>\n  <h2>New Framework Released</h2>\n  <p>Published <time datetime=\"2025-04-10\">10 April 2025</time></p>\n</article>" },
+          { "type": "heading", "content": "mark, details, summary" },
+          { "type": "text", "content": "<mark> highlights text for reference — like search results highlighted in a document. <details> creates a native disclosure widget that can expand/collapse without JavaScript. <summary> is its visible clickable label." },
+          { "type": "code", "language": "html", "content": "<!-- Highlight search results -->\n<p>Results for: <mark>flexbox</mark></p>\n\n<!-- Expandable FAQ -->\n<details>\n  <summary>What is the box model?</summary>\n  <p>Every HTML element is a rectangular box composed of content, padding, border, and margin.</p>\n</details>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 details + summary is perfect for FAQ sections and accordions with zero JavaScript!" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-014-mc",
+          "type": "multiple-choice",
+          "question": "Which element highlights text as being relevant to the current context (e.g. search results)?",
+          "options": ["<highlight>", "<em>", "<mark>", "<strong>"],
+          "correctAnswer": "<mark>",
+          "hints": ["It literally looks like a highlighter marker"],
+          "explanation": "<mark> semantically highlights text for relevance. <em> adds emphasis, <strong> adds importance. Neither is for highlighting search terms."
+        }
+      ]
+    },
+    {
+      "id": "html-015-aria-accessibility",
+      "title": "ARIA Roles & Accessibility",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["aria", "accessibility", "a11y"],
+      "prerequisites": ["html-014-time-mark-details"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "What is ARIA?" },
+          { "type": "text", "content": "ARIA (Accessible Rich Internet Applications) is a set of HTML attributes that make web content more accessible to people using assistive technologies like screen readers. The first rule of ARIA: don't use ARIA if native HTML does the job. Use semantic elements first." },
+          { "type": "heading", "content": "Essential ARIA Attributes" },
+          { "type": "text", "content": "aria-label provides an accessible name when no visible label exists. aria-hidden='true' hides decorative elements from screen readers. aria-expanded indicates whether a component is open/closed. role overrides or adds semantic meaning when a native element is not available." },
+          { "type": "code", "language": "html", "content": "<!-- Icon button with no visible text -->\n<button aria-label=\"Close dialog\">\n  <svg aria-hidden=\"true\"><!-- X icon --></svg>\n</button>\n\n<!-- Decorative image -->\n<img src=\"divider.png\" alt=\"\" role=\"presentation\" />\n\n<!-- Custom dropdown toggle -->\n<button aria-expanded=\"false\" aria-controls=\"menu\">\n  Menu\n</button>\n<ul id=\"menu\" hidden>\n  <li><a href=\"/\">Home</a></li>\n</ul>\n\n<!-- Live region for dynamic updates -->\n<div aria-live=\"polite\" id=\"status\"></div>" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Testing tip: Use your keyboard alone (Tab, Enter, Space, Arrow keys) to navigate your site. If you get stuck, that's an accessibility bug." }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Accessible Navigation with Skip Link",
+          "code": "<a href=\"#main\" class=\"skip-link\">Skip to main content</a>\n<header>\n  <nav aria-label=\"Primary navigation\">\n    <ul role=\"list\">\n      <li><a href=\"/\">Home</a></li>\n      <li><a href=\"/about\">About</a></li>\n    </ul>\n  </nav>\n</header>\n<main id=\"main\" tabindex=\"-1\">\n  <h1>Welcome</h1>\n</main>",
+          "output": "An accessible page with a skip link and labelled navigation",
+          "explanation": "Skip links let keyboard users jump past navigation. aria-label on nav distinguishes multiple navigation regions. tabindex=-1 lets the main element receive focus programmatically.",
+          "language": "html"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "html-ex-015-mc",
+          "type": "multiple-choice",
+          "question": "A button only contains an icon SVG with no visible text. What attribute should be added for accessibility?",
+          "options": ["title=\"Delete\"", "aria-label=\"Delete\"", "alt=\"Delete\"", "placeholder=\"Delete\""],
+          "correctAnswer": "aria-label=\"Delete\"",
+          "hints": ["alt is for images, placeholder is for inputs"],
+          "explanation": "aria-label provides an accessible name for interactive elements that lack visible text. Screen readers will announce 'Delete button'."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "html-cap-02",
+    "title": "Blog Post Layout",
+    "description": "Build a full semantic HTML blog post page from scratch — header, nav, main article, aside, and footer. Every element must be chosen for its semantic meaning.",
+    "difficulty": "beginner",
+    "estimatedHours": 2,
+    "xpReward": 350,
+    "requirements": [
+      "Site header with logo and primary navigation",
+      "Main article with h1 title, time element for publish date, and multiple sections",
+      "At least one figure with figcaption",
+      "An aside with related articles list",
+      "A details/summary FAQ block",
+      "Site footer with copyright and secondary nav",
+      "Zero accessibility violations (test with keyboard)"
+    ]
+  }
+}

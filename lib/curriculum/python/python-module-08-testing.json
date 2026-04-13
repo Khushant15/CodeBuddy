@@ -1,0 +1,191 @@
+{
+  "id": "python-module-08-testing",
+  "title": "Testing & Best Practices",
+  "description": "Write Python code that works correctly, stays maintainable, and communicates intent clearly. Learn unit testing with pytest, type hints, PEP 8 style, debugging techniques, and performance profiling — the skills that turn a script into production software.",
+  "track": "python",
+  "order": 8,
+  "estimatedHours": 10,
+  "difficulty": "intermediate",
+  "prerequisites": ["python-module-07-advanced-topics"],
+  "learningObjectives": [
+    "Write unit tests with pytest and understand test-driven development",
+    "Add type hints to improve code readability and catch bugs early",
+    "Apply PEP 8 conventions for clean, consistent Python code",
+    "Debug programs systematically using pdb and logging",
+    "Profile and optimise Python code for performance"
+  ],
+  "lessons": [
+    {
+      "id": "py-071-pytest-basics",
+      "title": "Testing with pytest",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["pytest", "testing", "assert", "fixtures"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Why Test Your Code?" },
+          { "type": "text", "content": "Tests prove your code works correctly today and keep proving it works as you make future changes. pytest is Python's most popular testing framework — it discovers and runs test files automatically, provides clear failure messages, and has an extensive plugin ecosystem." },
+          { "type": "code", "language": "python", "content": "# math_utils.py — the code we want to test\ndef add(a, b):\n    return a + b\n\ndef divide(a, b):\n    if b == 0:\n        raise ValueError('Cannot divide by zero')\n    return a / b\n\ndef clamp(value, minimum, maximum):\n    return max(minimum, min(value, maximum))\n\n# test_math_utils.py — pytest finds files starting with test_\nimport pytest\nfrom math_utils import add, divide, clamp\n\n# Test functions must start with test_\ndef test_add_positive_numbers():\n    assert add(2, 3) == 5\n\ndef test_add_negative_numbers():\n    assert add(-1, -1) == -2\n\ndef test_add_returns_correct_type():\n    result = add(1, 2)\n    assert isinstance(result, int)\n\ndef test_divide_normal():\n    assert divide(10, 2) == 5.0\n\ndef test_divide_by_zero_raises():\n    with pytest.raises(ValueError, match='Cannot divide by zero'):\n        divide(10, 0)\n\ndef test_clamp_below_min():\n    assert clamp(-5, 0, 100) == 0\n\ndef test_clamp_above_max():\n    assert clamp(150, 0, 100) == 100\n\ndef test_clamp_within_range():\n    assert clamp(50, 0, 100) == 50\n\n# Run with: pytest test_math_utils.py -v" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Name tests with intent: test_divide_by_zero_raises is much more informative than test_divide3. A good test name reads like a sentence describing expected behaviour." }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Using pytest Fixtures",
+          "code": "import pytest\n\n# Fixture: set up reusable test data\n@pytest.fixture\ndef sample_users():\n    return [\n        {'id': 1, 'name': 'Alice', 'active': True},\n        {'id': 2, 'name': 'Bob',   'active': False},\n        {'id': 3, 'name': 'Carol', 'active': True},\n    ]\n\n@pytest.fixture\ndef user_db(sample_users):\n    db = UserDatabase()\n    for user in sample_users:\n        db.add(user)\n    return db\n\n# Fixtures are injected by name\ndef test_active_users_count(user_db):\n    active = user_db.get_active_users()\n    assert len(active) == 2\n\ndef test_find_user_by_id(user_db):\n    user = user_db.find(1)\n    assert user['name'] == 'Alice'\n\n# Parametrize — run one test with multiple inputs\n@pytest.mark.parametrize('value,expected', [\n    (0, 0), (1, 1), (5, 120), (10, 3628800)\n])\ndef test_factorial(value, expected):\n    from math import factorial\n    assert factorial(value) == expected",
+          "output": "4 passed in 0.02s",
+          "explanation": "@pytest.fixture creates reusable setup functions. @pytest.mark.parametrize runs the same test with different inputs, producing one test result per parameter set.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "py-ex-071-mc",
+          "type": "multiple-choice",
+          "question": "How does pytest find which functions are tests?",
+          "options": ["They must be decorated with @test", "Their names must start with test_", "They must be in a class called TestSuite", "They must import pytest"],
+          "correctAnswer": "Their names must start with test_",
+          "hints": ["pytest uses naming conventions, not decorators for discovery"],
+          "explanation": "pytest automatically discovers test files (test_*.py or *_test.py) and test functions (starting with test_). No base class or decorator required — just the naming convention."
+        }
+      ]
+    },
+    {
+      "id": "py-072-type-hints",
+      "title": "Type Hints",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["type-hints", "typing", "mypy", "annotations"],
+      "prerequisites": ["py-071-pytest-basics"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Making Your Code Self-Documenting" },
+          { "type": "text", "content": "Type hints (PEP 484) let you annotate variables and function signatures with expected types. Python doesn't enforce them at runtime, but tools like mypy, VS Code, and PyCharm use them to catch bugs before you run the code." },
+          { "type": "code", "language": "python", "content": "from typing import Optional, Union, List, Dict, Tuple, Any\nfrom collections.abc import Callable, Sequence\n\n# Function annotations\ndef greet(name: str, times: int = 1) -> str:\n    return (f'Hello, {name}! ' * times).strip()\n\n# Optional — value or None\ndef find_user(user_id: int) -> Optional[dict]:\n    return users.get(user_id)  # could be None\n\n# Union — one of several types (Python 3.10+: int | str)\ndef process(value: Union[int, str]) -> str:\n    return str(value)\n\n# List, Dict, Tuple\ndef average(numbers: List[float]) -> float:\n    return sum(numbers) / len(numbers)\n\ndef get_config() -> Dict[str, Any]:\n    return {'debug': True, 'port': 8080}\n\n# Python 3.9+ built-in generics (no need to import List etc.)\ndef first(items: list[int]) -> int | None:\n    return items[0] if items else None\n\n# Callable type hint\ndef apply_twice(func: Callable[[int], int], value: int) -> int:\n    return func(func(value))\n\n# Variable annotations\nusers: list[str] = []\nmax_retries: int = 3\nconfig: dict[str, Any] = {}" },
+          { "type": "callout", "variant": "info", "content": "💡 Python 3.10+ allows using | instead of Union: int | str | None. Python 3.9+ allows lowercase generics: list[int], dict[str, int], tuple[str, ...] — no need to import from typing." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-072-mc",
+          "type": "multiple-choice",
+          "question": "What does Optional[str] mean as a type hint?",
+          "options": ["The parameter is completely optional and can be omitted", "The value is either a str or None", "The type hint is optional and not enforced", "The str must have optional characters"],
+          "correctAnswer": "The value is either a str or None",
+          "hints": ["Optional[X] is shorthand for Union[X, None]"],
+          "explanation": "Optional[str] is equivalent to Union[str, None] — the value can be a string or None. It signals that the function might not return a value (e.g., a lookup that finds nothing)."
+        }
+      ]
+    },
+    {
+      "id": "py-073-pep8-clean-code",
+      "title": "PEP 8 & Clean Code",
+      "order": 3,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["pep8", "style", "naming", "clean-code"],
+      "prerequisites": ["py-072-type-hints"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Writing Pythonic Code" },
+          { "type": "code", "language": "python", "content": "# PEP 8 Key Rules:\n\n# 1. Indentation: 4 spaces (never tabs)\ndef good_function():\n    if True:\n        pass\n\n# 2. Line length: max 79 characters (99 for modern projects)\n# Break long lines with backslash or inside brackets:\nresult = (some_long_variable_name\n          + another_long_variable_name\n          - yet_another_value)\n\n# 3. Naming conventions\nmy_variable = 'snake_case for variables and functions'\nMY_CONSTANT = 'UPPER_SNAKE_CASE for constants'\nclass MyClass:      # PascalCase for classes\n    pass\n_private_var = 'single underscore = convention-private'\n__dunder__ = 'double underscores = special method'\n\n# 4. Blank lines\n# Two blank lines before/after top-level functions and classes\n# One blank line between methods inside a class\n\n# 5. Imports at top, grouped\nimport os          # stdlib first\nimport sys\n                   # blank line\nimport requests    # third-party second\n                   # blank line\nfrom myapp import config  # local imports last\n\n# 6. Docstrings on every public function/class\ndef calculate_average(numbers: list[float]) -> float:\n    \"\"\"Calculate the arithmetic mean of a list of numbers.\n\n    Args:\n        numbers: A non-empty list of numeric values.\n\n    Returns:\n        The arithmetic mean.\n\n    Raises:\n        ValueError: If numbers is empty.\n    \"\"\"\n    if not numbers:\n        raise ValueError('Cannot average an empty list')\n    return sum(numbers) / len(numbers)" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-073-mc",
+          "type": "multiple-choice",
+          "question": "What naming convention should Python constants use?",
+          "options": ["camelCase", "PascalCase", "snake_case", "UPPER_SNAKE_CASE"],
+          "correctAnswer": "UPPER_SNAKE_CASE",
+          "hints": ["Constants are ALL CAPS in Python"],
+          "explanation": "PEP 8 specifies UPPER_SNAKE_CASE for constants (MAX_SIZE, DATABASE_URL). Variables and functions use snake_case. Classes use PascalCase."
+        }
+      ]
+    },
+    {
+      "id": "py-074-debugging",
+      "title": "Debugging Techniques",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["debugging", "pdb", "logging", "breakpoint"],
+      "prerequisites": ["py-073-pep8-clean-code"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Finding and Fixing Bugs" },
+          { "type": "code", "language": "python", "content": "# Method 1: print debugging (quick but messy)\nprint(f'DEBUG: value={value!r}, type={type(value).__name__}')\n\n# Method 2: Python Debugger (pdb)\n# Option A: Insert breakpoint in code\nbreakpoint()  # drops into interactive pdb shell\n# pdb commands: n (next), s (step into), c (continue),\n# p <expr> (print), l (list code), q (quit)\n\n# Option B: Run script with pdb\n# python -m pdb my_script.py\n\n# Method 3: logging (best for production)\nimport logging\n\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s %(levelname)s %(name)s: %(message)s',\n    handlers=[\n        logging.FileHandler('app.log'),\n        logging.StreamHandler()  # also print to console\n    ]\n)\nlogger = logging.getLogger(__name__)\n\ndef process_data(data):\n    logger.debug(f'Processing {len(data)} items')\n    try:\n        result = transform(data)\n        logger.info(f'Processed successfully: {len(result)} results')\n        return result\n    except Exception as e:\n        logger.error(f'Processing failed: {e}', exc_info=True)\n        raise\n\n# Logging levels (in increasing severity):\n# DEBUG → INFO → WARNING → ERROR → CRITICAL" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Use logging instead of print for anything beyond quick debug checks. Logging lets you control verbosity with log levels, redirect output to files, timestamp events, and is easy to disable in production." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-074-mc",
+          "type": "multiple-choice",
+          "question": "What does the breakpoint() built-in function do?",
+          "options": ["It stops the program permanently", "It drops into the Python debugger (pdb) at that line", "It raises a BreakpointError exception", "It marks a line that should not be executed"],
+          "correctAnswer": "It drops into the Python debugger (pdb) at that line",
+          "hints": ["It's like setting a debugger breakpoint in an IDE"],
+          "explanation": "breakpoint() (added in Python 3.7) is equivalent to import pdb; pdb.set_trace(). It drops into the interactive pdb debugger, letting you inspect variables and step through code line by line."
+        }
+      ]
+    },
+    {
+      "id": "py-075-performance",
+      "title": "Performance & Profiling",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["performance", "profiling", "timeit", "cProfile", "optimisation"],
+      "prerequisites": ["py-074-debugging"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Measure Before You Optimise" },
+          { "type": "text", "content": "Donald Knuth: 'Premature optimisation is the root of all evil.' Always profile first — measure where the actual bottleneck is. Python's stdlib has excellent tools for this." },
+          { "type": "code", "language": "python", "content": "# timeit — measure small code snippet execution time\nimport timeit\n\n# Compare list vs set membership test\nmy_list = list(range(100_000))\nmy_set  = set(range(100_000))\n\nlist_time = timeit.timeit(lambda: 99999 in my_list, number=1000)\nset_time  = timeit.timeit(lambda: 99999 in my_set,  number=1000)\nprint(f'List: {list_time:.4f}s, Set: {set_time:.6f}s')\n# List is ~1000x slower for membership testing!\n\n# cProfile — full program profiling\nimport cProfile\ncProfile.run('my_slow_function()', sort='cumulative')\n\n# Or from command line:\n# python -m cProfile -s cumulative my_script.py\n\n# Common Python performance tips:\n# 1. Use sets for membership tests (O(1) vs O(n) for lists)\n# 2. Use list comprehensions over for loops + append()\n# 3. Use local variable references in tight loops\n# 4. Avoid repeated global lookups\n# 5. Use slots for memory-efficient classes\n\nclass EfficientPoint:\n    __slots__ = ['x', 'y']  # 40-60% less memory than regular class\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n# 6. Use generators for large sequences (O(1) memory)\n# 7. functools.lru_cache for expensive repeated computations\n# 8. numpy for numerical work (100-1000x faster than pure Python)" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "py-ex-075-mc",
+          "type": "multiple-choice",
+          "question": "Why is checking 'x in my_set' faster than 'x in my_list' for large collections?",
+          "options": ["Sets are sorted so Python can binary search", "Sets use O(1) hash lookups; lists require O(n) linear scan", "Sets are stored in RAM; lists are stored on disk", "Python cheats and remembers the last lookup"],
+          "correctAnswer": "Sets use O(1) hash lookups; lists require O(n) linear scan",
+          "hints": ["Think about the data structure behind each"],
+          "explanation": "Sets are implemented as hash tables. Membership testing computes the hash and checks one bucket — O(1) regardless of size. Lists must scan every element until found — O(n). For 1M items, that's the difference between 1 step and 1,000,000 steps."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "py-cap-08",
+    "title": "Weather Dashboard CLI",
+    "description": "Build a fully-tested, type-hinted, well-documented weather dashboard that fetches data from a public API.",
+    "difficulty": "intermediate",
+    "estimatedHours": 4,
+    "xpReward": 600,
+    "requirements": [
+      "Full type hints on every function using Python 3.10+ syntax",
+      "Docstrings on every public function and class (Google or NumPy format)",
+      "pytest test suite with 80%+ coverage: unit tests, fixture, parametrize",
+      "logging module replaces all print debug statements",
+      "cProfile run included to identify slowest functions",
+      "PEP 8 compliant (verified with flake8 or ruff)",
+      "Fetches 5-day forecast from Open-Meteo API (free, no key required)",
+      "Caches responses for 10 minutes using json + datetime"
+    ]
+  }
+}

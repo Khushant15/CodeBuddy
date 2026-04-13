@@ -1,0 +1,94 @@
+{
+  "track": "python",
+  "title": "Python Programming Track",
+  "description": "Master Python from the absolute basics to advanced patterns. 8 comprehensive modules covering fundamentals, data structures, OOP, file I/O, error handling, advanced topics, and professional-grade testing practices.",
+  "totalModules": 8,
+  "totalLessons": 40,
+  "estimatedHours": 77,
+  "modules": [
+    "python-module-01-fundamentals",
+    "python-module-02-data-structures",
+    "python-module-03-functions",
+    "python-module-04-oop",
+    "python-module-05-file-io",
+    "python-module-06-error-handling",
+    "python-module-07-advanced-topics",
+    "python-module-08-testing"
+  ],
+  "moduleDetails": [
+    {
+      "id": "python-module-01-fundamentals",
+      "title": "Python Fundamentals",
+      "lessons": 5,
+      "hours": 8,
+      "difficulty": "beginner",
+      "description": "Variables, data types, operators, and basic input/output."
+    },
+    {
+      "id": "python-module-02-data-structures",
+      "title": "Data Structures & Control Flow",
+      "lessons": 5,
+      "hours": 10,
+      "difficulty": "beginner",
+      "description": "Lists, dictionaries, tuples, sets, and branching logic (if/else, loops)."
+    },
+    {
+      "id": "python-module-03-functions",
+      "title": "Functions & Logic",
+      "lessons": 5,
+      "hours": 10,
+      "difficulty": "intermediate",
+      "description": "Reusable code blocks, parameters, return values, lambda, and recursion."
+    },
+    {
+      "id": "python-module-04-oop",
+      "title": "Object-Oriented Programming",
+      "lessons": 5,
+      "hours": 12,
+      "difficulty": "intermediate",
+      "description": "Classes, objects, inheritance, encapsulation, and advanced OOP patterns."
+    },
+    {
+      "id": "python-module-05-file-io",
+      "title": "File I/O",
+      "lessons": 5,
+      "hours": 8,
+      "difficulty": "intermediate",
+      "description": "Reading/writing files, context managers, CSV and JSON data formats."
+    },
+    {
+      "id": "python-module-06-error-handling",
+      "title": "Error Handling & Exceptions",
+      "lessons": 5,
+      "hours": 7,
+      "difficulty": "intermediate",
+      "description": "try/except/finally, raising exceptions, custom exception classes, and EAFP style."
+    },
+    {
+      "id": "python-module-07-advanced-topics",
+      "title": "Advanced Python",
+      "lessons": 5,
+      "hours": 12,
+      "difficulty": "intermediate",
+      "description": "Decorators, generators, iterators, regular expressions, and key stdlib modules."
+    },
+    {
+      "id": "python-module-08-testing",
+      "title": "Testing & Best Practices",
+      "lessons": 5,
+      "hours": 10,
+      "difficulty": "intermediate",
+      "description": "pytest, type hints, PEP 8 style, debugging with pdb/logging, and performance profiling."
+    }
+  ],
+  "learningPath": [
+    "Variables & Types",
+    "Control Flow & Data Structures",
+    "Functions & Scope",
+    "OOP Principles",
+    "File I/O",
+    "Error Handling",
+    "Advanced Patterns",
+    "Testing & Clean Code"
+  ]
+}

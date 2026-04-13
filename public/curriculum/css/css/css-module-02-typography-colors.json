@@ -1,0 +1,182 @@
+{
+  "id": "css-module-02-typography-colors",
+  "title": "Typography, Colors & Backgrounds",
+  "description": "Transform plain text into beautiful reading experiences. Master web fonts, typographic scale, color systems, gradients, and background techniques that make designs feel polished and professional.",
+  "track": "css",
+  "order": 2,
+  "estimatedHours": 10,
+  "difficulty": "beginner",
+  "prerequisites": ["css-module-01-fundamentals"],
+  "learningObjectives": [
+    "Load and apply web fonts using @font-face and Google Fonts",
+    "Build a typographic scale with rem units",
+    "Work with color formats: hex, rgb, hsl, oklch",
+    "Create linear and radial gradients",
+    "Control backgrounds: images, size, position, multiple layers"
+  ],
+  "lessons": [
+    {
+      "id": "css-011-web-fonts",
+      "title": "Typography & Web Fonts",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 65,
+      "estimatedMinutes": 30,
+      "tags": ["fonts", "typography", "google-fonts", "font-face"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Loading Web Fonts" },
+          { "type": "code", "language": "css", "content": "/* Method 1: Google Fonts (in HTML head) */\n/* <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap\" rel=\"stylesheet\"> */\n\nbody { font-family: 'Inter', sans-serif; }\n\n/* Method 2: @font-face (self-hosted) */\n@font-face {\n  font-family: 'MyFont';\n  src: url('/fonts/myfont.woff2') format('woff2'),\n       url('/fonts/myfont.woff') format('woff');\n  font-weight: 400;\n  font-style: normal;\n  font-display: swap; /* show fallback font while loading */\n}" },
+          { "type": "heading", "content": "Typographic Scale & Line Height" },
+          { "type": "code", "language": "css", "content": ":root {\n  --text-xs:   0.75rem;  /* 12px */\n  --text-sm:   0.875rem; /* 14px */\n  --text-base: 1rem;     /* 16px */\n  --text-lg:   1.125rem; /* 18px */\n  --text-xl:   1.25rem;  /* 20px */\n  --text-2xl:  1.5rem;   /* 24px */\n  --text-3xl:  1.875rem; /* 30px */\n  --text-4xl:  2.25rem;  /* 36px */\n}\n\nbody {\n  font-size: var(--text-base);\n  line-height: 1.6;          /* unitless — scales with font size */\n  letter-spacing: -0.01em;\n}\n\nh1 { font-size: var(--text-4xl); line-height: 1.2; font-weight: 800; }\nh2 { font-size: var(--text-3xl); line-height: 1.3; font-weight: 700; }" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Use rem units for font sizes (relative to root, not parent). Use unitless line-height so it scales proportionally with font size." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-011-mc",
+          "type": "multiple-choice",
+          "question": "Why should you use unitless values for line-height (e.g., 1.5 instead of 24px)?",
+          "options": ["It loads faster", "It scales proportionally with any font-size", "It is required by the CSS spec", "It only works with rem fonts"],
+          "correctAnswer": "It scales proportionally with any font-size",
+          "hints": ["What happens to 24px line-height on a 32px heading vs a 14px caption?"],
+          "explanation": "Unitless line-height (like 1.5) multiplies the current font-size. 1.5 on a 32px heading gives 48px line-height. On a 14px caption it gives 21px. A fixed 24px would be too tight on the heading and too loose on small text."
+        }
+      ]
+    },
+    {
+      "id": "css-012-color-systems",
+      "title": "Color Systems: hex, rgb, hsl, oklch",
+      "order": 2,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["color", "hex", "rgb", "hsl", "oklch"],
+      "prerequisites": ["css-011-web-fonts"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Color Formats Compared" },
+          { "type": "code", "language": "css", "content": "/* Hex */\ncolor: #6366f1;          /* 3 pairs: RR,GG,BB */\ncolor: #6366f180;        /* with alpha (80 = 50%) */\n\n/* RGB */\ncolor: rgb(99, 102, 241);\ncolor: rgba(99, 102, 241, 0.5);\n\n/* HSL — most intuitive for designers */\ncolor: hsl(239, 84%, 67%);\n/* H: 0-360°, S: saturation %, L: lightness % */\ncolor: hsl(239 84% 67% / 0.5); /* modern slash syntax with alpha */\n\n/* oklch — the future (perceptually uniform) */\ncolor: oklch(65% 0.23 264);" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Use HSL for design systems — you can create a full palette by keeping H fixed and varying L: hsl(239, 84%, 95%) for the lightest shade, hsl(239, 84%, 30%) for the darkest." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-012-mc",
+          "type": "multiple-choice",
+          "question": "In HSL color notation hsl(0, 100%, 50%), what color is this?",
+          "options": ["Blue", "Green", "Red", "White"],
+          "correctAnswer": "Red",
+          "hints": ["H=0 means the first hue on the color wheel"],
+          "explanation": "H=0 (or 360) is red on the color wheel. S=100% means fully saturated (vivid). L=50% is the mid-point — pure red."
+        }
+      ]
+    },
+    {
+      "id": "css-013-gradients",
+      "title": "Gradients",
+      "order": 3,
+      "difficulty": "beginner",
+      "xpReward": 65,
+      "estimatedMinutes": 25,
+      "tags": ["gradients", "linear-gradient", "radial-gradient", "conic-gradient"],
+      "prerequisites": ["css-012-color-systems"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "CSS Gradients" },
+          { "type": "text", "content": "Gradients are images in CSS — they can be used anywhere an image is accepted: background, background-image, border-image, mask. No image file needed." },
+          { "type": "code", "language": "css", "content": "/* Linear gradient */\n.hero {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n}\n\n/* Multi-stop gradient */\n.rainbow {\n  background: linear-gradient(\n    to right,\n    #ff0000, #ff8800, #ffff00,\n    #00ff00, #0000ff, #8800ff\n  );\n}\n\n/* Radial gradient */\n.spotlight {\n  background: radial-gradient(circle at center, #fff 0%, #000 100%);\n}\n\n/* Conic gradient (pie charts, spinners) */\n.pie {\n  background: conic-gradient(#6366f1 0% 40%, #e2e8f0 40% 100%);\n  border-radius: 50%;\n}\n\n/* Gradient text */\n.gradient-text {\n  background: linear-gradient(135deg, #667eea, #764ba2);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-013-mc",
+          "type": "multiple-choice",
+          "question": "Which CSS function would you use to create a pie chart effect with CSS only?",
+          "options": ["linear-gradient()", "radial-gradient()", "conic-gradient()", "repeating-gradient()"],
+          "correctAnswer": "conic-gradient()",
+          "hints": ["It sweeps around a center point like a clock"],
+          "explanation": "conic-gradient() sweeps color stops around a center point (like pie slices). Combine with border-radius: 50% to create a circular pie chart."
+        }
+      ]
+    },
+    {
+      "id": "css-014-backgrounds",
+      "title": "Background Images & Layers",
+      "order": 4,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["background", "background-image", "background-size", "object-fit"],
+      "prerequisites": ["css-013-gradients"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Background Control" },
+          { "type": "code", "language": "css", "content": ".hero {\n  background-image: url('/hero.jpg');\n  background-size: cover;       /* fill container, may crop */\n  background-position: center;  /* anchor point */\n  background-repeat: no-repeat;\n  background-attachment: fixed; /* parallax effect */\n}\n\n/* Multiple background layers */\n.fancy {\n  background:\n    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),\n    url('/hero.jpg') center/cover no-repeat;\n}\n\n/* object-fit for img elements (like background-size for img) */\nimg.cover {\n  width: 100%;\n  height: 300px;\n  object-fit: cover;\n  object-position: top;\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-014-mc",
+          "type": "multiple-choice",
+          "question": "Which background-size value fills the container completely, potentially cropping the image?",
+          "options": ["contain", "cover", "auto", "100%"],
+          "correctAnswer": "cover",
+          "hints": ["It 'covers' every pixel of the container"],
+          "explanation": "cover scales the image to completely cover the container. If the aspect ratios differ, the image is cropped. contain scales to fit within the container — no cropping but may leave empty space."
+        }
+      ]
+    },
+    {
+      "id": "css-015-text-styling",
+      "title": "Advanced Text Styling",
+      "order": 5,
+      "difficulty": "beginner",
+      "xpReward": 65,
+      "estimatedMinutes": 25,
+      "tags": ["text-decoration", "text-transform", "text-shadow", "clamp"],
+      "prerequisites": ["css-014-backgrounds"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Full Text Styling Toolkit" },
+          { "type": "code", "language": "css", "content": "/* Text decoration */\na { text-decoration: none; }\na:hover { text-decoration: underline 2px solid currentColor; }\n\n/* Text transform */\n.btn { text-transform: uppercase; letter-spacing: 0.1em; }\n.name { text-transform: capitalize; }\n\n/* Text shadow */\n.glow { text-shadow: 0 0 10px #6366f1, 0 0 30px rgba(99,102,241,0.4); }\n\n/* Fluid typography with clamp() */\nh1 {\n  font-size: clamp(1.5rem, 4vw, 3rem);\n  /* min: 1.5rem, preferred: 4vw, max: 3rem */\n}\n\n/* Truncate overflowing text */\n.card-title {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n/* Multiline clamp */\n.summary {\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n}" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Use clamp() for fluid typography that scales smoothly between mobile and desktop without breakpoints." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-015-mc",
+          "type": "multiple-choice",
+          "question": "What does clamp(1rem, 2.5vw, 2rem) do to font-size?",
+          "options": ["Sets font-size to 2.5vw always", "Sets font-size to 2rem always", "Scales between 1rem and 2rem based on viewport width", "Clamps the container width"],
+          "correctAnswer": "Scales between 1rem and 2rem based on viewport width",
+          "hints": ["clamp(min, preferred, max)"],
+          "explanation": "clamp() returns the preferred value (2.5vw) clamped between min (1rem) and max (2rem). On small screens it won't go below 1rem; on large screens it won't exceed 2rem."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "css-cap-02",
+    "title": "Blog Typography System",
+    "description": "Build a beautiful blog article page using only the concepts from this module — a professional typographic system, a color palette in HSL, gradient headers, and styled background sections.",
+    "difficulty": "beginner",
+    "estimatedHours": 3,
+    "xpReward": 450,
+    "requirements": [
+      "Load two Google Fonts (one for headings, one for body)",
+      "Define a complete typographic scale using CSS variables (xs through 4xl)",
+      "Build a full HSL-based color palette (5 shades of primary color)",
+      "Gradient hero section using linear-gradient over a background image",
+      "Gradient text effect on the article title using background-clip",
+      "Fluid h1 using clamp() for responsive sizing",
+      "Truncated article summaries with multiline ellipsis"
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "track": "react",
+  "title": "React Development Track",
+  "description": "Build modern, dynamic user interfaces with React. Learn the component model, state management, hooks, and best practices used by professional front-end developers at top tech companies.",
+  "totalModules": 4,
+  "totalLessons": 20,
+  "estimatedHours": 52,
+  "modules": [
+    "react-module-01-fundamentals",
+    "react-module-02-state-events",
+    "react-module-03-hooks",
+    "react-module-04-advanced"
+  ],
+  "moduleDetails": [
+    {
+      "id": "react-module-01-fundamentals",
+      "title": "React Fundamentals",
+      "lessons": 5,
+      "hours": 10,
+      "difficulty": "beginner",
+      "description": "JSX, components, props, and the React mental model."
+    },
+    {
+      "id": "react-module-02-state-events",
+      "title": "State, Events & Conditional Rendering",
+      "lessons": 5,
+      "hours": 12,
+      "difficulty": "beginner",
+      "description": "useState, event handlers, lists, keys, and conditional rendering."
+    },
+    {
+      "id": "react-module-03-hooks",
+      "title": "React Hooks Deep Dive",
+      "lessons": 5,
+      "hours": 14,
+      "difficulty": "intermediate",
+      "description": "useEffect, useRef, useMemo, useCallback, and custom hooks."
+    },
+    {
+      "id": "react-module-04-advanced",
+      "title": "Advanced React Patterns",
+      "lessons": 5,
+      "hours": 16,
+      "difficulty": "intermediate",
+      "description": "Context API, React Router, data fetching, and performance."
+    }
+  ],
+  "learningPath": [
+    "Components & JSX",
+    "Props & Data Flow",
+    "State Management",
+    "Effect & Lifecycle",
+    "Routing & APIs"
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "id": "js-module-01-fundamentals",
+  "title": "JavaScript Fundamentals",
+  "description": "Learn the core building blocks of JavaScript — the language that powers the modern web. Master variables, data types, operators, control flow, arrays, and objects with modern ES6+ syntax.",
+  "track": "javascript",
+  "order": 1,
+  "estimatedHours": 10,
+  "difficulty": "beginner",
+  "prerequisites": [],
+  "learningObjectives": [
+    "Declare variables with let, const, and understand var's issues",
+    "Work with all JavaScript data types: string, number, boolean, null, undefined, object, array",
+    "Use arithmetic, comparison, and logical operators",
+    "Write if/else, switch, and ternary expressions",
+    "Create and manipulate arrays and objects"
+  ],
+  "lessons": [
+    {
+      "id": "js-001-variables-types",
+      "title": "Variables & Data Types",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 60,
+      "estimatedMinutes": 30,
+      "tags": ["variables", "let", "const", "types"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Declaring Variables" },
+          { "type": "text", "content": "JavaScript has three ways to declare variables: var (old, avoid), let (mutable, block-scoped), and const (immutable reference, block-scoped). Use const by default; use let only when you need to reassign." },
+          { "type": "code", "language": "javascript", "content": "// const — cannot be reassigned\nconst name = 'Alice';\nconst PI = 3.14159;\n\n// let — can be reassigned\nlet score = 0;\nscore = score + 10; // OK\n\n// The seven data types\nconst str    = 'Hello!';        // String\nconst num    = 42;              // Number\nconst float  = 3.14;           // Number (no separate float type)\nconst bool   = true;            // Boolean\nconst nothing = null;           // Null (intentional empty)\nlet  undef;                    // Undefined (declared but not assigned)\nconst sym    = Symbol('id');    // Symbol (unique identifier)\n\n// typeof operator\nconsole.log(typeof 'hello');    // 'string'\nconsole.log(typeof 42);         // 'number'\nconsole.log(typeof true);       // 'boolean'\nconsole.log(typeof null);       // 'object' (famous JS bug!)\nconsole.log(typeof undefined);  // 'undefined'" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ typeof null === 'object' is a 27-year-old JavaScript bug that can never be fixed without breaking the web. Check for null explicitly: value === null." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-001-mc",
+          "type": "multiple-choice",
+          "question": "Which keyword should you use when a variable's value will never need to change?",
+          "options": ["var", "let", "const", "fixed"],
+          "correctAnswer": "const",
+          "hints": ["Prefer immutability by default"],
+          "explanation": "const is the default choice — it prevents accidental reassignment and signals intent to other developers. Use let only when you need to reassign (loop counters, accumulating values, etc.)."
+        }
+      ]
+    },
+    {
+      "id": "js-002-operators-expressions",
+      "title": "Operators & Expressions",
+      "order": 2,
+      "difficulty": "beginner",
+      "xpReward": 65,
+      "estimatedMinutes": 30,
+      "tags": ["operators", "comparison", "logical", "ternary"],
+      "prerequisites": ["js-001-variables-types"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Operators" },
+          { "type": "code", "language": "javascript", "content": "// Arithmetic\nconsole.log(10 + 3);   // 13\nconsole.log(10 - 3);   // 7\nconsole.log(10 * 3);   // 30\nconsole.log(10 / 3);   // 3.333...\nconsole.log(10 % 3);   // 1  (remainder/modulus)\nconsole.log(2 ** 10);  // 1024 (exponentiation)\n\n// String concatenation & template literals\nconst greet = 'Hello, ' + 'World!';     // old way\nconst name = 'Alice';\nconst score = 95;\nconst msg = `Hi ${name}, your score is ${score}!`; // modern\n\n// Comparison (always use === not ==)\nconsole.log(5 === 5);    // true  (strict equality)\nconsole.log(5 === '5');  // false (different types)\nconsole.log(5 == '5');   // true  (loose equality — AVOID)\nconsole.log(5 !== 3);    // true\nconsole.log(5 > 3);      // true\nconsole.log(5 >= 5);     // true\n\n// Logical\nconsole.log(true && false);  // false (AND)\nconsole.log(true || false);  // true  (OR)\nconsole.log(!true);          // false (NOT)\n\n// Ternary operator: condition ? valueIfTrue : valueIfFalse\nconst status = score >= 90 ? 'Excellent' : 'Good';" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Always use === (strict equality) not == (loose equality). == does type coercion: '0' == false is true, null == undefined is true — both dangerous bugs." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-002-mc",
+          "type": "multiple-choice",
+          "question": "What is the result of: '5' === 5 in JavaScript?",
+          "options": ["true", "false", "TypeError", "NaN"],
+          "correctAnswer": "false",
+          "hints": ["=== checks both value AND type"],
+          "explanation": "'5' === 5 is false because strict equality checks both value and type. '5' is a string and 5 is a number — different types, so false. Use == if you want true (but don't)."
+        }
+      ]
+    },
+    {
+      "id": "js-003-control-flow",
+      "title": "Control Flow",
+      "order": 3,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 35,
+      "tags": ["if-else", "switch", "for", "while", "loops"],
+      "prerequisites": ["js-002-operators-expressions"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Conditional Statements" },
+          { "type": "code", "language": "javascript", "content": "const score = 72;\n\n// if / else if / else\nif (score >= 90) {\n  console.log('A');\n} else if (score >= 80) {\n  console.log('B');\n} else if (score >= 70) {\n  console.log('C');\n} else {\n  console.log('Needs improvement');\n}\n\n// switch\nconst day = 'Monday';\nswitch (day) {\n  case 'Monday':\n  case 'Tuesday':\n    console.log('Weekday');\n    break;\n  case 'Saturday':\n  case 'Sunday':\n    console.log('Weekend');\n    break;\n  default:\n    console.log('Unknown day');\n}" },
+          { "type": "heading", "content": "Loops" },
+          { "type": "code", "language": "javascript", "content": "// for loop\nfor (let i = 0; i < 5; i++) {\n  console.log(i); // 0 1 2 3 4\n}\n\n// while loop\nlet count = 0;\nwhile (count < 3) {\n  console.log(count);\n  count++;\n}\n\n// for...of — iterate array values\nconst fruits = ['apple', 'banana', 'cherry'];\nfor (const fruit of fruits) {\n  console.log(fruit);\n}\n\n// for...in — iterate object keys\nconst user = { name: 'Alice', age: 25 };\nfor (const key in user) {\n  console.log(`${key}: ${user[key]}`);\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-003-mc",
+          "type": "multiple-choice",
+          "question": "Which loop is best for iterating over the values in an array?",
+          "options": ["for...in", "for...of", "while", "do...while"],
+          "correctAnswer": "for...of",
+          "hints": ["for...in is for objects; for...of is for iterables"],
+          "explanation": "for...of iterates over values of any iterable (arrays, strings, Sets, Maps). for...in iterates over object keys — using it on arrays gives you index strings ('0','1','2'), not values."
+        }
+      ]
+    },
+    {
+      "id": "js-004-arrays",
+      "title": "Arrays",
+      "order": 4,
+      "difficulty": "beginner",
+      "xpReward": 75,
+      "estimatedMinutes": 40,
+      "tags": ["arrays", "map", "filter", "reduce", "methods"],
+      "prerequisites": ["js-003-control-flow"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Working with Arrays" },
+          { "type": "code", "language": "javascript", "content": "const nums = [3, 1, 4, 1, 5, 9, 2, 6];\n\n// Access\nconsole.log(nums[0]);       // 3 (first)\nconsole.log(nums.at(-1));   // 6 (last — modern)\nconsole.log(nums.length);   // 8\n\n// Mutation methods\nnums.push(7);              // add to end\nnums.pop();                // remove from end\nnums.unshift(0);           // add to start\nnums.shift();              // remove from start\nnums.splice(2, 1);         // remove 1 element at index 2\n\n// Non-mutation (return new array)\nconst doubled = nums.map(n => n * 2);\nconst evens   = nums.filter(n => n % 2 === 0);\nconst sum     = nums.reduce((acc, n) => acc + n, 0);\nconst found   = nums.find(n => n > 5);   // first match\nconst hasNine = nums.some(n => n === 9); // any match?\nconst allPos  = nums.every(n => n > 0);  // all match?\n\n// Spread, concat, slice\nconst copy    = [...nums];\nconst joined  = [...nums, ...doubled];\nconst sliced  = nums.slice(0, 3); // [3,1,4]" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Prefer map/filter/reduce over for loops for transforming arrays. They express intent more clearly and never mutate the original." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-004-mc",
+          "type": "multiple-choice",
+          "question": "Which array method returns a NEW array containing only items that pass a test function?",
+          "options": ["map()", "filter()", "find()", "reduce()"],
+          "correctAnswer": "filter()",
+          "hints": ["It 'filters' items by a condition"],
+          "explanation": "filter() returns a new array with only the elements where the callback returns true. map() transforms all elements. find() returns the first matching element. reduce() accumulates a single value."
+        }
+      ]
+    },
+    {
+      "id": "js-005-objects",
+      "title": "Objects",
+      "order": 5,
+      "difficulty": "beginner",
+      "xpReward": 75,
+      "estimatedMinutes": 35,
+      "tags": ["objects", "destructuring", "spread", "methods"],
+      "prerequisites": ["js-004-arrays"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "JavaScript Objects" },
+          { "type": "code", "language": "javascript", "content": "// Object literal\nconst user = {\n  id: 1,\n  name: 'Alice',\n  email: 'alice@example.com',\n  scores: [95, 87, 92],\n  // Method shorthand\n  greet() {\n    return `Hi, I'm ${this.name}`;\n  }\n};\n\n// Access\nconsole.log(user.name);          // 'Alice'\nconsole.log(user['email']);      // 'alice@example.com'\nconsole.log(user.greet());       // 'Hi, I'm Alice'\n\n// Destructuring\nconst { name, email, scores } = user;\nconst { name: displayName } = user;  // rename\nconst { id = 0 } = user;            // with default\n\n// Spread — shallow copy / merge\nconst updated = { ...user, name: 'Bob' };\nconst merged  = { ...user, ...{ role: 'admin' } };\n\n// Object methods\nconst keys   = Object.keys(user);    // ['id','name','email',...]\nconst values = Object.values(user);  // [1,'Alice','alice@...',...]\nconst entries = Object.entries(user); // [[key,val],...]\nconst clone  = Object.assign({}, user);" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-005-mc",
+          "type": "multiple-choice",
+          "question": "Which syntax correctly destructures name and age from const person = { name: 'Alice', age: 25, job: 'Dev' }?",
+          "options": ["const [name, age] = person;", "const { name, age } = person;", "const name = person, age = person;", "const (name, age) = person;"],
+          "correctAnswer": "const { name, age } = person;",
+          "hints": ["Square brackets for arrays, curly braces for objects"],
+          "explanation": "Object destructuring uses curly braces { } and matches variable names to property keys. Array destructuring uses square brackets [ ] and matches by position."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "js-cap-01",
+    "title": "Data Analysis Script",
+    "description": "Write a JavaScript program that processes a dataset of student objects using arrays, objects, and all core concepts from this module.",
+    "difficulty": "beginner",
+    "estimatedHours": 2,
+    "xpReward": 400,
+    "requirements": [
+      "An array of 10 student objects with id, name, grade, scores[] properties",
+      "Calculate average score for each student using reduce()",
+      "Filter students with average >= 80 using filter()",
+      "Map to a summary format: { name, average, passed } with map()",
+      "Find the highest achiever using reduce() or sort()",
+      "Destructure student objects when processing",
+      "Use template literals for all console.log output",
+      "Use const/let appropriately — no var"
+    ]
+  }
+}

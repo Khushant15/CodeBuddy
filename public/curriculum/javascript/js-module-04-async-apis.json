@@ -1,0 +1,180 @@
+{
+  "id": "js-module-04-async-apis",
+  "title": "Async JavaScript & APIs",
+  "description": "Master asynchronous JavaScript — the skill that separates beginners from job-ready developers. Understand the event loop, Promises, async/await, the Fetch API, error handling patterns, and how to build real applications that talk to REST APIs.",
+  "track": "javascript",
+  "order": 4,
+  "estimatedHours": 15,
+  "difficulty": "intermediate",
+  "prerequisites": ["js-module-03-dom-events"],
+  "learningObjectives": [
+    "Explain the event loop: call stack, task queue, microtask queue",
+    "Create and chain Promises",
+    "Write clean async/await code with proper error handling",
+    "Fetch data from REST APIs and handle responses",
+    "Use Promise.all, Promise.race, and other combinators"
+  ],
+  "lessons": [
+    {
+      "id": "js-031-event-loop",
+      "title": "The Event Loop & Asynchronous JavaScript",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["event-loop", "call-stack", "async", "setTimeout"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Why JavaScript is Non-Blocking" },
+          { "type": "text", "content": "JavaScript is single-threaded — it has one call stack and processes one thing at a time. Yet it handles network requests, timers, and user events without freezing. The secret: the event loop." },
+          { "type": "code", "language": "javascript", "content": "console.log('1 — Synchronous');      // runs immediately\n\nsetTimeout(() => {\n  console.log('3 — Timer callback');\n}, 0);\n\nPromise.resolve().then(() => {\n  console.log('2 — Microtask');       // runs before timer!\n});\n\nconsole.log('4 — Synchronous again');\n\n// Output order: 1, 4, 2, 3\n// Why?\n// 1. Call stack runs synchronous code: 1, 4\n// 2. Microtask queue (Promises): 2  ← higher priority!\n// 3. Task queue (setTimeout): 3" },
+          { "type": "callout", "variant": "info", "content": "💡 The microtask queue (Promises, queueMicrotask) always drains completely before the task queue (setTimeout, setInterval, DOM events) gets a turn." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-031-mc",
+          "type": "multiple-choice",
+          "question": "In what order do these lines print? console.log('A'); setTimeout(()=>console.log('B'),0); Promise.resolve().then(()=>console.log('C')); console.log('D');",
+          "options": ["A B C D", "A D B C", "A D C B", "A C D B"],
+          "correctAnswer": "A D C B",
+          "hints": ["Synchronous first, then microtasks, then macrotasks"],
+          "explanation": "A and D are synchronous. C is a microtask (Promise.then) — runs after synchronous code. B is a macrotask (setTimeout) — runs last. Order: A → D → C → B."
+        }
+      ]
+    },
+    {
+      "id": "js-032-promises",
+      "title": "Promises",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["promises", "then", "catch", "finally", "chaining"],
+      "prerequisites": ["js-031-event-loop"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Promise Basics" },
+          { "type": "code", "language": "javascript", "content": "// Creating a Promise\nconst delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));\n\nconst fetchUser = (id) => new Promise((resolve, reject) => {\n  if (id <= 0) {\n    reject(new Error('Invalid ID'));\n    return;\n  }\n  // Simulate async\n  setTimeout(() => resolve({ id, name: 'Alice' }), 500);\n});\n\n// Consuming: .then / .catch / .finally\nfetchUser(1)\n  .then(user => {\n    console.log('Got user:', user.name);\n    return user.id; // return value is passed to next .then\n  })\n  .then(id => fetchUser(id + 1)) // chaining — returns a Promise\n  .then(nextUser => console.log(nextUser))\n  .catch(err => console.error('Error:', err.message))\n  .finally(() => console.log('Done — hide loading spinner'));\n\n// Promise combinators\nawait Promise.all([f1(), f2(), f3()]);       // all resolve (fails if any fails)\nawait Promise.allSettled([f1(), f2()]);      // wait for all, get each result\nawait Promise.race([f1(), timeout(5000)]);   // first to settle wins\nawait Promise.any([f1(), f2()]);            // first to resolve" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-032-mc",
+          "type": "multiple-choice",
+          "question": "You have 3 independent API calls. You want ALL of them to succeed before proceeding. Which combinator should you use?",
+          "options": ["Promise.race()", "Promise.any()", "Promise.all()", "Promise.allSettled()"],
+          "correctAnswer": "Promise.all()",
+          "hints": ["ALL must succeed"],
+          "explanation": "Promise.all() runs all promises in parallel and resolves when all succeed. If any one fails, it rejects immediately. Use Promise.allSettled() if you want to inspect the result of each, regardless of success/failure."
+        }
+      ]
+    },
+    {
+      "id": "js-033-async-await",
+      "title": "async/await",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["async", "await", "try-catch", "error-handling"],
+      "prerequisites": ["js-032-promises"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Writing Async Code That Reads Like Sync" },
+          { "type": "code", "language": "javascript", "content": "// async functions always return a Promise\nasync function getProfile(userId) {\n  // await pauses execution until Promise resolves\n  const user = await fetchUser(userId);\n  const posts = await fetchPosts(user.id);\n  const comments = await fetchComments(posts[0].id);\n  return { user, posts, comments };\n}\n\n// Error handling with try/catch\nasync function safeGetProfile(userId) {\n  try {\n    const user = await fetchUser(userId);\n    return user;\n  } catch (error) {\n    console.error('Failed to fetch user:', error.message);\n    return null; // graceful fallback\n  } finally {\n    hideLoadingSpinner();\n  }\n}\n\n// Parallel execution (don't await inside loop!)\nasync function loadAll(userIds) {\n  // ❌ Sequential: 3 seconds total if each takes 1s\n  // for (const id of userIds) await fetchUser(id);\n\n  // ✅ Parallel: 1 second total\n  const users = await Promise.all(userIds.map(id => fetchUser(id)));\n  return users;\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-033-mc",
+          "type": "multiple-choice",
+          "question": "What does the async keyword do to a function's return value?",
+          "options": ["Makes it synchronous", "Wraps the return value in a Promise", "Makes the function pause execution", "Enables top-level await"],
+          "correctAnswer": "Wraps the return value in a Promise",
+          "hints": ["async functions always return a Promise"],
+          "explanation": "An async function always returns a Promise. If you return 'hello', the caller gets Promise.resolve('hello'). If you throw an error, the caller gets a rejected Promise."
+        }
+      ]
+    },
+    {
+      "id": "js-034-fetch-api",
+      "title": "The Fetch API & REST",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 90,
+      "estimatedMinutes": 45,
+      "tags": ["fetch", "REST", "GET", "POST", "headers"],
+      "prerequisites": ["js-033-async-await"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Working with REST APIs" },
+          { "type": "code", "language": "javascript", "content": "// GET request\nasync function getUsers() {\n  const response = await fetch('https://api.example.com/users');\n\n  if (!response.ok) {\n    throw new Error(`HTTP error! Status: ${response.status}`);\n  }\n\n  const users = await response.json(); // parse JSON body\n  return users;\n}\n\n// POST request\nasync function createUser(userData) {\n  const response = await fetch('https://api.example.com/users', {\n    method: 'POST',\n    headers: {\n      'Content-Type': 'application/json',\n      'Authorization': `Bearer ${getToken()}`\n    },\n    body: JSON.stringify(userData)\n  });\n\n  if (!response.ok) {\n    const error = await response.json();\n    throw new Error(error.message);\n  }\n\n  return response.json();\n}\n\n// Abort a request\nconst controller = new AbortController();\n\nconst fetchPromise = fetch('/api/slow-endpoint', {\n  signal: controller.signal\n});\n\n// Cancel after 5 seconds\nsetTimeout(() => controller.abort(), 5000);" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ fetch() only throws on network failure — not on HTTP errors (4xx, 5xx). Always check response.ok or response.status explicitly." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-034-mc",
+          "type": "multiple-choice",
+          "question": "fetch('/api/data') rejects (throws) when:",
+          "options": ["The server returns a 404", "The server returns a 500", "There is a network error (no connection)", "The response JSON is malformed"],
+          "correctAnswer": "There is a network error (no connection)",
+          "hints": ["HTTP errors are not the same as network errors"],
+          "explanation": "fetch() only rejects on network-level failures (server unreachable, DNS failure, CORS block). HTTP errors like 404 and 500 resolve successfully — you must check response.ok to detect them."
+        }
+      ]
+    },
+    {
+      "id": "js-035-error-patterns",
+      "title": "Error Handling Patterns",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["error-handling", "custom-errors", "retry", "circuit-breaker"],
+      "prerequisites": ["js-034-fetch-api"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Professional Error Handling" },
+          { "type": "code", "language": "javascript", "content": "// Custom error classes\nclass ApiError extends Error {\n  constructor(message, status, data) {\n    super(message);\n    this.name = 'ApiError';\n    this.status = status;\n    this.data = data;\n  }\n}\n\nclass NotFoundError extends ApiError {}\nclass AuthError extends ApiError {}\n\n// Robust fetch wrapper\nasync function apiFetch(url, options = {}) {\n  try {\n    const response = await fetch(url, options);\n    const data = await response.json();\n\n    if (response.status === 401) throw new AuthError('Unauthorized', 401, data);\n    if (response.status === 404) throw new NotFoundError('Not Found', 404, data);\n    if (!response.ok) throw new ApiError('API Error', response.status, data);\n\n    return data;\n  } catch (error) {\n    if (error instanceof ApiError) throw error; // re-throw known errors\n    throw new ApiError('Network error: ' + error.message, 0);\n  }\n}\n\n// Retry with exponential backoff\nasync function fetchWithRetry(url, maxRetries = 3) {\n  for (let attempt = 1; attempt <= maxRetries; attempt++) {\n    try {\n      return await apiFetch(url);\n    } catch (error) {\n      if (error.status === 401 || attempt === maxRetries) throw error;\n      const delay = Math.pow(2, attempt) * 100; // 200ms, 400ms, 800ms\n      await new Promise(r => setTimeout(r, delay));\n    }\n  }\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-035-mc",
+          "type": "multiple-choice",
+          "question": "What is exponential backoff in retry logic?",
+          "options": ["Making requests progressively faster", "Increasing the wait time between retries exponentially (100ms, 200ms, 400ms...)", "Reducing the request payload size on each retry", "Splitting the request into smaller chunks"],
+          "correctAnswer": "Increasing the wait time between retries exponentially (100ms, 200ms, 400ms...)",
+          "hints": ["Each retry waits longer than the last"],
+          "explanation": "Exponential backoff increases delay between retries by a factor (like 2x) each time. This prevents overwhelming a struggling server with rapid retries and is standard practice for production APIs."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "js-cap-04",
+    "title": "Weather Dashboard",
+    "description": "Build a fully functional weather dashboard that fetches live data from the OpenWeatherMap API.",
+    "difficulty": "intermediate",
+    "estimatedHours": 4,
+    "xpReward": 550,
+    "requirements": [
+      "Search input with debouncing using setTimeout",
+      "apiFetch wrapper with custom ApiError classes",
+      "5-day forecast using Promise.all to fetch multiple endpoints in parallel",
+      "AbortController cancels in-flight requests when a new search starts",
+      "Retry logic with exponential backoff for failed requests",
+      "localStorage caches successful responses for 10 minutes",
+      "Use IntersectionObserver to animate forecast cards on scroll",
+      "Comprehensive error UI for network errors, 404, and rate limit errors"
+    ]
+  }
+}

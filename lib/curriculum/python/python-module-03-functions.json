@@ -1,0 +1,44 @@
+{
+  "id": "python-module-03-functions",
+  "title": "Functions & Logic",
+  "description": "Master the art of writing reusable code with functions and learn to handle complex logic with loops.",
+  "track": "python",
+  "order": 3,
+  "estimatedHours": 10,
+  "difficulty": "intermediate",
+  "prerequisites": ["python-module-02-data-structures"],
+  "learningObjectives": [
+    "Define and call your own functions",
+    "Work with parameters and return values",
+    "Use for and while loops to automate repetitive tasks",
+    "Understand variable scope"
+  ],
+  "lessons": [
+    {
+      "id": "py-011-functions",
+      "title": "Defining Functions",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 75,
+      "estimatedMinutes": 35,
+      "tags": ["functions", "reusability"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "What is a Function?" },
+          { "type": "text", "content": "A function is a reusable block of code that performs a specific task. Use the `def` keyword to define one." },
+          { "type": "code", "language": "python", "content": "def say_hello():\n    print(\"Hello!\")\n\nsay_hello()  # Calls the function" }
+        ]
+      },
+      "exercises": [
+        {
+          "id": "ex-011-func-hello",
+          "type": "code-write",
+          "question": "Define a function called `greet` that prints \"Hi there!\". Then call the function.",
+          "starterCode": "# Define your function here\n\n# Call it here",
+          "solution": "def greet():\n    print(\"Hi there!\")\n\ngreet()",
+          "testCases": [{ "expectedOutput": "Hi there!" }]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "id": "css-module-01-fundamentals",
+  "title": "CSS Fundamentals",
+  "description": "Learn how CSS works under the hood. Master selectors, specificity, the cascade, inheritance, and the box model — the four pillars that underpin every CSS decision you will ever make.",
+  "track": "css",
+  "order": 1,
+  "estimatedHours": 10,
+  "difficulty": "beginner",
+  "prerequisites": [],
+  "learningObjectives": [
+    "Write CSS using element, class, id, attribute, and pseudo selectors",
+    "Understand how specificity determines which rule wins",
+    "Explain the cascade and inheritance",
+    "Master the box model: content, padding, border, margin",
+    "Use display, position, and overflow properties"
+  ],
+  "lessons": [
+    {
+      "id": "css-001-selectors",
+      "title": "CSS Selectors",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 60,
+      "estimatedMinutes": 30,
+      "tags": ["selectors", "class", "id", "pseudo"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Targeting Elements with Selectors" },
+          { "type": "text", "content": "A CSS rule has two parts: a selector (what to target) and a declaration block (what to apply). Selectors range from simple element names to powerful combinators and pseudo-classes." },
+          { "type": "code", "language": "css", "content": "/* Element selector */\nh1 { color: navy; }\n\n/* Class selector */\n.btn { padding: 8px 16px; }\n\n/* ID selector (highest specificity — use sparingly) */\n#hero { min-height: 100vh; }\n\n/* Attribute selector */\ninput[type=\"email\"] { border-color: blue; }\n\n/* Descendant combinator */\n.card p { font-size: 14px; }\n\n/* Direct child combinator */\n.nav > li { display: inline-block; }\n\n/* Adjacent sibling */\nh2 + p { margin-top: 0; }\n\n/* Pseudo-class */\na:hover { text-decoration: underline; }\ninput:focus { outline: 2px solid blue; }\nli:nth-child(odd) { background: #f5f5f5; }\n\n/* Pseudo-element */\np::first-line { font-weight: bold; }\n.quote::before { content: '\\\"'; }" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-001-mc",
+          "type": "multiple-choice",
+          "question": "Which selector targets only direct children of .nav, not deeper descendants?",
+          "options": [".nav li", ".nav > li", ".nav li:first-child", ".nav + li"],
+          "correctAnswer": ".nav > li",
+          "hints": ["The > symbol means direct child"],
+          "explanation": ".nav > li selects li elements that are direct children of .nav. .nav li would also match deeply nested li elements."
+        }
+      ]
+    },
+    {
+      "id": "css-002-specificity-cascade",
+      "title": "Specificity, Cascade & Inheritance",
+      "order": 2,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 35,
+      "tags": ["specificity", "cascade", "inheritance"],
+      "prerequisites": ["css-001-selectors"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "The Cascade — How Conflicts Are Resolved" },
+          { "type": "text", "content": "When multiple rules target the same element with the same property, the cascade resolves the conflict using three factors in order: 1) Origin (author vs browser default), 2) Specificity (how specific the selector is), 3) Source order (last rule wins if equal specificity)." },
+          { "type": "heading", "content": "Specificity Scoring" },
+          { "type": "text", "content": "Specificity is calculated as a three-part score: (IDs, Classes/attributes/pseudo-classes, Elements/pseudo-elements). Higher scores win." },
+          { "type": "code", "language": "css", "content": "/* Specificity: 0,0,1 — element */\np { color: black; }\n\n/* Specificity: 0,1,0 — class */\n.text { color: gray; }\n\n/* Specificity: 0,1,1 — class + element */\np.text { color: blue; }\n\n/* Specificity: 1,0,0 — id */\n#intro { color: red; }\n\n/* Last resort: !important (avoid in production) */\np { color: purple !important; }" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Avoid !important — it breaks the cascade and creates tech debt. Instead, increase selector specificity or restructure your CSS." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-002-mc",
+          "type": "multiple-choice",
+          "question": "Given these rules for the same element, which color wins? 1) p { color: red; } 2) .intro { color: blue; } 3) #hero p { color: green; }",
+          "options": ["red", "blue", "green", "Depends on source order"],
+          "correctAnswer": "green",
+          "hints": ["ID selectors have the highest specificity"],
+          "explanation": "#hero p has specificity (1,0,1) — one ID and one element. .intro has (0,1,0) and p has (0,0,1). The ID selector wins."
+        }
+      ]
+    },
+    {
+      "id": "css-003-box-model",
+      "title": "The Box Model",
+      "order": 3,
+      "difficulty": "beginner",
+      "xpReward": 75,
+      "estimatedMinutes": 35,
+      "tags": ["box-model", "margin", "padding", "border", "box-sizing"],
+      "prerequisites": ["css-002-specificity-cascade"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Every Element is a Box" },
+          { "type": "text", "content": "The CSS box model defines how every element's total size is calculated. From inside out: content → padding → border → margin. Understanding this is foundational to all layout work." },
+          { "type": "code", "language": "css", "content": ".card {\n  width: 300px;       /* content width */\n  padding: 24px;      /* space inside border */\n  border: 2px solid #ccc; /* visible boundary */\n  margin: 16px;       /* space outside border */\n}\n\n/* Default box-sizing: content-box\n   Total width = 300 + 24*2 + 2*2 = 352px — SURPRISE!\n\n   Fix: border-box makes width include padding and border */\n*, *::before, *::after {\n  box-sizing: border-box;\n}\n/* Now: width: 300px IS the total — padding and border are inside */" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Always add * { box-sizing: border-box; } at the top of every CSS file. It makes width/height behave intuitively." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-003-mc",
+          "type": "multiple-choice",
+          "question": "With box-sizing: content-box, what is the total rendered width of an element with width:200px, padding:20px, border:5px?",
+          "options": ["200px", "225px", "250px", "240px"],
+          "correctAnswer": "250px",
+          "hints": ["Total = width + padding*2 + border*2"],
+          "explanation": "content-box: total = 200 + 20+20 + 5+5 = 250px. With border-box, total would be 200px (padding/border eat into the content area)."
+        }
+      ]
+    },
+    {
+      "id": "css-004-display-position",
+      "title": "Display & Position",
+      "order": 4,
+      "difficulty": "beginner",
+      "xpReward": 80,
+      "estimatedMinutes": 40,
+      "tags": ["display", "position", "z-index", "block", "inline"],
+      "prerequisites": ["css-003-box-model"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "The display Property" },
+          { "type": "code", "language": "css", "content": "/* block: full width, starts on new line */\ndiv { display: block; }\n\n/* inline: flows with text, no width/height */\nspan { display: inline; }\n\n/* inline-block: flows with text, accepts width/height */\n.badge { display: inline-block; }\n\n/* none: removes from layout completely */\n.hidden { display: none; }\n\n/* flex and grid: covered in Module 3 */\n.container { display: flex; }" },
+          { "type": "heading", "content": "The position Property" },
+          { "type": "code", "language": "css", "content": "/* static: default — in normal document flow */\n.normal { position: static; }\n\n/* relative: offset from its own position (leaves space) */\n.nudged { position: relative; top: 10px; left: 5px; }\n\n/* absolute: removed from flow, positioned to nearest\n   positioned ancestor */\n.tooltip {\n  position: absolute;\n  top: 100%;\n  left: 0;\n}\n\n/* fixed: relative to viewport — stays during scroll */\n.sticky-nav {\n  position: fixed;\n  top: 0;\n  width: 100%;\n}\n\n/* sticky: hybrid — relative until threshold, then fixed */\nth { position: sticky; top: 0; }" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-004-mc",
+          "type": "multiple-choice",
+          "question": "You want a navbar that stays at the top of the screen as the user scrolls. Which position value should you use?",
+          "options": ["relative", "absolute", "fixed", "sticky"],
+          "correctAnswer": "fixed",
+          "hints": ["It should not move at all during scroll"],
+          "explanation": "position: fixed removes the element from document flow and positions it relative to the viewport — it won't move when the page scrolls."
+        }
+      ]
+    },
+    {
+      "id": "css-005-variables-reset",
+      "title": "CSS Variables & Resets",
+      "order": 5,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["custom-properties", "css-variables", "reset"],
+      "prerequisites": ["css-004-display-position"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "CSS Custom Properties (Variables)" },
+          { "type": "text", "content": "CSS custom properties (variables) store reusable values. Defined with -- prefix, accessed with var(). They are scoped, inheritable, and can be changed at runtime with JavaScript — unlike Sass variables." },
+          { "type": "code", "language": "css", "content": ":root {\n  --color-primary: #6366f1;\n  --color-text: #1a1a2e;\n  --spacing-md: 16px;\n  --radius-lg: 12px;\n  --font-body: 'Inter', sans-serif;\n}\n\n.btn {\n  background: var(--color-primary);\n  padding: var(--spacing-md);\n  border-radius: var(--radius-lg);\n  font-family: var(--font-body);\n}\n\n/* Dark mode: just override variables */\n@media (prefers-color-scheme: dark) {\n  :root {\n    --color-text: #e2e8f0;\n    --color-primary: #818cf8;\n  }\n}" },
+          { "type": "heading", "content": "CSS Reset / Normalise" },
+          { "type": "code", "language": "css", "content": "/* Minimal modern reset */\n*, *::before, *::after { box-sizing: border-box; }\n* { margin: 0; padding: 0; }\nbody { font-family: var(--font-body); line-height: 1.5; }\nimg, video { max-width: 100%; display: block; }\nbutton { cursor: pointer; border: none; background: none; }" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-005-mc",
+          "type": "multiple-choice",
+          "question": "What is the correct way to access a CSS custom property named --brand-color?",
+          "options": ["$brand-color", "#{brand-color}", "var(--brand-color)", "@brand-color"],
+          "correctAnswer": "var(--brand-color)",
+          "hints": ["Custom properties use a special function to read their values"],
+          "explanation": "CSS custom properties are accessed using the var() function. The -- prefix is required both when declaring and referencing them."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "css-cap-01",
+    "title": "Styled Component Library",
+    "description": "Build a mini design system: define CSS variables, write a reset, and create 5 reusable components (button, card, badge, input, alert) styled purely with the concepts from this module.",
+    "difficulty": "beginner",
+    "estimatedHours": 3,
+    "xpReward": 400,
+    "requirements": [
+      ":root block with at least 8 CSS variables (colors, spacing, radii, font)",
+      "Modern CSS reset at the top of the file",
+      "Button with :hover, :focus, :active, :disabled states",
+      "Card with correct box model (border-box)",
+      "Badge using inline-block layout",
+      "Input with :focus ring matching WCAG contrast",
+      "Alert positioned correctly using relative/absolute"
+    ]
+  }
+}

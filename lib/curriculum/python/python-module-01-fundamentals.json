@@ -1,0 +1,201 @@
+{
+  "id": "python-module-01-fundamentals",
+  "title": "Python Fundamentals",
+  "description": "Master the essential building blocks of Python programming. Learn variables, data types, operators, and basic input/output to start writing real Python code.",
+  "track": "python",
+  "order": 1,
+  "estimatedHours": 8,
+  "difficulty": "beginner",
+  "prerequisites": [],
+  "learningObjectives": [
+    "Understand Python's basic data types (int, float, str, bool)",
+    "Create and manipulate variables",
+    "Perform operations with different operators",
+    "Write programs that accept user input and produce output",
+    "Apply string formatting and methods"
+  ],
+  "lessons": [
+    {
+      "id": "py-001-intro-variables",
+      "title": "Variables and Assignment",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 50,
+      "estimatedMinutes": 25,
+      "tags": ["variables", "basics", "syntax"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What are Variables?"
+          },
+          {
+            "type": "text",
+            "content": "Variables are like labeled boxes that store information in your computer's memory. In Python, creating a variable is as simple as giving it a name and assigning it a value using the equals sign (=)."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Creating variables\nname = \"Alice\"\nage = 25\nheight = 5.7\nis_student = True\n\nprint(name)  # Output: Alice\nprint(age)   # Output: 25"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 Python is dynamically typed - you don't need to declare the type of a variable. Python figures it out automatically!"
+          },
+          {
+            "type": "heading",
+            "content": "Variable Naming Rules"
+          },
+          {
+            "type": "text",
+            "content": "Follow these rules when naming variables:"
+          },
+          {
+            "type": "text",
+            "content": "✅ Must start with a letter or underscore (_)\n✅ Can contain letters, numbers, and underscores\n✅ Case-sensitive (age and Age are different)\n✅ Use snake_case for multi-word names\n❌ Cannot use Python keywords (if, for, while, etc.)\n❌ Cannot start with a number"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Good variable names\nuser_name = \"Bob\"\ntotal_score = 100\n_private_var = 42\n\n# Bad variable names\n2fast = 10  # Can't start with number\nfirst-name = \"John\"  # Can't use hyphens\nclass = \"Python 101\"  # 'class' is a keyword"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Pro tip: Use descriptive names! Instead of 'x' or 'n', use 'student_count' or 'user_age'. Your future self will thank you!"
+          },
+          {
+            "type": "heading",
+            "content": "Reassigning Variables"
+          },
+          {
+            "type": "text",
+            "content": "Variables can be reassigned new values at any time. The old value is replaced:"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "score = 0\nprint(score)  # Output: 0\n\nscore = 10\nprint(score)  # Output: 10\n\nscore = score + 5\nprint(score)  # Output: 15"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Creating Your First Variables",
+          "code": "favorite_color = \"blue\"\nlucky_number = 7\nprint(f\"My favorite color is {favorite_color}\")\nprint(f\"My lucky number is {lucky_number}\")",
+          "output": "My favorite color is blue\nMy lucky number is 7",
+          "explanation": "This creates two variables: a string and an integer. We then use f-strings to print them in formatted messages.",
+          "language": "python"
+        },
+        {
+          "title": "Variable Reassignment",
+          "code": "temperature = 72\nprint(f\"Temperature: {temperature}°F\")\n\ntemperature = 75\nprint(f\"Temperature: {temperature}°F\")",
+          "output": "Temperature: 72°F\nTemperature: 75°F",
+          "explanation": "The temperature variable is first set to 72, then reassigned to 75. The new value replaces the old one.",
+          "language": "python"
+        },
+        {
+          "title": "Multiple Assignments",
+          "code": "x = y = z = 0\nprint(x, y, z)\n\na, b, c = 1, 2, 3\nprint(a, b, c)",
+          "output": "0 0 0\n1 2 3",
+          "explanation": "Python lets you assign the same value to multiple variables at once, or assign multiple values in one line.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-001-create-variable",
+          "type": "code-write",
+          "question": "Create a variable called `greeting` and assign it the value \"Hello, World!\". Then print the variable.",
+          "starterCode": "# Create your variable here\n\n\n# Print it here",
+          "solution": "# Create your variable here\ngreeting = \"Hello, World!\"\n\n# Print it here\nprint(greeting)",
+          "hints": [
+            "Use the = sign to assign a value to a variable",
+            "Strings need to be in quotes (single or double)",
+            "Use the print() function to display the value"
+          ],
+          "explanation": "This exercise teaches the basic syntax of variable creation and the print function.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "Hello, World!",
+              "hidden": false
+            }
+          ]
+        },
+        {
+          "id": "ex-002-multiple-choice",
+          "type": "multiple-choice",
+          "question": "Which of the following is a valid variable name in Python?",
+          "options": [
+            "2fast2furious",
+            "fast_and_furious",
+            "fast-and-furious",
+            "fast and furious"
+          ],
+          "correctAnswer": "fast_and_furious",
+          "explanation": "Variable names must start with a letter or underscore and can only contain letters, numbers, and underscores. Hyphens and spaces are not allowed, and you can't start with a number."
+        },
+        {
+          "id": "ex-003-variable-naming",
+          "type": "multiple-choice",
+          "question": "What will happen if you run: `class = \"Python 101\"`?",
+          "options": [
+            "It will work fine",
+            "You'll get a SyntaxError",
+            "The variable will be named 'Class' instead",
+            "It will print an error message"
+          ],
+          "correctAnswer": "You'll get a SyntaxError",
+          "explanation": "'class' is a reserved keyword in Python used for defining classes. You cannot use keywords as variable names."
+        },
+        {
+          "id": "ex-004-reassignment",
+          "type": "code-output",
+          "question": "What will be printed?",
+          "code": "x = 5\nx = x + 3\nprint(x)",
+          "correctAnswer": "8",
+          "explanation": "x starts at 5, then we add 3 to it and reassign the result (8) back to x."
+        },
+        {
+          "id": "ex-005-swap-values",
+          "type": "code-write",
+          "question": "Create two variables `a = 10` and `b = 20`. Then swap their values so that a becomes 20 and b becomes 10. Print both variables.",
+          "starterCode": "a = 10\nb = 20\n\n# Swap the values here\n\n\nprint(a)\nprint(b)",
+          "solution": "a = 10\nb = 20\n\n# Swap the values here\na, b = b, a\n\nprint(a)\nprint(b)",
+          "hints": [
+            "Python allows multiple assignments in one line",
+            "You can do: a, b = b, a",
+            "No need for a temporary variable in Python!"
+          ],
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "20\n10",
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "proj-module-01",
+    "title": "Personal Info Card Generator",
+    "description": "Create a program that asks the user for their personal information and displays it in a formatted card.",
+    "difficulty": "beginner",
+    "estimatedHours": 2,
+    "xpReward": 200,
+    "requirements": [
+      "Ask user for: name, age, city, favorite color",
+      "Store each in a variable with appropriate type",
+      "Calculate birth year from age (current year - age)",
+      "Display all info in a nicely formatted card",
+      "Use at least one boolean variable"
+    ],
+    "starterCode": "# Personal Info Card Generator\n# TODO: Get current year\n# TODO: Ask for user input\n# TODO: Calculate birth year\n# TODO: Display card",
+    "sampleOutput": "╔═══════════════════════════════╗\n║     PERSONAL INFO CARD        ║\n╠═══════════════════════════════╣\n║ Name: Alice Johnson           ║\n║ Age: 25                       ║\n║ Born: 1999                    ║\n║ City: Seattle                 ║\n║ Favorite Color: Blue          ║\n╚═══════════════════════════════╝"
+  }
+}

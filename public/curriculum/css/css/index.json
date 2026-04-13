@@ -1,0 +1,57 @@
+{
+  "track": "css",
+  "title": "CSS Styling Track",
+  "description": "Master the art and science of CSS. From selectors and the box model to Flexbox, Grid, animations, and responsive design — learn to build beautiful, pixel-perfect interfaces that work on every device.",
+  "totalModules": 4,
+  "totalLessons": 20,
+  "estimatedHours": 48,
+  "modules": [
+    "css-module-01-fundamentals",
+    "css-module-02-typography-colors",
+    "css-module-03-layouts",
+    "css-module-04-animations-responsive"
+  ],
+  "moduleDetails": [
+    {
+      "id": "css-module-01-fundamentals",
+      "title": "CSS Fundamentals",
+      "lessons": 5,
+      "hours": 10,
+      "difficulty": "beginner",
+      "description": "Selectors, the cascade, specificity, and the box model."
+    },
+    {
+      "id": "css-module-02-typography-colors",
+      "title": "Typography, Colors & Backgrounds",
+      "lessons": 5,
+      "hours": 10,
+      "difficulty": "beginner",
+      "description": "Fonts, text styling, color systems, gradients, and backgrounds."
+    },
+    {
+      "id": "css-module-03-layouts",
+      "title": "Flexbox & Grid Layouts",
+      "lessons": 5,
+      "hours": 14,
+      "difficulty": "intermediate",
+      "description": "Modern layout with Flexbox and CSS Grid."
+    },
+    {
+      "id": "css-module-04-animations-responsive",
+      "title": "Animations, Transitions & Responsive Design",
+      "lessons": 5,
+      "hours": 14,
+      "difficulty": "intermediate",
+      "description": "Smooth animations, keyframes, media queries, and mobile-first design."
+    }
+  ],
+  "learningPath": [
+    "Selectors & Cascade",
+    "Box Model",
+    "Typography & Color",
+    "Flexbox",
+    "CSS Grid",
+    "Responsive Design",
+    "Animations"
+  ]
+}

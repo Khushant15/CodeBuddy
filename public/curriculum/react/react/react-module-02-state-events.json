@@ -1,0 +1,183 @@
+{
+  "id": "react-module-02-state-events",
+  "title": "State, Events & Conditional Rendering",
+  "description": "Make your components interactive. Learn useState for local state management, handle browser events the React way, conditionally render UI, and build dynamic lists — the essentials of every real React application.",
+  "track": "react",
+  "order": 2,
+  "estimatedHours": 12,
+  "difficulty": "beginner",
+  "prerequisites": ["react-module-01-fundamentals"],
+  "learningObjectives": [
+    "Add interactivity using the useState hook",
+    "Understand the Rules of Hooks",
+    "Handle click, change, submit, and keyboard events",
+    "Implement controlled components for forms",
+    "Conditionally render UI using &&, ternary, and early returns"
+  ],
+  "lessons": [
+    {
+      "id": "react-011-usestate",
+      "title": "useState — Local Component State",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 80,
+      "estimatedMinutes": 40,
+      "tags": ["useState", "state", "hooks"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "What is State?" },
+          { "type": "text", "content": "State is data that changes over time and causes the UI to update. Unlike props (set by parents), state is local to a component and managed by it. When state changes, React re-renders the component.  useState is the hook that adds state to function components." },
+          { "type": "code", "language": "jsx", "content": "import { useState } from 'react';\n\nfunction Counter() {\n  // [currentValue, setterFunction] = useState(initialValue)\n  const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>+1</button>\n      <button onClick={() => setCount(count - 1)}>-1</button>\n      <button onClick={() => setCount(0)}>Reset</button>\n    </div>\n  );\n}" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Never mutate state directly: count++ or state.items.push(). Always use the setter function. React compares references to detect changes — direct mutation bypasses this." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-011-mc",
+          "type": "multiple-choice",
+          "question": "What happens when you call the state setter function (e.g., setCount)?",
+          "options": ["The variable updates immediately in the current render", "React schedules a re-render with the new value", "The entire app re-renders", "Nothing until the browser repaints"],
+          "correctAnswer": "React schedules a re-render with the new value",
+          "hints": ["State updates are asynchronous and batched"],
+          "explanation": "Calling a setter schedules a re-render. After the current event handler completes, React batches the updates and re-renders the component with the new state value. The current render's variables don't change."
+        }
+      ]
+    },
+    {
+      "id": "react-012-events",
+      "title": "Event Handling",
+      "order": 2,
+      "difficulty": "beginner",
+      "xpReward": 75,
+      "estimatedMinutes": 35,
+      "tags": ["events", "onClick", "onChange", "onSubmit"],
+      "prerequisites": ["react-011-usestate"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "React Events vs DOM Events" },
+          { "type": "text", "content": "React wraps native DOM events in SyntheticEvents for cross-browser consistency. Event names use camelCase (onClick, onChange, onSubmit). You pass a function reference, not a string." },
+          { "type": "code", "language": "jsx", "content": "function EventDemo() {\n  const handleClick = (event) => {\n    console.log('Clicked!', event.target);\n  };\n\n  const handleChange = (event) => {\n    console.log('Value:', event.target.value);\n  };\n\n  const handleSubmit = (event) => {\n    event.preventDefault(); // stop page reload\n    console.log('Submitted!');\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      {/* Pass function reference, not call */}\n      <button onClick={handleClick}>Click Me</button>\n\n      {/* Inline arrow for passing arguments */}\n      <button onClick={() => handleClick('extra arg')}>With Arg</button>\n\n      <input onChange={handleChange} />\n      <button type=\"submit\">Submit</button>\n    </form>\n  );\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-012-mc",
+          "type": "multiple-choice",
+          "question": "What's wrong with <button onClick={handleClick()}>Click</button>?",
+          "options": ["onClick should be onclick (lowercase)", "handleClick() with () calls it immediately on render, not on click", "You can't use functions in JSX", "The button needs a type attribute"],
+          "correctAnswer": "handleClick() with () calls it immediately on render, not on click",
+          "hints": ["What does () after a function name do?"],
+          "explanation": "onClick={handleClick()} immediately invokes handleClick during rendering and passes its return value (likely undefined) as the handler. You want onClick={handleClick} — passing the function reference."
+        }
+      ]
+    },
+    {
+      "id": "react-013-controlled-forms",
+      "title": "Controlled Components & Forms",
+      "order": 3,
+      "difficulty": "beginner",
+      "xpReward": 80,
+      "estimatedMinutes": 40,
+      "tags": ["forms", "controlled", "onChange", "useState"],
+      "prerequisites": ["react-012-events"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Controlled vs Uncontrolled Inputs" },
+          { "type": "text", "content": "In a controlled component, React state is the single source of truth for input values. The input's value prop is tied to state; onChange updates state. This gives you full control to validate, transform, or react to input in real-time." },
+          { "type": "code", "language": "jsx", "content": "import { useState } from 'react';\n\nfunction SignupForm() {\n  const [form, setForm] = useState({\n    name: '',\n    email: '',\n    password: ''\n  });\n  const [errors, setErrors] = useState({});\n\n  const handleChange = (e) => {\n    const { name, value } = e.target;\n    setForm(prev => ({ ...prev, [name]: value }));\n  };\n\n  const handleSubmit = (e) => {\n    e.preventDefault();\n    const newErrors = {};\n    if (!form.name) newErrors.name = 'Name is required';\n    if (!form.email.includes('@')) newErrors.email = 'Invalid email';\n    if (form.password.length < 8) newErrors.password = 'Min 8 chars';\n\n    if (Object.keys(newErrors).length > 0) {\n      setErrors(newErrors);\n      return;\n    }\n    console.log('Valid form!', form);\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <input name=\"name\" value={form.name} onChange={handleChange}\n             placeholder=\"Full name\" />\n      {errors.name && <span className=\"error\">{errors.name}</span>}\n\n      <input name=\"email\" type=\"email\" value={form.email}\n             onChange={handleChange} placeholder=\"Email\" />\n\n      <input name=\"password\" type=\"password\" value={form.password}\n             onChange={handleChange} placeholder=\"Password\" />\n\n      <button type=\"submit\">Sign Up</button>\n    </form>\n  );\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-013-mc",
+          "type": "multiple-choice",
+          "question": "In a controlled input, what must always be provided alongside the value prop?",
+          "options": ["placeholder", "name", "onChange", "defaultValue"],
+          "correctAnswer": "onChange",
+          "hints": ["If value is set but onChange is missing, React throws a warning"],
+          "explanation": "A controlled input with value but no onChange handler creates a read-only input that the user can't modify. onChange is required to update state and allow the user to type. React warns you if you forget it."
+        }
+      ]
+    },
+    {
+      "id": "react-014-conditional-rendering",
+      "title": "Conditional Rendering",
+      "order": 4,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["conditional", "ternary", "short-circuit", "early-return"],
+      "prerequisites": ["react-013-controlled-forms"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Three Patterns for Conditional Rendering" },
+          { "type": "code", "language": "jsx", "content": "function UserDashboard({ user, isLoading, error }) {\n  // Pattern 1: Early return for loading/error states\n  if (isLoading) return <Spinner />;\n  if (error) return <ErrorMessage message={error} />;\n  if (!user) return null;\n\n  return (\n    <div>\n      {/* Pattern 2: && short-circuit (use when you want nothing or something) */}\n      {user.isAdmin && <AdminBadge />}\n\n      {/* Pattern 3: Ternary (use when you want one thing OR another) */}\n      {user.isPremium\n        ? <PremiumBanner />\n        : <UpgradeBanner />\n      }\n\n      {/* Pattern 4: Variable assignment for complex conditions */}\n      {(() => {\n        if (user.score >= 90) return <GoldTrophy />;\n        if (user.score >= 70) return <SilverTrophy />;\n        return <BronzeTrophy />;\n      })()}\n    </div>\n  );\n}" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Avoid: {count && <Component />} when count could be 0. '0 && anything' renders '0' in the DOM! Always use: {count > 0 && <Component />} or a ternary instead." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-014-mc",
+          "type": "multiple-choice",
+          "question": "What does {items.length && <List />} render when items is an empty array?",
+          "options": ["Nothing (null)", "false", "The number 0", "<List /> with empty data"],
+          "correctAnswer": "The number 0",
+          "hints": ["[].length is 0, and 0 is falsy but renderable"],
+          "explanation": "items.length returns 0 (a number). 0 && <List /> short-circuits to 0 — which React renders as the text '0' in the DOM! Use {items.length > 0 && <List />} or a ternary to avoid this."
+        }
+      ]
+    },
+    {
+      "id": "react-015-lifting-state",
+      "title": "Lifting State Up & Sharing Data",
+      "order": 5,
+      "difficulty": "beginner",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["lifting-state", "sibling-communication", "props"],
+      "prerequisites": ["react-014-conditional-rendering"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Sharing State Between Siblings" },
+          { "type": "text", "content": "When two sibling components need to share data, lift the state up to their common parent. The parent holds the state and passes it down as props with callback functions for children to update it." },
+          { "type": "code", "language": "jsx", "content": "// ❌ Before: each component has its own state, can't share\nfunction FilterBar() {\n  const [query, setQuery] = useState('');\n  // ...\n}\nfunction ProductList() {\n  // Can't access FilterBar's query!\n}\n\n// ✅ After: lift state to shared parent\nfunction ShopPage() {\n  const [query, setQuery] = useState('');\n  const [sortBy, setSortBy] = useState('name');\n\n  return (\n    <div>\n      {/* Pass state DOWN, pass setters DOWN as callbacks */}\n      <FilterBar query={query} onQueryChange={setQuery} sortBy={sortBy} onSortChange={setSortBy} />\n      <ProductList query={query} sortBy={sortBy} />\n    </div>\n  );\n}\n\nfunction FilterBar({ query, onQueryChange }) {\n  return (\n    <input\n      value={query}\n      onChange={(e) => onQueryChange(e.target.value)}\n      placeholder=\"Search products...\"\n    />\n  );\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-015-mc",
+          "type": "multiple-choice",
+          "question": "When two sibling components need to share state, where should the state live?",
+          "options": ["In both components separately", "In the first sibling only", "In their closest common parent component", "In a global file"],
+          "correctAnswer": "In their closest common parent component",
+          "hints": ["State needs to be accessible to all components that need it"],
+          "explanation": "Lifting state to the closest common ancestor is the standard React pattern. The parent owns the state and passes it down via props to both siblings."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "react-cap-02",
+    "title": "Task Manager App",
+    "description": "Build a full-featured task manager with add, complete, filter, and delete functionality.",
+    "difficulty": "beginner",
+    "estimatedHours": 4,
+    "xpReward": 500,
+    "requirements": [
+      "Add task form (controlled input, validates empty string)",
+      "Task list renders from state array with keys",
+      "Complete toggle (checkbox or click) updates task status",
+      "Delete button removes task from state immutably",
+      "Filter buttons (All/Active/Completed) — state lifted to parent",
+      "Task count display (X of Y tasks remaining)",
+      "Clear completed button",
+      "Empty state message when no tasks match filter"
+    ]
+  }
+}

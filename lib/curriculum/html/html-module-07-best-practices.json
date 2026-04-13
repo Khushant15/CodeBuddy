@@ -1,0 +1,190 @@
+{
+  "id": "html-module-07-best-practices",
+  "title": "HTML Best Practices & Capstone",
+  "description": "Lock in professional-grade HTML habits: code organization, accessibility audits, performance techniques, cross-browser compatibility, and W3C validation. Finish with a multi-page portfolio site.",
+  "track": "html",
+  "order": 7,
+  "estimatedHours": 10,
+  "difficulty": "intermediate",
+  "prerequisites": ["html-module-06-advanced"],
+  "learningObjectives": [
+    "Apply consistent code organization and naming conventions",
+    "Run and interpret accessibility audits",
+    "Implement performance techniques like lazy loading and preloading",
+    "Understand progressive enhancement",
+    "Validate HTML with the W3C validator"
+  ],
+  "lessons": [
+    {
+      "id": "html-061-code-organization",
+      "title": "Code Organization & Naming Conventions",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 60,
+      "estimatedMinutes": 25,
+      "tags": ["organization", "conventions", "readability"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Clean HTML Habits" },
+          { "type": "text", "content": "Consistent, well-organized HTML is easier to debug, maintain, and hand off to teammates. Adopt these habits from day one." },
+          { "type": "code", "language": "html", "content": "<!-- ✅ Good: consistent indentation, lowercase, quoted attrs -->\n<section class=\"hero-section\">\n  <div class=\"hero-section__content\">\n    <h1 class=\"hero-section__title\">Welcome</h1>\n    <p class=\"hero-section__subtitle\">Start learning today.</p>\n    <a href=\"/get-started\" class=\"btn btn--primary\">Get Started</a>\n  </div>\n</section>\n\n<!-- ❌ Bad: inconsistent, uppercase, mixed quoting -->\n<SECTION CLASS='hero'>\n<Div class=\"content\">\n<H1>Welcome</H1></Div></SECTION>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Use BEM (Block__Element--Modifier) for class naming: .card, .card__title, .card--featured. It creates predictable, scalable CSS class names." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-061-mc",
+          "type": "multiple-choice",
+          "question": "In BEM naming, which class name format represents a 'featured' modifier on a 'card' block?",
+          "options": ["card-featured", "card__featured", "card--featured", ".featured.card"],
+          "correctAnswer": "card--featured",
+          "hints": ["BEM: Block__Element--Modifier"],
+          "explanation": "BEM uses double hyphens for modifiers: block--modifier. Double underscores separate blocks from elements: block__element."
+        }
+      ]
+    },
+    {
+      "id": "html-062-accessibility-audit",
+      "title": "Accessibility Audits",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 75,
+      "estimatedMinutes": 30,
+      "tags": ["accessibility", "audit", "axe", "lighthouse"],
+      "prerequisites": ["html-061-code-organization"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Auditing Your Site for Accessibility" },
+          { "type": "text", "content": "Accessibility isn't optional — in many countries it's a legal requirement. The WCAG 2.1 standard defines three levels: A (minimum), AA (standard), AAA (enhanced). Aim for AA as a baseline." },
+          { "type": "heading", "content": "Common Accessibility Issues to Check" },
+          { "type": "code", "language": "html", "content": "<!-- ✅ Images have descriptive alt text -->\n<img src=\"chart.png\" alt=\"Bar chart showing 30% increase in Q3 revenue\" />\n\n<!-- ✅ Form inputs have labels -->\n<label for=\"search\">Search courses</label>\n<input type=\"search\" id=\"search\" />\n\n<!-- ✅ Links are descriptive (not 'click here') -->\n<a href=\"/python\">Start the Python course</a>\n\n<!-- ✅ Heading hierarchy is logical (no skipping levels) -->\n<h1>Page Title</h1>\n<h2>Section</h2>\n<h3>Sub-section</h3>\n\n<!-- ✅ Colour contrast ratio ≥ 4.5:1 for normal text -->" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Tools: Chrome DevTools Lighthouse (free, built-in), axe DevTools extension, WAVE browser extension, NVDA/VoiceOver screen readers." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-062-mc",
+          "type": "multiple-choice",
+          "question": "What WCAG level is considered the standard baseline that most organizations should target?",
+          "options": ["Level A", "Level AA", "Level AAA", "Level B"],
+          "correctAnswer": "Level AA",
+          "hints": ["It's the middle level"],
+          "explanation": "WCAG 2.1 AA is the internationally recognized baseline for accessibility compliance. Level A is too minimal; Level AAA is often impractical for all content."
+        }
+      ]
+    },
+    {
+      "id": "html-063-performance",
+      "title": "HTML Performance Techniques",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 30,
+      "tags": ["performance", "lazy-loading", "preload", "defer"],
+      "prerequisites": ["html-062-accessibility-audit"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Performance Starts in HTML" },
+          { "type": "text", "content": "HTML determines what loads, when it loads, and in what order. Smart HTML can cut seconds from your page load time without changing a single line of CSS or JavaScript." },
+          { "type": "code", "language": "html", "content": "<!-- Lazy load below-fold images -->\n<img src=\"hero.jpg\" alt=\"Hero\" loading=\"eager\" />     <!-- above fold -->\n<img src=\"team.jpg\" alt=\"Team\" loading=\"lazy\" />      <!-- below fold -->\n\n<!-- Preload critical resources -->\n<link rel=\"preload\" href=\"/fonts/inter.woff2\" as=\"font\" type=\"font/woff2\" crossorigin />\n<link rel=\"preload\" href=\"/hero.jpg\" as=\"image\" />\n\n<!-- Defer non-critical JS (parse HTML first) -->\n<script src=\"analytics.js\" defer></script>\n\n<!-- Async JS (download in parallel, execute when ready) -->\n<script src=\"chat-widget.js\" async></script>\n\n<!-- Preconnect to third-party origins -->\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\" />" },
+          { "type": "callout", "variant": "info", "content": "💡 defer scripts execute in order after HTML parsing. async scripts execute as soon as downloaded — order is not guaranteed. Use defer for most scripts." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-063-mc",
+          "type": "multiple-choice",
+          "question": "Which script loading attribute guarantees execution order AND doesn't block HTML parsing?",
+          "options": ["async", "defer", "type=\"module\"", "preload"],
+          "correctAnswer": "defer",
+          "hints": ["async doesn't guarantee order; defer does"],
+          "explanation": "defer downloads scripts in parallel with HTML parsing and executes them in document order after parsing completes. async executes as soon as downloaded, which may be out of order."
+        }
+      ]
+    },
+    {
+      "id": "html-064-validation",
+      "title": "W3C Validation & Cross-Browser Compatibility",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 65,
+      "estimatedMinutes": 25,
+      "tags": ["validation", "w3c", "cross-browser"],
+      "prerequisites": ["html-063-performance"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Validating Your HTML" },
+          { "type": "text", "content": "The W3C Markup Validation Service (https://validator.w3.org) checks your HTML against the official specification. Valid HTML is more likely to render consistently across all browsers and is less likely to behave unexpectedly." },
+          { "type": "heading", "content": "Common Validation Errors" },
+          { "type": "code", "language": "html", "content": "<!-- ❌ Missing alt on img -->\n<img src=\"photo.jpg\" />\n\n<!-- ❌ Missing lang on html -->\n<html>\n\n<!-- ❌ Empty heading -->\n<h2></h2>\n\n<!-- ❌ Duplicate id -->\n<div id=\"box\">A</div>\n<div id=\"box\">B</div>\n\n<!-- ❌ Block element inside inline -->\n<a href=\"/\"><div>Click me</div></a>\n\n<!-- ✅ Correct versions -->\n<html lang=\"en\">\n<img src=\"photo.jpg\" alt=\"A mountain at sunset\" />\n<h2>Section Title</h2>" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-064-mc",
+          "type": "multiple-choice",
+          "question": "Which of these is a valid reason to run your HTML through the W3C validator?",
+          "options": ["It improves your CSS", "It guarantees faster page loads", "It catches errors that cause inconsistent browser rendering", "It automatically adds ARIA attributes"],
+          "correctAnswer": "It catches errors that cause inconsistent browser rendering",
+          "hints": ["Browsers have different error recovery heuristics"],
+          "explanation": "Invalid HTML forces browsers to use error-recovery logic, which differs between Chrome, Firefox, and Safari. Valid HTML renders consistently everywhere."
+        }
+      ]
+    },
+    {
+      "id": "html-065-progressive-enhancement",
+      "title": "Progressive Enhancement",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 70,
+      "estimatedMinutes": 25,
+      "tags": ["progressive-enhancement", "resilience", "layers"],
+      "prerequisites": ["html-064-validation"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Build in Layers" },
+          { "type": "text", "content": "Progressive enhancement is a development strategy: start with solid HTML that works everywhere, then add CSS for styling, then JavaScript for enhancement. Each layer enhances the previous but doesn't break it if the layer above fails." },
+          { "type": "code", "language": "html", "content": "<!-- Layer 1: HTML only — works without CSS or JS -->\n<form action=\"/search\" method=\"GET\">\n  <label for=\"q\">Search</label>\n  <input type=\"search\" id=\"q\" name=\"q\" />\n  <button type=\"submit\">Search</button>\n</form>\n<!-- With CSS: beautifully styled\n     With JS: real-time autocomplete suggestions\n     Without JS: still a functioning search form\n     Without CSS: ugly but works -->" },
+          { "type": "callout", "variant": "info", "content": "💡 Progressive enhancement is especially important for users on slow networks, screen readers, or older devices. Your core content should always be accessible." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-065-mc",
+          "type": "multiple-choice",
+          "question": "In progressive enhancement, what is the correct order of layers?",
+          "options": ["JavaScript → CSS → HTML", "CSS → HTML → JavaScript", "HTML → CSS → JavaScript", "HTML → JavaScript → CSS"],
+          "correctAnswer": "HTML → CSS → JavaScript",
+          "hints": ["Start with content, then style, then behaviour"],
+          "explanation": "HTML provides the semantic content baseline. CSS adds visual presentation. JavaScript adds interactive behaviour. Each layer degrades gracefully if disabled."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "html-cap-07",
+    "title": "Multi-Page Portfolio Site",
+    "description": "Build a complete multi-page personal website — the cumulative project that uses everything from all 7 HTML modules.",
+    "difficulty": "intermediate",
+    "estimatedHours": 6,
+    "xpReward": 750,
+    "requirements": [
+      "index.html (hero, about, skills), projects.html (grid of projects), contact.html (full accessible form)",
+      "Consistent header and footer across all pages with nav links",
+      "Complete SEO meta tags + Open Graph on every page",
+      "JSON-LD Person schema on index.html",
+      "All images have meaningful alt text and loading='lazy' (except hero)",
+      "Defer all JavaScript, preload the main font",
+      "Passes W3C validation with zero errors",
+      "Passes Lighthouse Accessibility audit at 90+ score",
+      "BEM class naming on all elements",
+      "Progressive enhancement: all links and forms work without JavaScript"
+    ]
+  }
+}

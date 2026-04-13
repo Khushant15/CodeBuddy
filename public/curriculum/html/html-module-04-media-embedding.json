@@ -1,0 +1,196 @@
+{
+  "id": "html-module-04-media-embedding",
+  "title": "Media & Embedding",
+  "description": "Bring your pages to life with audio, video, SVG, responsive images, and embedded third-party content. Learn the modern HTML media toolkit used in every professional web project.",
+  "track": "html",
+  "order": 4,
+  "estimatedHours": 8,
+  "difficulty": "intermediate",
+  "prerequisites": ["html-module-03-forms-input"],
+  "learningObjectives": [
+    "Embed video and audio with native HTML5 players",
+    "Use iframe to embed YouTube, maps, and other external content",
+    "Implement responsive images with picture and srcset",
+    "Use SVG inline and as img src",
+    "Understand performance implications of media elements"
+  ],
+  "lessons": [
+    {
+      "id": "html-031-video",
+      "title": "The video Element",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 70,
+      "estimatedMinutes": 28,
+      "tags": ["video", "media", "controls", "source"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Native HTML5 Video" },
+          { "type": "text", "content": "The <video> element lets you embed video directly without plugins. Add the controls attribute to show the built-in play/pause/volume buttons. You can provide multiple <source> elements with different formats so the browser picks the one it supports." },
+          { "type": "code", "language": "html", "content": "<video controls width=\"800\" poster=\"thumbnail.jpg\">\n  <source src=\"intro.mp4\" type=\"video/mp4\" />\n  <source src=\"intro.webm\" type=\"video/webm\" />\n  <p>Your browser doesn't support HTML video.\n     <a href=\"intro.mp4\">Download the video</a>.\n  </p>\n</video>" },
+          { "type": "callout", "variant": "info", "content": "💡 Key attributes: controls (show UI), autoplay (auto-start), muted (start muted), loop (repeat), poster (thumbnail before play), preload (none/metadata/auto)." },
+          { "type": "code", "language": "html", "content": "<!-- Autoplaying background video (muted is required!) -->\n<video autoplay muted loop playsinline>\n  <source src=\"hero-bg.mp4\" type=\"video/mp4\" />\n</video>" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Browsers block autoplay with sound. If you need autoplay, always add muted — otherwise it will be silently blocked." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-031-mc",
+          "type": "multiple-choice",
+          "question": "Which video attribute is required for autoplay to work in most modern browsers?",
+          "options": ["controls", "loop", "muted", "preload=\"auto\""],
+          "correctAnswer": "muted",
+          "hints": ["Browsers protect users from surprise audio"],
+          "explanation": "Modern browsers block autoplaying video with sound to prevent jarring user experiences. Adding muted bypasses this restriction."
+        }
+      ]
+    },
+    {
+      "id": "html-032-audio",
+      "title": "The audio Element",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 60,
+      "estimatedMinutes": 20,
+      "tags": ["audio", "media", "controls"],
+      "prerequisites": ["html-031-video"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Embedding Audio" },
+          { "type": "text", "content": "The <audio> element works identically to <video> but for sound. Provide multiple source formats (MP3 and OGG) for maximum browser support. Add controls to show the built-in player." },
+          { "type": "code", "language": "html", "content": "<audio controls>\n  <source src=\"podcast.mp3\" type=\"audio/mpeg\" />\n  <source src=\"podcast.ogg\" type=\"audio/ogg\" />\n  <p>Your browser doesn't support audio.\n     <a href=\"podcast.mp3\">Download the episode</a>.\n  </p>\n</audio>\n\n<!-- Looping background music -->\n<audio autoplay muted loop>\n  <source src=\"background.mp3\" type=\"audio/mpeg\" />\n</audio>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Always include fallback content inside video and audio for browsers that don't support them, and for SEO." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-032-write",
+          "type": "code-write",
+          "question": "Write an audio player for 'episode01.mp3' with controls. Include an OGG fallback source and a download link as fallback content.",
+          "starterCode": "<!-- Audio player here -->",
+          "solution": "<audio controls>\n  <source src=\"episode01.mp3\" type=\"audio/mpeg\" />\n  <source src=\"episode01.ogg\" type=\"audio/ogg\" />\n  <p>Your browser does not support audio. <a href=\"episode01.mp3\">Download</a>.</p>\n</audio>",
+          "hints": ["audio wraps the sources", "Add controls attribute", "Include a fallback paragraph inside"],
+          "testCases": [{ "input": "", "expectedOutput": "<audio", "description": "Uses audio element" }, { "input": "", "expectedOutput": "controls", "description": "Has controls attribute" }],
+          "explanation": "Multiple source elements let the browser pick the first format it can play. The fallback paragraph appears in browsers that don't support audio."
+        }
+      ]
+    },
+    {
+      "id": "html-033-iframe",
+      "title": "iframes & Embedding External Content",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 65,
+      "estimatedMinutes": 25,
+      "tags": ["iframe", "embed", "youtube", "maps"],
+      "prerequisites": ["html-032-audio"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "What is an iframe?" },
+          { "type": "text", "content": "The <iframe> (inline frame) embeds another HTML page inside your page. It's how YouTube videos, Google Maps, Twitter widgets, and payment forms (Stripe, PayPal) are embedded. The src attribute specifies the URL to embed." },
+          { "type": "code", "language": "html", "content": "<!-- Embed a YouTube video -->\n<iframe\n  width=\"560\"\n  height=\"315\"\n  src=\"https://www.youtube.com/embed/dQw4w9WgXcQ\"\n  title=\"YouTube video player\"\n  frameborder=\"0\"\n  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\"\n  allowfullscreen\n></iframe>\n\n<!-- Google Maps -->\n<iframe\n  src=\"https://www.google.com/maps/embed?pb=...\"\n  width=\"600\"\n  height=\"450\"\n  allowfullscreen\n  loading=\"lazy\"\n  title=\"Office location on Google Maps\"\n></iframe>" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Security: Never embed untrusted content in an iframe. Add sandbox attribute to restrict capabilities: <iframe sandbox='allow-scripts'>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Always add a descriptive title attribute to iframes — screen readers announce it to users." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-033-mc",
+          "type": "multiple-choice",
+          "question": "Which attribute makes an iframe load only when it's near the viewport, improving page performance?",
+          "options": ["defer", "async", "loading=\"lazy\"", "prefetch"],
+          "correctAnswer": "loading=\"lazy\"",
+          "hints": ["The same attribute works on images too"],
+          "explanation": "loading='lazy' defers loading until the element is near the viewport. This significantly improves initial page load time when you have multiple iframes."
+        }
+      ]
+    },
+    {
+      "id": "html-034-responsive-images",
+      "title": "Responsive Images with picture & srcset",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["responsive", "picture", "srcset", "sizes", "art-direction"],
+      "prerequisites": ["html-033-iframe"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Why Responsive Images?" },
+          { "type": "text", "content": "Sending a 4000px wide image to a 375px phone wastes bandwidth and slows load times. Responsive images let the browser select the most appropriate image size for the current device." },
+          { "type": "heading", "content": "srcset — Serving Different Resolutions" },
+          { "type": "code", "language": "html", "content": "<!-- Browser picks based on device pixel ratio -->\n<img\n  src=\"hero-800.jpg\"\n  srcset=\"\n    hero-400.jpg 400w,\n    hero-800.jpg 800w,\n    hero-1600.jpg 1600w\n  \"\n  sizes=\"\n    (max-width: 600px) 100vw,\n    (max-width: 1200px) 50vw,\n    800px\n  \"\n  alt=\"A mountain landscape\"\n/>" },
+          { "type": "heading", "content": "picture — Art Direction" },
+          { "type": "text", "content": "The <picture> element lets you serve completely different images at different breakpoints — not just different resolutions of the same image. Use it for art direction (cropping differently for mobile vs desktop) and format switching (WebP vs JPEG)." },
+          { "type": "code", "language": "html", "content": "<picture>\n  <!-- WebP for browsers that support it -->\n  <source type=\"image/webp\" srcset=\"hero.webp\" />\n  <!-- Portrait crop for mobile -->\n  <source media=\"(max-width: 600px)\" srcset=\"hero-portrait.jpg\" />\n  <!-- Default -->\n  <img src=\"hero-landscape.jpg\" alt=\"Team working in an office\" />\n</picture>" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-034-mc",
+          "type": "multiple-choice",
+          "question": "Which element would you use to serve a WebP image to supported browsers and fall back to JPEG for others?",
+          "options": ["<img srcset>", "<picture> with <source type>", "<video>", "<object>"],
+          "correctAnswer": "<picture> with <source type>",
+          "hints": ["This element supports multiple source formats"],
+          "explanation": "<picture> with <source type='image/webp'> lets modern browsers use the efficient WebP format while an <img> fallback serves JPEG to older browsers."
+        }
+      ]
+    },
+    {
+      "id": "html-035-svg",
+      "title": "SVG — Scalable Vector Graphics",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 75,
+      "estimatedMinutes": 30,
+      "tags": ["svg", "vector", "inline", "icons"],
+      "prerequisites": ["html-034-responsive-images"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "What is SVG?" },
+          { "type": "text", "content": "SVG (Scalable Vector Graphics) is an XML-based image format that scales to any size without losing quality. Unlike JPEG or PNG (raster images made of pixels), SVG describes shapes mathematically. It's perfect for logos, icons, illustrations, and charts." },
+          { "type": "heading", "content": "Using SVG in HTML" },
+          { "type": "code", "language": "html", "content": "<!-- Method 1: As an img (no CSS control) -->\n<img src=\"logo.svg\" alt=\"Company logo\" width=\"200\" />\n\n<!-- Method 2: Inline SVG (full CSS/JS control) -->\n<svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\">\n  <circle cx=\"12\" cy=\"12\" r=\"10\" />\n  <line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\" />\n  <line x1=\"12\" y1=\"16\" x2=\"12\" y2=\"16\" />\n</svg>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Use inline SVG for icons you want to style with CSS (color, size, hover effects). Use <img src='logo.svg'> for static logos where you don't need CSS control." },
+          { "type": "heading", "content": "Accessible SVGs" },
+          { "type": "code", "language": "html", "content": "<!-- Decorative icon (hide from screen readers) -->\n<svg aria-hidden=\"true\" focusable=\"false\">\n  <!-- paths -->\n</svg>\n\n<!-- Meaningful SVG (needs a title) -->\n<svg role=\"img\" aria-labelledby=\"icon-title\">\n  <title id=\"icon-title\">Search</title>\n  <!-- paths -->\n</svg>" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-035-mc",
+          "type": "multiple-choice",
+          "question": "Which method of including an SVG allows you to change its color using CSS?",
+          "options": ["<img src='icon.svg'>", "Inline SVG in HTML", "<object data='icon.svg'>", "Background-image in CSS"],
+          "correctAnswer": "Inline SVG in HTML",
+          "hints": ["CSS can only style elements in the same document"],
+          "explanation": "Inline SVG is part of the HTML document, so CSS and JavaScript can access and modify its elements. External SVGs loaded via img or CSS background are sandboxed."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "html-cap-04",
+    "title": "Portfolio with Media",
+    "description": "Build a rich portfolio page that showcases a hero video, a projects gallery with responsive images, embedded demo videos, and an SVG icon system.",
+    "difficulty": "intermediate",
+    "estimatedHours": 3,
+    "xpReward": 450,
+    "requirements": [
+      "An autoplaying muted loop hero video",
+      "At least 3 project cards each with a responsive <picture> image",
+      "An embedded YouTube demo video using iframe",
+      "At least 3 inline SVG icons (GitHub, LinkedIn, external link)",
+      "An audio player for a 'podcast/presentation' section",
+      "All media has proper alt/title for accessibility",
+      "loading='lazy' on all below-fold images and iframes"
+    ]
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "id": "html-module-01-fundamentals",
+  "title": "HTML Fundamentals",
+  "description": "Start your web journey by learning the building blocks of every web page. Master HTML tags, elements, attributes, and the essential anatomy of an HTML document.",
+  "track": "html",
+  "order": 1,
+  "estimatedHours": 7,
+  "difficulty": "beginner",
+  "prerequisites": [],
+  "learningObjectives": [
+    "Understand what HTML is and how browsers render it",
+    "Create a valid HTML document with proper structure",
+    "Use opening, closing, and void tags correctly",
+    "Apply attributes to elements to add meaning and behaviour",
+    "Distinguish inline vs block-level elements"
+  ],
+  "lessons": [
+    {
+      "id": "html-001-what-is-html",
+      "title": "What Is HTML?",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 50,
+      "estimatedMinutes": 20,
+      "tags": ["html", "basics", "web"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "HTML — The Skeleton of the Web" },
+          { "type": "text", "content": "HTML stands for HyperText Markup Language. It is the standard language used to create and structure content on the web. Every webpage you have ever visited is built on HTML. Browsers read HTML files and render them into the visual pages you see." },
+          { "type": "callout", "variant": "info", "content": "💡 HTML is NOT a programming language — it is a markup language. It describes structure and meaning, not logic." },
+          { "type": "heading", "content": "How Browsers Use HTML" },
+          { "type": "text", "content": "When you open a URL, your browser downloads the HTML file, parses it top-to-bottom, and builds a Document Object Model (DOM) — a tree of all the elements on the page. CSS then styles the DOM, and JavaScript can manipulate it." },
+          { "type": "code", "language": "html", "content": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <title>My First Page</title>\n  </head>\n  <body>\n    <h1>Hello, World!</h1>\n    <p>This is my very first web page.</p>\n  </body>\n</html>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Save any HTML file with a .html extension, then drag it into your browser — it just works!" }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Minimal Valid HTML Page",
+          "code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <title>Hello</title>\n  </head>\n  <body>\n    <p>Hello, World!</p>\n  </body>\n</html>",
+          "output": "Renders: Hello, World!",
+          "explanation": "Every HTML page needs DOCTYPE, html, head, and body. The title appears in the browser tab.",
+          "language": "html"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "html-ex-001-mc",
+          "type": "multiple-choice",
+          "question": "What does HTML stand for?",
+          "options": ["HyperText Markup Language", "High Tech Modern Language", "HyperText Machine Logic", "HyperLink Markup Language"],
+          "correctAnswer": "HyperText Markup Language",
+          "hints": ["Think about what 'hyper' means in the context of links"],
+          "explanation": "HTML stands for HyperText Markup Language. HyperText refers to links that connect pages, and Markup means we use tags to annotate content."
+        },
+        {
+          "id": "html-ex-002-mc",
+          "type": "multiple-choice",
+          "question": "What is the purpose of the <!DOCTYPE html> declaration?",
+          "options": ["It styles the page", "It tells the browser this is an HTML5 document", "It links to a CSS file", "It creates a heading"],
+          "correctAnswer": "It tells the browser this is an HTML5 document",
+          "hints": ["DOCTYPE = Document Type Declaration"],
+          "explanation": "<!DOCTYPE html> is not an HTML tag but a declaration that tells the browser to render the page in standards mode using HTML5."
+        }
+      ]
+    },
+    {
+      "id": "html-002-tags-elements",
+      "title": "Tags, Elements & Attributes",
+      "order": 2,
+      "difficulty": "beginner",
+      "xpReward": 60,
+      "estimatedMinutes": 30,
+      "tags": ["tags", "elements", "attributes"],
+      "prerequisites": ["html-001-what-is-html"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Anatomy of an HTML Element" },
+          { "type": "text", "content": "An HTML element consists of an opening tag, content, and a closing tag. The opening tag marks where the element begins, and the closing tag (with a forward slash) marks where it ends." },
+          { "type": "code", "language": "html", "content": "<!-- Full element -->\n<p>This is a paragraph.</p>\n\n<!-- Opening tag     Content     Closing tag -->\n<h1>         Welcome!         </h1>" },
+          { "type": "heading", "content": "Attributes" },
+          { "type": "text", "content": "Attributes provide extra information about elements. They live inside the opening tag as name=\"value\" pairs. Common attributes include id, class, href, src, and alt." },
+          { "type": "code", "language": "html", "content": "<!-- href attribute on a link -->\n<a href=\"https://google.com\">Go to Google</a>\n\n<!-- src and alt attributes on an image -->\n<img src=\"photo.jpg\" alt=\"A mountain at sunset\" />\n\n<!-- id and class attributes -->\n<p id=\"intro\" class=\"lead-text\">Welcome to my site.</p>" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Always quote attribute values. While browsers may forgive unquoted values, it is bad practice and can cause bugs." },
+          { "type": "heading", "content": "Void Elements" },
+          { "type": "text", "content": "Some elements have no content and no closing tag. These are called void (or self-closing) elements. Examples include <img>, <input>, <br>, <hr>, and <meta>." },
+          { "type": "code", "language": "html", "content": "<br />        <!-- line break -->\n<hr />        <!-- horizontal rule -->\n<img src=\"dog.jpg\" alt=\"A happy dog\" />\n<input type=\"text\" placeholder=\"Enter name\" />" }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Using Multiple Attributes",
+          "code": "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener\">Open Example</a>",
+          "output": "A link that opens in a new tab safely",
+          "explanation": "href sets the destination, target=\"_blank\" opens a new tab, rel=\"noopener\" is a security best practice.",
+          "language": "html"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "html-ex-003-write",
+          "type": "code-write",
+          "question": "Create a paragraph with the id 'intro' and the class 'highlight', containing the text 'Learning HTML is fun!'.",
+          "starterCode": "<!-- Write your paragraph here -->",
+          "solution": "<p id=\"intro\" class=\"highlight\">Learning HTML is fun!</p>",
+          "hints": ["p is the paragraph tag", "Add id and class inside the opening tag", "Attributes use the format name=\"value\""],
+          "testCases": [{ "input": "", "expectedOutput": "<p", "description": "Uses a paragraph tag" }],
+          "explanation": "Attributes go inside the opening tag separated by spaces. The id attribute uniquely identifies an element; class groups elements."
+        }
+      ]
+    },
+    {
+      "id": "html-003-headings-paragraphs",
+      "title": "Headings & Paragraphs",
+      "order": 3,
+      "difficulty": "beginner",
+      "xpReward": 60,
+      "estimatedMinutes": 25,
+      "tags": ["headings", "paragraphs", "text"],
+      "prerequisites": ["html-002-tags-elements"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Heading Hierarchy" },
+          { "type": "text", "content": "HTML provides six heading levels from h1 (most important) to h6 (least important). Use only one h1 per page — it represents the main topic. Use h2-h6 to create logical sub-sections." },
+          { "type": "code", "language": "html", "content": "<h1>Main Page Title</h1>\n<h2>Section Title</h2>\n<h3>Sub-section</h3>\n<h4>Detail</h4>\n<h5>Fine print</h5>\n<h6>Smallest heading</h6>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Use headings for document structure, NOT for making text big. Use CSS for visual styling." },
+          { "type": "heading", "content": "Paragraphs & Text Formatting" },
+          { "type": "text", "content": "The <p> tag creates a paragraph. Each paragraph gets automatic spacing above and below. For inline text emphasis, use <strong> (bold, important) and <em> (italic, emphasized). For line breaks within a paragraph, use <br />." },
+          { "type": "code", "language": "html", "content": "<p>This is a regular paragraph.</p>\n\n<p>HTML is <strong>powerful</strong> and <em>elegant</em>.</p>\n\n<p>Line one<br />Line two</p>" }
+        ]
+      },
+      "examples": [
+        {
+          "title": "A Blog Post Structure",
+          "code": "<article>\n  <h1>Getting Started with HTML</h1>\n  <p>HTML is the <strong>foundation</strong> of every web page.</p>\n  <h2>Why Learn HTML?</h2>\n  <p>Understanding HTML gives you <em>full control</em> over your content.</p>\n</article>",
+          "output": "A structured blog post with heading and paragraphs",
+          "explanation": "The article element wraps related content. h1 is the post title, h2 introduces a section, and inline strong/em add emphasis.",
+          "language": "html"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "html-ex-004-write",
+          "type": "code-write",
+          "question": "Write HTML with an h1 saying 'My Portfolio', an h2 saying 'About Me', and a paragraph describing yourself with at least one word in bold using <strong>.",
+          "starterCode": "<!-- Write your portfolio header here -->",
+          "solution": "<h1>My Portfolio</h1>\n<h2>About Me</h2>\n<p>I am a <strong>passionate</strong> web developer learning HTML.</p>",
+          "hints": ["Use h1 for the main title", "Use h2 for the section", "Wrap a word in <strong></strong> for bold"],
+          "testCases": [{ "input": "", "expectedOutput": "<h1>", "description": "Contains an h1" }, { "input": "", "expectedOutput": "<strong>", "description": "Contains a bold element" }],
+          "explanation": "Headings create hierarchy and strong adds semantic importance to text."
+        }
+      ]
+    },
+    {
+      "id": "html-004-links-images",
+      "title": "Links & Images",
+      "order": 4,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["links", "images", "href", "src"],
+      "prerequisites": ["html-003-headings-paragraphs"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Hyperlinks — The Foundation of the Web" },
+          { "type": "text", "content": "The <a> (anchor) tag creates hyperlinks. The href attribute specifies the destination. Links can point to external URLs, internal pages, section anchors, email addresses, or phone numbers." },
+          { "type": "code", "language": "html", "content": "<!-- External link -->\n<a href=\"https://google.com\">Google</a>\n\n<!-- Open in new tab -->\n<a href=\"https://github.com\" target=\"_blank\" rel=\"noopener\">GitHub</a>\n\n<!-- Internal page -->\n<a href=\"/about.html\">About Us</a>\n\n<!-- Jump to section on same page -->\n<a href=\"#contact\">Contact</a>\n\n<!-- Email link -->\n<a href=\"mailto:hello@example.com\">Email Me</a>" },
+          { "type": "callout", "variant": "info", "content": "💡 Always add rel=\"noopener noreferrer\" when using target=\"_blank\" to prevent security vulnerabilities." },
+          { "type": "heading", "content": "Images" },
+          { "type": "text", "content": "The <img> tag embeds images. It is a void element requiring at minimum src (source path) and alt (alternative text). The alt text is critical for accessibility and appears when the image fails to load." },
+          { "type": "code", "language": "html", "content": "<!-- Basic image -->\n<img src=\"cat.jpg\" alt=\"A tabby cat sitting on a windowsill\" />\n\n<!-- With dimensions -->\n<img src=\"logo.png\" alt=\"Company logo\" width=\"200\" height=\"80\" />\n\n<!-- With a link wrapping the image -->\n<a href=\"/home\">\n  <img src=\"logo.png\" alt=\"Go to home page\" />\n</a>" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Never use an empty alt attribute unless the image is purely decorative (alt=\"\"). Screen readers need meaningful alt text." }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Navigation Bar with Links",
+          "code": "<nav>\n  <a href=\"/\">Home</a>\n  <a href=\"/about\">About</a>\n  <a href=\"/projects\">Projects</a>\n  <a href=\"mailto:me@example.com\">Contact</a>\n</nav>",
+          "output": "A simple text navigation bar",
+          "explanation": "The nav element wraps navigation links. Each anchor tag creates a clickable link.",
+          "language": "html"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "html-ex-005-write",
+          "type": "code-write",
+          "question": "Create a profile card with: an image (src='avatar.png', alt='My avatar'), an h2 with your name, and a link to your GitHub that opens in a new tab.",
+          "starterCode": "<!-- Profile card -->",
+          "solution": "<img src=\"avatar.png\" alt=\"My avatar\" />\n<h2>Jane Doe</h2>\n<a href=\"https://github.com/janedoe\" target=\"_blank\" rel=\"noopener\">GitHub</a>",
+          "hints": ["img is a void/self-closing element", "Use target=\"_blank\" for new tab", "Add rel=\"noopener\" for security"],
+          "testCases": [{ "input": "", "expectedOutput": "<img", "description": "Contains an image" }, { "input": "", "expectedOutput": "target=\"_blank\"", "description": "Link opens in new tab" }],
+          "explanation": "Images and links are the most used HTML elements. Together they form the backbone of web navigation."
+        }
+      ]
+    },
+    {
+      "id": "html-005-lists",
+      "title": "Lists — Ordered, Unordered & Description",
+      "order": 5,
+      "difficulty": "beginner",
+      "xpReward": 60,
+      "estimatedMinutes": 25,
+      "tags": ["lists", "ul", "ol", "dl"],
+      "prerequisites": ["html-004-links-images"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Unordered Lists" },
+          { "type": "text", "content": "Use <ul> (unordered list) for items with no particular sequence — like a shopping list or a set of features. Each item uses an <li> (list item) tag. Browsers render them with bullet points by default." },
+          { "type": "code", "language": "html", "content": "<ul>\n  <li>Apples</li>\n  <li>Bananas</li>\n  <li>Cherries</li>\n</ul>" },
+          { "type": "heading", "content": "Ordered Lists" },
+          { "type": "text", "content": "Use <ol> (ordered list) when sequence matters — like recipe steps or a tutorial. Items are automatically numbered." },
+          { "type": "code", "language": "html", "content": "<ol>\n  <li>Boil water</li>\n  <li>Add pasta</li>\n  <li>Cook for 10 minutes</li>\n  <li>Drain and serve</li>\n</ol>" },
+          { "type": "heading", "content": "Nested Lists" },
+          { "type": "text", "content": "Lists can be nested inside each other to create hierarchical structures like outlines or menus." },
+          { "type": "code", "language": "html", "content": "<ul>\n  <li>Frontend\n    <ul>\n      <li>HTML</li>\n      <li>CSS</li>\n      <li>JavaScript</li>\n    </ul>\n  </li>\n  <li>Backend\n    <ul>\n      <li>Python</li>\n      <li>Node.js</li>\n    </ul>\n  </li>\n</ul>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Use lists for navigation menus — they're semantic, accessible, and easy to style with CSS." }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Recipe Page with Lists",
+          "code": "<h2>Classic Pancakes</h2>\n<h3>Ingredients</h3>\n<ul>\n  <li>2 cups flour</li>\n  <li>2 eggs</li>\n  <li>1 cup milk</li>\n</ul>\n<h3>Instructions</h3>\n<ol>\n  <li>Mix dry ingredients</li>\n  <li>Add wet ingredients</li>\n  <li>Cook on medium heat</li>\n</ol>",
+          "output": "A recipe with bulleted ingredients and numbered steps",
+          "explanation": "ul for unordered ingredients, ol for ordered steps — semantics perfectly match the content.",
+          "language": "html"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "html-ex-006-write",
+          "type": "code-write",
+          "question": "Create your top 3 favourite technologies as an ordered list, and your hobbies as an unordered list.",
+          "starterCode": "<!-- Ordered list of technologies -->\n\n<!-- Unordered list of hobbies -->",
+          "solution": "<ol>\n  <li>JavaScript</li>\n  <li>Python</li>\n  <li>HTML</li>\n</ol>\n<ul>\n  <li>Reading</li>\n  <li>Gaming</li>\n  <li>Coding</li>\n</ul>",
+          "hints": ["ol for ordered/numbered lists", "ul for unordered/bulleted lists", "Each item needs an li tag"],
+          "testCases": [{ "input": "", "expectedOutput": "<ol>", "description": "Contains ordered list" }, { "input": "", "expectedOutput": "<ul>", "description": "Contains unordered list" }],
+          "explanation": "Choose ol when order matters, ul when it doesn't. Both use li for individual items."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "html-cap-01",
+    "title": "Personal Bio Page",
+    "description": "Build a complete personal bio page using only HTML — no CSS needed. Focus on clean semantic structure.",
+    "difficulty": "beginner",
+    "estimatedHours": 2,
+    "xpReward": 300,
+    "requirements": [
+      "One h1 with your name",
+      "A profile image with descriptive alt text",
+      "An About Me section with h2 and paragraphs",
+      "An ordered list of your top 5 skills",
+      "An unordered list of your hobbies",
+      "A navigation section with links to your GitHub and LinkedIn",
+      "A contact section with an email link"
+    ]
+  }
+}

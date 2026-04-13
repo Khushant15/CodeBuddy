@@ -1,0 +1,174 @@
+{
+  "id": "html-module-03-forms-media",
+  "title": "Forms & Media",
+  "description": "Learn how to collect user input using forms and enhance web pages with multimedia elements like audio and video.",
+  "difficulty": "intermediate",
+  "estimatedHours": 10,
+  "totalLessons": 6,
+  "skillsGained": [
+    "Creating forms",
+    "Handling user input",
+    "Using media elements",
+    "Embedding external content"
+  ],
+  "lessons": [
+    {
+      "id": "html-lesson-09-forms-intro",
+      "title": "Introduction to Forms",
+      "duration": 1.5,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Forms are essential for interaction. They allow users to send data to a server. Use the <form> tag to wrap your input elements."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<form action=\"/submit\" method=\"POST\">\n</form>"
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "id": "form-q1",
+          "type": "multiple-choice",
+          "question": "Which tag is used to create a form?",
+          "options": ["form", "input", "button", "textarea"],
+          "correctAnswer": "form"
+        }
+      ]
+    },
+    {
+      "id": "html-lesson-10-inputs",
+      "title": "Input Fields",
+      "duration": 2,
+      "type": "practice",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "The <input> tag is versatile. Use the 'type' attribute to define what kind of data it accepts (text, email, password, etc.)."
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "id": "input-ex",
+          "type": "code-write",
+          "question": "Create input fields for name (text) and email (email).",
+          "starterCode": "<!-- Create inputs here -->",
+          "solution": "<input type=\"text\" placeholder=\"Name\" />\n<input type=\"email\" placeholder=\"Email\" />",
+          "testCases": []
+        }
+      ]
+    },
+    {
+      "id": "html-lesson-11-labels-buttons",
+      "title": "Labels & Buttons",
+      "duration": 1.5,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Always pair inputs with <label> tags for accessibility. Buttons allow users to trigger actions or submit the form."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<label>Name:</label>\n<input type=\"text\" />\n<button type=\"submit\">Submit</button>"
+          }
+        ]
+      }
+    },
+    {
+      "id": "html-lesson-12-form-structure",
+      "title": "Building a Complete Form",
+      "duration": 2,
+      "type": "practice",
+      "exercises": [
+        {
+          "id": "full-form-ex",
+          "type": "code-write",
+          "question": "Build a login form with email and password inputs and a submit button.",
+          "starterCode": "<!-- Your form here -->",
+          "solution": "<form>\n  <label>Email:</label>\n  <input type=\"email\" required />\n  <label>Password:</label>\n  <input type=\"password\" required />\n  <button type=\"submit\">Login</button>\n</form>",
+          "testCases": []
+        }
+      ]
+    },
+    {
+      "id": "html-lesson-13-media",
+      "title": "Audio & Video",
+      "duration": 1.5,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Embed media using <audio> and <video> tags. The 'controls' attribute adds play/pause/volume UI."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<video controls width=\"300\">\n  <source src=\"video.mp4\" type=\"video/mp4\">\n</video>"
+          }
+        ]
+      }
+    },
+    {
+      "id": "html-lesson-14-embedding",
+      "title": "Embedding Content",
+      "duration": 1.5,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Use <iframe> to embed external content like YouTube videos or Google Maps."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<iframe src=\"https://www.youtube.com/embed/dQw4w9WgXcQ\"></iframe>"
+          }
+        ]
+      }
+    }
+  ],
+  "miniProject": {
+    "title": "Contact Form Page",
+    "description": "Build a contact page with a form and media content.",
+    "requirements": [
+      "Name and email input",
+      "Message textarea",
+      "Submit button",
+      "Embed a video or map"
+    ]
+  },
+  "quiz": [
+    {
+      "question": "Which input type is used for email?",
+      "options": ["text", "email", "password", "number"],
+      "answer": "email"
+    },
+    {
+      "question": "Which tag is used to embed videos?",
+      "options": ["media", "video", "embed", "iframe"],
+      "answer": "video"
+    }
+  ],
+  "checkpoints": [
+    "Can create forms",
+    "Understands input types",
+    "Can embed media",
+    "Can build functional UI"
+  ],
+  "outcomes": [
+    "Build real-world forms",
+    "Handle user input",
+    "Use multimedia effectively"
+  ]
+}

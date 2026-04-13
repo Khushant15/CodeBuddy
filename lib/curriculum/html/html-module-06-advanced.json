@@ -1,0 +1,186 @@
+{
+  "id": "html-module-06-advanced",
+  "title": "Advanced HTML",
+  "description": "Master advanced HTML: meta tags for SEO, Open Graph for social sharing, custom data attributes, HTML entities, microdata, and HTML5 browser APIs.",
+  "track": "html",
+  "order": 6,
+  "estimatedHours": 8,
+  "difficulty": "intermediate",
+  "prerequisites": ["html-module-05-tables"],
+  "learningObjectives": [
+    "Write complete SEO meta tags and Open Graph markup",
+    "Add favicons and web app manifests",
+    "Use data-* attributes to store custom data",
+    "Type special characters using HTML entities",
+    "Understand microdata and Schema.org for rich results"
+  ],
+  "lessons": [
+    {
+      "id": "html-051-meta-seo",
+      "title": "Meta Tags & SEO",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 75,
+      "estimatedMinutes": 30,
+      "tags": ["meta", "seo", "head"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "The <head> — Your SEO Command Center" },
+          { "type": "text", "content": "Everything inside <head> is metadata — information for browsers and search engines, not users. Getting this right is the easiest win for SEO." },
+          { "type": "code", "language": "html", "content": "<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Python for Beginners — CodeBuddy (50-60 chars max)</title>\n  <meta name=\"description\" content=\"Learn Python in 40 hours with 100 interactive exercises on CodeBuddy. Free to start.\" />\n  <meta name=\"robots\" content=\"index, follow\" />\n  <link rel=\"canonical\" href=\"https://codebuddy.dev/learn/python\" />\n</head>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Title: 50-60 chars. Description: 150-160 chars. Every page needs unique values." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-051-mc",
+          "type": "multiple-choice",
+          "question": "What is the recommended maximum character length for a meta description?",
+          "options": ["80", "120", "160", "250"],
+          "correctAnswer": "160",
+          "hints": ["Google shows ~155-160 chars before truncating"],
+          "explanation": "Google truncates meta descriptions at ~155-160 characters. Write compelling descriptions within this limit."
+        }
+      ]
+    },
+    {
+      "id": "html-052-open-graph",
+      "title": "Open Graph & Social Sharing",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 70,
+      "estimatedMinutes": 25,
+      "tags": ["open-graph", "twitter-card", "og"],
+      "prerequisites": ["html-051-meta-seo"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Control How Your Page Looks on Social Media" },
+          { "type": "text", "content": "Open Graph tags tell Facebook, Twitter, LinkedIn, and Slack exactly what image, title, and description to show when someone shares your link." },
+          { "type": "code", "language": "html", "content": "<meta property=\"og:type\" content=\"website\" />\n<meta property=\"og:url\" content=\"https://codebuddy.dev/\" />\n<meta property=\"og:title\" content=\"CodeBuddy — Learn to Code\" />\n<meta property=\"og:description\" content=\"100+ interactive coding lessons.\" />\n<meta property=\"og:image\" content=\"https://codebuddy.dev/og.jpg\" />\n\n<meta name=\"twitter:card\" content=\"summary_large_image\" />\n<meta name=\"twitter:title\" content=\"CodeBuddy — Learn to Code\" />\n<meta name=\"twitter:image\" content=\"https://codebuddy.dev/og.jpg\" />" },
+          { "type": "callout", "variant": "tip", "content": "🎯 OG images should be 1200×630px. Test at https://metatags.io" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-052-mc",
+          "type": "multiple-choice",
+          "question": "What are the recommended dimensions for an Open Graph image?",
+          "options": ["800×450px", "1200×630px", "1920×1080px", "600×315px"],
+          "correctAnswer": "1200×630px",
+          "hints": ["Landscape orientation, wider than tall"],
+          "explanation": "1200×630px is the standard OG image size used by all major social platforms without cropping."
+        }
+      ]
+    },
+    {
+      "id": "html-053-data-attributes",
+      "title": "Custom Data Attributes",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 65,
+      "estimatedMinutes": 25,
+      "tags": ["data-attributes", "dataset"],
+      "prerequisites": ["html-052-open-graph"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Storing Data in HTML with data-*" },
+          { "type": "text", "content": "Any attribute starting with data- is valid on any HTML element. JavaScript reads them via element.dataset. Perfect for storing widget config, analytics tracking data, or cart item info." },
+          { "type": "code", "language": "html", "content": "<div class=\"product\" data-id=\"42\" data-price=\"29.99\" data-category=\"electronics\">\n  <h3>Wireless Earbuds</h3>\n  <button class=\"add-to-cart\">Add to Cart</button>\n</div>\n\n<!-- In JavaScript:\nconst el = document.querySelector('.product');\nel.dataset.id       // '42'\nel.dataset.price    // '29.99'\nel.dataset.category // 'electronics'\n-->" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-053-write",
+          "type": "code-write",
+          "question": "Create a user card div with data-user-id='u123', data-role='admin', data-points='850'. Include an h3 with 'coder42' and a span with 'Admin'.",
+          "starterCode": "<!-- User card -->",
+          "solution": "<div class=\"user-card\" data-user-id=\"u123\" data-role=\"admin\" data-points=\"850\">\n  <h3>coder42</h3>\n  <span>Admin</span>\n</div>",
+          "hints": ["All attributes start with data-", "Lowercase names with hyphens", "Values in quotes"],
+          "testCases": [{ "input": "", "expectedOutput": "data-user-id", "description": "Has user-id attribute" }],
+          "explanation": "data-* attributes are a clean way to embed structured data in HTML for JavaScript consumption."
+        }
+      ]
+    },
+    {
+      "id": "html-054-entities-favicon",
+      "title": "HTML Entities & Favicons",
+      "order": 4,
+      "difficulty": "beginner",
+      "xpReward": 55,
+      "estimatedMinutes": 20,
+      "tags": ["entities", "favicon"],
+      "prerequisites": ["html-053-data-attributes"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "HTML Entities" },
+          { "type": "text", "content": "Special characters that have meaning in HTML syntax must be escaped using entities: &lt; for <, &gt; for >, &amp; for &, &copy; for ©, &nbsp; for a non-breaking space." },
+          { "type": "code", "language": "html", "content": "<p>Use &lt;p&gt; for paragraphs.</p>\n<p>&copy; 2025 CodeBuddy. All rights reserved.</p>\n<p>Price: $9.99&nbsp;&mdash;&nbsp;billed monthly.</p>" },
+          { "type": "heading", "content": "Favicon" },
+          { "type": "code", "language": "html", "content": "<link rel=\"icon\" href=\"/favicon.ico\" />\n<link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/icon-32.png\" />\n<link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/apple-touch-icon.png\" />" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-054-mc",
+          "type": "multiple-choice",
+          "question": "Which HTML entity displays the copyright symbol ©?",
+          "options": ["&copyright;", "&copy;", "&c;", "@copy;"],
+          "correctAnswer": "&copy;",
+          "hints": ["Short abbreviation of copyright"],
+          "explanation": "&copy; renders ©. All entities start with & and end with ;."
+        }
+      ]
+    },
+    {
+      "id": "html-055-schema",
+      "title": "Schema.org & Rich Results",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 30,
+      "tags": ["schema.org", "json-ld", "rich-results"],
+      "prerequisites": ["html-054-entities-favicon"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Structured Data for Rich Search Results" },
+          { "type": "text", "content": "Structured data tells Google the exact meaning of your content. Result: star ratings, FAQs, breadcrumbs, and event details shown directly in search results (rich results). JSON-LD is the recommended format." },
+          { "type": "code", "language": "html", "content": "<script type=\"application/ld+json\">\n{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Course\",\n  \"name\": \"Python for Beginners\",\n  \"description\": \"Learn Python in 40 hours.\",\n  \"provider\": {\n    \"@type\": \"Organization\",\n    \"name\": \"CodeBuddy\"\n  }\n}\n</script>" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Test with Google's Rich Results Test: https://search.google.com/test/rich-results" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "html-ex-055-mc",
+          "type": "multiple-choice",
+          "question": "Which format does Google recommend for adding structured data?",
+          "options": ["Microdata attributes", "RDFa", "JSON-LD in a script tag", "XML sitemap"],
+          "correctAnswer": "JSON-LD in a script tag",
+          "hints": ["It keeps structured data separate from HTML markup"],
+          "explanation": "Google recommends JSON-LD because it's easy to add/update without touching visible HTML markup."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "html-cap-06",
+    "title": "Restaurant Menu Page",
+    "description": "Build a fully optimised restaurant page with SEO, OG tags, JSON-LD structured data, favicons, data attributes, and entities.",
+    "difficulty": "intermediate",
+    "estimatedHours": 3,
+    "xpReward": 500,
+    "requirements": [
+      "Complete head: charset, viewport, title, meta description",
+      "Full Open Graph and Twitter Card tags",
+      "JSON-LD with Restaurant schema",
+      "Menu items with data-id, data-price, data-category",
+      "Copyright entity in footer",
+      "Favicon linked correctly"
+    ]
+  }
+}

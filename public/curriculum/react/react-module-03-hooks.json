@@ -1,0 +1,182 @@
+{
+  "id": "react-module-03-hooks",
+  "title": "React Hooks Deep Dive",
+  "description": "Unlock the full power of React hooks. Master useEffect for side effects, useRef for DOM access, useMemo and useCallback for performance, and build your own custom hooks to extract reusable logic.",
+  "track": "react",
+  "order": 3,
+  "estimatedHours": 14,
+  "difficulty": "intermediate",
+  "prerequisites": ["react-module-02-state-events"],
+  "learningObjectives": [
+    "Fetch data and manage side effects with useEffect",
+    "Understand the dependency array and avoid stale closures",
+    "Access DOM elements directly with useRef",
+    "Optimise renders with useMemo and useCallback",
+    "Extract and share logic with custom hooks"
+  ],
+  "lessons": [
+    {
+      "id": "react-021-useeffect",
+      "title": "useEffect — Side Effects & Data Fetching",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 90,
+      "estimatedMinutes": 45,
+      "tags": ["useEffect", "side-effects", "fetch", "cleanup"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "What is a Side Effect?" },
+          { "type": "text", "content": "A side effect is any operation that reaches outside a component: API calls, timers, subscriptions, DOM mutations, localStorage reads. useEffect is React's dedicated hook for managing these." },
+          { "type": "code", "language": "jsx", "content": "import { useState, useEffect } from 'react';\n\nfunction UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  useEffect(() => {\n    // Must be declared inside to access latest userId\n    const controller = new AbortController();\n\n    async function fetchUser() {\n      try {\n        setLoading(true);\n        const res = await fetch(`/api/users/${userId}`, {\n          signal: controller.signal\n        });\n        if (!res.ok) throw new Error('Failed to fetch');\n        const data = await res.json();\n        setUser(data);\n      } catch (err) {\n        if (err.name !== 'AbortError') setError(err.message);\n      } finally {\n        setLoading(false);\n      }\n    }\n\n    fetchUser();\n\n    // Cleanup: abort request if userId changes or component unmounts\n    return () => controller.abort();\n  }, [userId]); // Dependency: re-run when userId changes\n\n  if (loading) return <p>Loading...</p>;\n  if (error) return <p>Error: {error}</p>;\n  return <div>{user?.name}</div>;\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-021-mc",
+          "type": "multiple-choice",
+          "question": "What does an empty dependency array [] in useEffect mean?",
+          "options": ["The effect runs on every render", "The effect never runs", "The effect runs once after the initial render only", "The effect runs only when state changes"],
+          "correctAnswer": "The effect runs once after the initial render only",
+          "hints": ["No dependencies = nothing can trigger it to re-run"],
+          "explanation": "useEffect(() => {}, []) runs once after the first render and never again. No deps = no triggers. This is how you implement componentDidMount-equivalent logic (like one-time data fetches)."
+        }
+      ]
+    },
+    {
+      "id": "react-022-useref",
+      "title": "useRef — DOM Access & Persistent Values",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 75,
+      "estimatedMinutes": 30,
+      "tags": ["useRef", "DOM", "focus", "persist"],
+      "prerequisites": ["react-021-useeffect"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Two Use Cases for useRef" },
+          { "type": "code", "language": "jsx", "content": "import { useRef, useEffect } from 'react';\n\n// Use Case 1: Access DOM elements directly\nfunction SearchInput() {\n  const inputRef = useRef(null);\n\n  useEffect(() => {\n    inputRef.current.focus(); // focus on mount\n  }, []);\n\n  return <input ref={inputRef} placeholder=\"Search...\" />;\n}\n\n// Use Case 2: Persist values across renders WITHOUT triggering re-render\nfunction Timer() {\n  const [time, setTime] = useState(0);\n  const intervalRef = useRef(null); // store interval ID\n\n  const start = () => {\n    intervalRef.current = setInterval(() => setTime(t => t + 1), 1000);\n  };\n  const stop = () => clearInterval(intervalRef.current);\n\n  useEffect(() => () => clearInterval(intervalRef.current), []);\n\n  return (\n    <div>\n      <p>{time}s</p>\n      <button onClick={start}>Start</button>\n      <button onClick={stop}>Stop</button>\n    </div>\n  );\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-022-mc",
+          "type": "multiple-choice",
+          "question": "How does changing ref.current differ from calling a state setter?",
+          "options": ["ref.current changes cause re-renders, state does not", "No difference — both cause re-renders", "Changing ref.current does NOT cause a re-render", "refs can only store DOM elements"],
+          "correctAnswer": "Changing ref.current does NOT cause a re-render",
+          "hints": ["Refs are a 'box' that holds a value, not reactive state"],
+          "explanation": "Mutating ref.current doesn't trigger a re-render — that's the key difference from state. Use refs when you need to persist a value across renders without triggering updates (timers, previous values, DOM nodes)."
+        }
+      ]
+    },
+    {
+      "id": "react-023-usememo-callback",
+      "title": "useMemo & useCallback — Performance",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["useMemo", "useCallback", "performance", "memoization"],
+      "prerequisites": ["react-022-useref"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Avoiding Unnecessary Work" },
+          { "type": "code", "language": "jsx", "content": "import { useMemo, useCallback, useState } from 'react';\n\nfunction ProductList({ products, onAddToCart }) {\n  const [filter, setFilter] = useState('');\n  const [sortAsc, setSortAsc] = useState(true);\n\n  // useMemo: cache expensive computation between renders\n  const filteredProducts = useMemo(() => {\n    console.log('Filtering...');\n    return products\n      .filter(p => p.name.toLowerCase().includes(filter))\n      .sort((a, b) => sortAsc\n        ? a.name.localeCompare(b.name)\n        : b.name.localeCompare(a.name)\n      );\n  }, [products, filter, sortAsc]); // only recomputes when these change\n\n  // useCallback: stable function reference for child components\n  const handleAdd = useCallback((product) => {\n    onAddToCart(product);\n    // ... other logic\n  }, [onAddToCart]); // stable unless onAddToCart changes\n\n  return (\n    <>\n      <input value={filter} onChange={e => setFilter(e.target.value)} />\n      {filteredProducts.map(p => (\n        <ProductCard key={p.id} product={p} onAdd={handleAdd} />\n      ))}\n    </>\n  );\n}" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Don't over-optimize. useMemo and useCallback add complexity and their own overhead. Only add them after profiling confirms a real performance problem." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-023-mc",
+          "type": "multiple-choice",
+          "question": "useCallback is primarily used to:",
+          "options": ["Cache expensive calculations", "Prevent a function from being recreated on every render", "Asynchronously fetch data", "Replace useEffect for callbacks"],
+          "correctAnswer": "Prevent a function from being recreated on every render",
+          "hints": ["Memoizes a function, not a value"],
+          "explanation": "useCallback returns a memoized function reference. Without it, a new function object is created every render — which causes child components wrapped in React.memo to re-render even when nothing changed."
+        }
+      ]
+    },
+    {
+      "id": "react-024-custom-hooks",
+      "title": "Custom Hooks",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 90,
+      "estimatedMinutes": 45,
+      "tags": ["custom-hooks", "useWindowSize", "useFetch", "useLocalStorage"],
+      "prerequisites": ["react-023-usememo-callback"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Extracting Logic into Custom Hooks" },
+          { "type": "text", "content": "A custom hook is any function starting with 'use' that calls other hooks. It's how you share stateful logic between components without HOCs or render props. Each component gets its own isolated state." },
+          { "type": "code", "language": "jsx", "content": "// useFetch — reusable data fetching hook\nfunction useFetch(url) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  useEffect(() => {\n    const controller = new AbortController();\n    fetch(url, { signal: controller.signal })\n      .then(r => r.json())\n      .then(setData)\n      .catch(e => { if (e.name !== 'AbortError') setError(e.message); })\n      .finally(() => setLoading(false));\n    return () => controller.abort();\n  }, [url]);\n\n  return { data, loading, error };\n}\n\n// useLocalStorage — syncs state to localStorage\nfunction useLocalStorage(key, initialValue) {\n  const [value, setValue] = useState(() => {\n    try {\n      return JSON.parse(localStorage.getItem(key)) ?? initialValue;\n    } catch { return initialValue; }\n  });\n\n  const setLocalValue = (newValue) => {\n    setValue(newValue);\n    localStorage.setItem(key, JSON.stringify(newValue));\n  };\n\n  return [value, setLocalValue];\n}\n\n// Usage — clean component code\nfunction App() {\n  const { data: users, loading } = useFetch('/api/users');\n  const [theme, setTheme] = useLocalStorage('theme', 'dark');\n\n  if (loading) return <Spinner />;\n  return <UserList users={users} theme={theme} />;\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-024-mc",
+          "type": "multiple-choice",
+          "question": "What is required for a function to be a valid custom React hook?",
+          "options": ["It must be defined in a separate file", "It must accept props as arguments", "Its name must start with 'use'", "It must call at least 3 built-in hooks"],
+          "correctAnswer": "Its name must start with 'use'",
+          "hints": ["React's linting rules check for this convention"],
+          "explanation": "Custom hooks must start with 'use' — this lets React's linter enforce the Rules of Hooks (hooks can't be called conditionally). The function just needs to start with 'use'; it doesn't need to return anything specific."
+        }
+      ]
+    },
+    {
+      "id": "react-025-rules-of-hooks",
+      "title": "Rules of Hooks & useReducer",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["rules-of-hooks", "useReducer", "dispatch", "complex-state"],
+      "prerequisites": ["react-024-custom-hooks"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "The Two Rules of Hooks" },
+          { "type": "text", "content": "1. Only call hooks at the top level — never inside conditions, loops, or nested functions. 2. Only call hooks from React function components or custom hooks — never from regular functions." },
+          { "type": "heading", "content": "useReducer — Complex State" },
+          { "type": "code", "language": "jsx", "content": "import { useReducer } from 'react';\n\n// State shape and initial value\nconst initialState = { count: 0, step: 1, history: [] };\n\n// Reducer: pure function (state, action) => newState\nfunction reducer(state, action) {\n  switch (action.type) {\n    case 'INCREMENT':\n      return {\n        ...state,\n        count: state.count + state.step,\n        history: [...state.history, state.count]\n      };\n    case 'DECREMENT':\n      return { ...state, count: state.count - state.step };\n    case 'SET_STEP':\n      return { ...state, step: action.payload };\n    case 'RESET':\n      return initialState;\n    default:\n      return state;\n  }\n}\n\nfunction Counter() {\n  const [state, dispatch] = useReducer(reducer, initialState);\n\n  return (\n    <div>\n      <p>Count: {state.count} (step: {state.step})</p>\n      <button onClick={() => dispatch({ type: 'INCREMENT' })}>+</button>\n      <button onClick={() => dispatch({ type: 'DECREMENT' })}>-</button>\n      <input\n        type=\"number\"\n        onChange={e => dispatch({ type: 'SET_STEP', payload: +e.target.value })}\n      />\n    </div>\n  );\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-025-mc",
+          "type": "multiple-choice",
+          "question": "When should you prefer useReducer over multiple useState calls?",
+          "options": ["Always — useReducer is always better", "When state is a single value", "When state logic is complex, state values depend on each other, or next state depends on previous", "When you don't want components to re-render"],
+          "correctAnswer": "When state logic is complex, state values depend on each other, or next state depends on previous",
+          "hints": ["It follows the Redux pattern for a reason"],
+          "explanation": "useReducer excels when you have multiple state values that change together, complex update logic, or when testing state transitions in isolation is important. For simple independent values, useState is simpler."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "react-cap-03",
+    "title": "GitHub User Search",
+    "description": "Build a GitHub user search app that fetches from the GitHub API and displays profiles — using all hooks from this module.",
+    "difficulty": "intermediate",
+    "estimatedHours": 4,
+    "xpReward": 550,
+    "requirements": [
+      "useFetch custom hook handles all data fetching with loading/error states",
+      "useLocalStorage custom hook persists search history",
+      "useDebounce custom hook delays API calls while typing",
+      "Search input uses useRef for auto-focus",
+      "Recent searches list from localStorage",
+      "User profile displays avatar, bio, repos, followers",
+      "Repo list is filtered client-side — filter logic memoized with useMemo",
+      "useReducer manages the app's complex state (query, results, history, filter)"
+    ]
+  }
+}

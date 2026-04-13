@@ -1,0 +1,191 @@
+{
+  "id": "html-module-04-semantic-seo",
+  "title": "Semantic HTML, SEO & Accessibility",
+  "description": "Learn how to write meaningful HTML using semantic tags, improve SEO, and build accessible web pages for all users.",
+  "difficulty": "intermediate",
+  "estimatedHours": 12,
+  "totalLessons": 6,
+  "skillsGained": [
+    "Semantic HTML structuring",
+    "SEO fundamentals",
+    "Accessibility best practices",
+    "Writing clean, professional markup"
+  ],
+  "lessons": [
+    {
+      "id": "html-lesson-15-semantic-intro",
+      "title": "Introduction to Semantic HTML",
+      "duration": 2,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "Why Semantics Matter"
+          },
+          {
+            "type": "text",
+            "content": "Semantic tags like <header>, <nav>, and <main> tell the browser and search engines exactly what each part of your page is for. Semantic tags improve readability, SEO, and accessibility."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<header>Header</header>\n<main>Main Content</main>\n<footer>Footer</footer>"
+          }
+        ]
+      }
+    },
+    {
+      "id": "html-lesson-16-semantic-tags",
+      "title": "Common Semantic Tags",
+      "duration": 2,
+      "type": "practice",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Common semantic tags include header, footer, section, article, nav, and aside."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<nav>\n  <a href=\"#\">Home</a>\n  <a href=\"#\">About</a>\n</nav>"
+          }
+        ]
+      }
+    },
+    {
+      "id": "html-lesson-17-seo-basics",
+      "title": "SEO Basics",
+      "duration": 2,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Meta tags, titles, descriptions, and alt attributes are key for SEO."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<meta name=\"description\" content=\"Learn HTML easily\">\n<img src=\"img.jpg\" alt=\"HTML tutorial\" />"
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "id": "seo-q1",
+          "type": "multiple-choice",
+          "question": "Which tag helps SEO the most?",
+          "options": ["div", "meta", "span", "br"],
+          "correctAnswer": "meta"
+        }
+      ]
+    },
+    {
+      "id": "html-lesson-18-accessibility",
+      "title": "Accessibility (a11y)",
+      "duration": 2,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Accessibility (a11y) ensures websites are usable by everyone. Use aria attributes, alt text, and ensure keyboard navigation works."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<button aria-label=\"Close\">X</button>"
+          }
+        ]
+      }
+    },
+    {
+      "id": "html-lesson-19-best-practices",
+      "title": "HTML Best Practices",
+      "duration": 2,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Clean code, proper indentation, and avoiding excessive divs are key best practices."
+          }
+        ]
+      }
+    },
+    {
+      "id": "html-lesson-20-final-build",
+      "title": "Building a Structured Webpage",
+      "duration": 2,
+      "type": "practice",
+      "exercises": [
+        {
+          "id": "final-build-ex",
+          "type": "code-write",
+          "question": "Create a semantic webpage using header, nav, main, section, and footer.",
+          "starterCode": "<!-- Your semantic layout here -->",
+          "solution": "<header>My Site</header>\n<nav>Menu</nav>\n<main>\n  <section>Content</section>\n</main>\n<footer>Footer</footer>",
+          "testCases": []
+        }
+      ]
+    }
+  ],
+  "miniProject": {
+    "title": "Professional Landing Page",
+    "description": "Build a fully structured landing page using semantic HTML with SEO and accessibility.",
+    "requirements": [
+      "Use semantic tags (header, nav, main, footer)",
+      "Add meta description",
+      "Use alt attributes for images",
+      "Structure content properly"
+    ]
+  },
+  "finalProject": {
+    "title": "Portfolio Website (HTML Only)",
+    "description": "Create a complete personal portfolio website using only HTML.",
+    "features": [
+      "Header with navigation",
+      "About section",
+      "Projects section",
+      "Contact section with form",
+      "Semantic structure",
+      "SEO-friendly metadata"
+    ]
+  },
+  "quiz": [
+    {
+      "question": "Which tag defines navigation links?",
+      "options": ["nav", "section", "header", "aside"],
+      "answer": "nav"
+    },
+    {
+      "question": "What does 'alt' attribute do?",
+      "options": [
+        "Styles image",
+        "Provides alternative text",
+        "Adds animation",
+        "Links image"
+      ],
+      "answer": "Provides alternative text"
+    }
+  ],
+  "checkpoints": [
+    "Uses semantic HTML correctly",
+    "Understands SEO basics",
+    "Applies accessibility principles",
+    "Writes clean HTML code"
+  ],
+  "certificateCriteria": {
+    "requiredLessonsCompleted": 6,
+    "minQuizScore": 75,
+    "finalProjectRequired": true
+  },
+  "outcomes": [
+    "Write professional HTML",
+    "Build SEO-friendly websites",
+    "Create accessible web pages",
+    "Be ready for CSS and frontend frameworks"
+  ]
+}

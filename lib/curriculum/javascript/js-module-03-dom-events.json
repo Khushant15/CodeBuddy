@@ -1,0 +1,178 @@
+{
+  "id": "js-module-03-dom-events",
+  "title": "The DOM & Browser Events",
+  "description": "Bridge the gap between JavaScript and HTML. Learn to query, create, modify, and delete DOM elements, then respond to user interaction through the browser's powerful event system.",
+  "track": "javascript",
+  "order": 3,
+  "estimatedHours": 13,
+  "difficulty": "intermediate",
+  "prerequisites": ["js-module-02-functions-scope"],
+  "learningObjectives": [
+    "Query and traverse the DOM with querySelector and modern methods",
+    "Create, modify, and remove DOM elements",
+    "Understand event propagation: bubbling and capturing",
+    "Use event delegation for efficient event handling",
+    "Manipulate classes, attributes, and inline styles"
+  ],
+  "lessons": [
+    {
+      "id": "js-021-querying-dom",
+      "title": "Querying the DOM",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["querySelector", "getElementById", "DOM", "nodes"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Finding Elements" },
+          { "type": "code", "language": "javascript", "content": "// Modern: querySelector / querySelectorAll (use CSS selectors)\nconst btn = document.querySelector('#submit-btn');\nconst inputs = document.querySelectorAll('input[type=\"text\"]');\nconst cards = document.querySelectorAll('.card');\nconst firstLink = document.querySelector('nav a');\n\n// Classic (still useful for performance)\nconst byId = document.getElementById('hero');\nconst byClass = document.getElementsByClassName('card'); // live HTMLCollection\nconst byTag = document.getElementsByTagName('li');        // live HTMLCollection\n\n// Traversal\nconst parent = element.parentElement;\nconst children = element.children;           // HTMLCollection\nconst firstChild = element.firstElementChild;\nconst lastChild = element.lastElementChild;\nconst next = element.nextElementSibling;\nconst prev = element.previousElementSibling;\n\n// Convert NodeList to Array for full array methods\nconst cardArray = Array.from(document.querySelectorAll('.card'));\ncardArray.forEach(card => console.log(card.textContent));" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-021-mc",
+          "type": "multiple-choice",
+          "question": "Which method returns a live HTMLCollection (updates automatically if DOM changes)?",
+          "options": ["querySelectorAll()", "getElementsByClassName()", "Array.from()", "querySelector()"],
+          "correctAnswer": "getElementsByClassName()",
+          "hints": ["querySelector returns a static snapshot"],
+          "explanation": "getElementsByClassName() (and getElementsByTagName()) return live HTMLCollections that automatically update when matching elements are added/removed. querySelectorAll() returns a static NodeList snapshot."
+        }
+      ]
+    },
+    {
+      "id": "js-022-manipulating-dom",
+      "title": "Creating & Modifying Elements",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 40,
+      "tags": ["createElement", "appendChild", "innerHTML", "textContent"],
+      "prerequisites": ["js-021-querying-dom"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "DOM Manipulation" },
+          { "type": "code", "language": "javascript", "content": "// Reading content\nconst text  = el.textContent;  // all text, including hidden\nconst html  = el.innerHTML;    // HTML string (XSS risk!)\nconst outer = el.outerHTML;    // element itself + content\n\n// Modifying content\nel.textContent = 'New text content'; // safe — escapes HTML\nel.innerHTML = '<strong>Bold</strong>'; // parses HTML (use carefully)\n\n// Classes\nel.classList.add('active', 'visible');\nel.classList.remove('hidden');\nel.classList.toggle('open');              // add if absent, remove if present\nel.classList.replace('old', 'new');\nconst has = el.classList.contains('active'); // true/false\n\n// Attributes\nel.setAttribute('data-id', '42');\nconst id = el.getAttribute('data-id');   // '42'\nel.removeAttribute('disabled');\nconst src = el.src;                      // direct property (faster)\n\n// Styles\nel.style.color = 'red';\nel.style.backgroundColor = '#1a1a2e';\n\n// Creating elements\nconst card = document.createElement('div');\ncard.className = 'card';\ncard.textContent = 'New Card';\n\n// Inserting\nparent.appendChild(card);              // at end\nparent.prepend(card);                  // at start\nparent.insertBefore(card, reference); // before reference\nreference.insertAdjacentElement('afterend', card);\n\n// Removing\ncard.remove();                // modern\nparent.removeChild(card);    // classic" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-022-mc",
+          "type": "multiple-choice",
+          "question": "Why is el.textContent safer than el.innerHTML for displaying user-generated content?",
+          "options": ["textContent is faster", "textContent escapes HTML, preventing XSS attacks", "innerHTML doesn't work in modern browsers", "textContent allows richer formatting"],
+          "correctAnswer": "textContent escapes HTML, preventing XSS attacks",
+          "hints": ["Think about what happens if a user enters <script>alert(1)</script>"],
+          "explanation": "textContent treats all content as literal text — tags are displayed as characters, not parsed. innerHTML parses the string as HTML, so malicious users could inject script tags (XSS)."
+        }
+      ]
+    },
+    {
+      "id": "js-023-events",
+      "title": "Event Listeners & The Event Object",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 40,
+      "tags": ["addEventListener", "event", "preventDefault", "bubbling"],
+      "prerequisites": ["js-022-manipulating-dom"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "addEventListener" },
+          { "type": "code", "language": "javascript", "content": "const btn = document.querySelector('#btn');\n\n// Add event listener\nfunction handleClick(event) {\n  console.log('Clicked!');\n  console.log(event.target);       // element that was clicked\n  console.log(event.currentTarget); // element with the listener\n  console.log(event.type);         // 'click'\n  console.log(event.clientX, event.clientY); // mouse position\n\n  event.preventDefault();          // stop default browser action\n  event.stopPropagation();         // stop event bubbling up\n}\n\nbtn.addEventListener('click', handleClick);\nbtn.removeEventListener('click', handleClick); // must be same reference!\n\n// Common events\ndocument.addEventListener('keydown', (e) => console.log(e.key, e.code));\ninput.addEventListener('input', (e) => console.log(e.target.value));\nform.addEventListener('submit', (e) => { e.preventDefault(); /* ... */ });\nwindow.addEventListener('resize', (e) => console.log(window.innerWidth));\ndocument.addEventListener('scroll', (e) => console.log(window.scrollY));\nimg.addEventListener('load', () => console.log('Image loaded'));" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-023-mc",
+          "type": "multiple-choice",
+          "question": "What is the difference between event.target and event.currentTarget?",
+          "options": ["They are always the same", "target is where the event started; currentTarget is where the listener is attached", "currentTarget is the clickable element; target is the parent", "target is for mouse events; currentTarget is for keyboard events"],
+          "correctAnswer": "target is where the event started; currentTarget is where the listener is attached",
+          "hints": ["A click on a span inside a button: target=span, currentTarget=button"],
+          "explanation": "event.target is the innermost element that triggered the event (where your click landed). event.currentTarget is always the element that has the addEventListener — it stays constant as events bubble."
+        }
+      ]
+    },
+    {
+      "id": "js-024-event-delegation",
+      "title": "Event Bubbling & Delegation",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["bubbling", "delegation", "performance", "dynamic"],
+      "prerequisites": ["js-023-events"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Event Bubbling" },
+          { "type": "text", "content": "When an event fires on an element, it bubbles up through all ancestor elements in the DOM tree. This means a parent element can 'catch' events from its children." },
+          { "type": "code", "language": "javascript", "content": "// Without delegation: 1000 listeners for 1000 items = slow\ndocument.querySelectorAll('.item').forEach(item => {\n  item.addEventListener('click', handleItemClick); // ❌\n});\n\n// With delegation: 1 listener on parent handles ALL items\nconst list = document.querySelector('#product-list');\n\nlist.addEventListener('click', (event) => {\n  // event.target is whatever was actually clicked\n  const item = event.target.closest('.item'); // walk up to .item\n  if (!item) return; // click was not on an item\n\n  const id = item.dataset.id;\n  const action = event.target.dataset.action; // e.g., 'delete'\n\n  if (action === 'delete') deleteItem(id);\n  else selectItem(id);\n});\n\n// Works for dynamically added items too!\nfunction addItem(data) {\n  const item = document.createElement('li');\n  item.className = 'item';\n  item.dataset.id = data.id;\n  item.innerHTML = `\n    ${data.name}\n    <button data-action=\"delete\">Delete</button>\n  `;\n  list.appendChild(item); // listener on parent catches it\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-024-mc",
+          "type": "multiple-choice",
+          "question": "What is the main advantage of event delegation over adding listeners to each element individually?",
+          "options": ["It works without JavaScript", "One listener handles current AND future elements, saving memory", "Events fire faster with delegation", "It prevents event bubbling"],
+          "correctAnswer": "One listener handles current AND future elements, saving memory",
+          "hints": ["Think about dynamically added elements"],
+          "explanation": "Event delegation adds one listener to a parent. Because events bubble, all matching children (including dynamically added ones) are handled. This saves memory and eliminates the need to attach/detach listeners when items are added/removed."
+        }
+      ]
+    },
+    {
+      "id": "js-025-web-apis",
+      "title": "Essential Web APIs",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["localStorage", "sessionStorage", "IntersectionObserver", "MutationObserver"],
+      "prerequisites": ["js-024-event-delegation"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Browser Storage" },
+          { "type": "code", "language": "javascript", "content": "// localStorage: persists after tab close\nlocalStorage.setItem('user', JSON.stringify({ name: 'Alice', role: 'admin' }));\nconst user = JSON.parse(localStorage.getItem('user'));\nlocalStorage.removeItem('user');\nlocalStorage.clear();\n\n// sessionStorage: cleared when tab closes\nsessionStorage.setItem('draft', JSON.stringify(formData));\n\n// IntersectionObserver: detect when element enters viewport\nconst observer = new IntersectionObserver((entries) => {\n  entries.forEach(entry => {\n    if (entry.isIntersecting) {\n      entry.target.classList.add('visible');\n      observer.unobserve(entry.target); // stop watching\n    }\n  });\n}, { threshold: 0.1 }); // 10% visible\n\ndocument.querySelectorAll('.animate-on-scroll').forEach(el => {\n  observer.observe(el);\n});" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "js-ex-025-mc",
+          "type": "multiple-choice",
+          "question": "Which Web Storage API retains data after the browser tab is closed?",
+          "options": ["sessionStorage", "localStorage", "cookieStorage", "indexedDB"],
+          "correctAnswer": "localStorage",
+          "hints": ["'Local' = on your local machine permanently"],
+          "explanation": "localStorage persists indefinitely until explicitly cleared. sessionStorage is cleared when the browser tab is closed. For larger structured data, use IndexedDB."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "js-cap-03",
+    "title": "Interactive Kanban Board",
+    "description": "Build a drag-and-drop Kanban board using vanilla JavaScript and DOM APIs — no frameworks.",
+    "difficulty": "intermediate",
+    "estimatedHours": 4,
+    "xpReward": 500,
+    "requirements": [
+      "Three columns: Todo, In Progress, Done",
+      "Add task form using event listeners and DOM creation",
+      "Event delegation on each column for all task interactions",
+      "Drag and drop tasks between columns using dragstart/dragover/drop events",
+      "Delete task button on each card",
+      "Persist all tasks to localStorage (save/load on page load)",
+      "Animate cards entering viewport with IntersectionObserver",
+      "Task count badge on each column header (updates dynamically)"
+    ]
+  }
+}

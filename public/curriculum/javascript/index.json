@@ -1,0 +1,57 @@
+{
+  "track": "javascript",
+  "title": "JavaScript Programming Track",
+  "description": "Master JavaScript from the ground up. Learn the language of the web — from core syntax and data structures to async programming, the DOM, and modern ES6+ features used in production applications.",
+  "totalModules": 4,
+  "totalLessons": 20,
+  "estimatedHours": 50,
+  "modules": [
+    "js-module-01-fundamentals",
+    "js-module-02-functions-scope",
+    "js-module-03-dom-events",
+    "js-module-04-async-apis"
+  ],
+  "moduleDetails": [
+    {
+      "id": "js-module-01-fundamentals",
+      "title": "JavaScript Fundamentals",
+      "lessons": 5,
+      "hours": 10,
+      "difficulty": "beginner",
+      "description": "Variables, data types, operators, arrays, objects, and control flow."
+    },
+    {
+      "id": "js-module-02-functions-scope",
+      "title": "Functions, Scope & ES6+",
+      "lessons": 5,
+      "hours": 12,
+      "difficulty": "beginner",
+      "description": "Functions, arrow functions, closures, destructuring, spread, and modules."
+    },
+    {
+      "id": "js-module-03-dom-events",
+      "title": "The DOM & Events",
+      "lessons": 5,
+      "hours": 13,
+      "difficulty": "intermediate",
+      "description": "Querying the DOM, manipulating elements, and handling browser events."
+    },
+    {
+      "id": "js-module-04-async-apis",
+      "title": "Async JavaScript & APIs",
+      "lessons": 5,
+      "hours": 15,
+      "difficulty": "intermediate",
+      "description": "Promises, async/await, Fetch API, error handling, and localStorage."
+    }
+  ],
+  "learningPath": [
+    "Variables & Types",
+    "Control Flow",
+    "Functions & Closures",
+    "DOM Manipulation",
+    "Events",
+    "Promises & Async/Await",
+    "REST APIs"
+  ]
+}

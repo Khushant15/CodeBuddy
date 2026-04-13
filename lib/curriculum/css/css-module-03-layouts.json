@@ -1,0 +1,181 @@
+{
+  "id": "css-module-03-layouts",
+  "title": "Flexbox & Grid Layouts",
+  "description": "Build any layout you can imagine. Master CSS Flexbox for one-dimensional arrangements and CSS Grid for two-dimensional page structure — the two most important CSS features of the decade.",
+  "track": "css",
+  "order": 3,
+  "estimatedHours": 14,
+  "difficulty": "intermediate",
+  "prerequisites": ["css-module-02-typography-colors"],
+  "learningObjectives": [
+    "Align and distribute items along one axis with Flexbox",
+    "Use flex-grow, flex-shrink, and flex-basis to control item sizing",
+    "Build two-dimensional layouts with CSS Grid",
+    "Define grid tracks using fr, auto, repeat(), and minmax()",
+    "Combine Flexbox and Grid to build real page layouts"
+  ],
+  "lessons": [
+    {
+      "id": "css-021-flexbox-basics",
+      "title": "Flexbox Fundamentals",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 40,
+      "tags": ["flexbox", "align-items", "justify-content"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "The Flex Container" },
+          { "type": "text", "content": "Setting display: flex on a container makes all direct children flex items. The key axis concepts: the main axis (row by default) and the cross axis (perpendicular). justify-content controls distribution along the main axis; align-items controls alignment on the cross axis." },
+          { "type": "code", "language": "css", "content": ".container {\n  display: flex;\n\n  /* Main axis direction */\n  flex-direction: row;           /* row | row-reverse | column | column-reverse */\n\n  /* Wrapping */\n  flex-wrap: wrap;               /* nowrap | wrap | wrap-reverse */\n\n  /* Main axis distribution */\n  justify-content: space-between; /* flex-start | flex-end | center | space-around | space-evenly */\n\n  /* Cross axis alignment */\n  align-items: center;           /* flex-start | flex-end | center | stretch | baseline */\n\n  /* Gap between items (modern, no more margin hacks) */\n  gap: 16px;\n  /* Or: row-gap: 16px; column-gap: 24px; */\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-021-mc",
+          "type": "multiple-choice",
+          "question": "Which property centers flex items both horizontally AND vertically inside a flex container?",
+          "options": ["align-items: center", "justify-content: center", "Both justify-content and align-items set to center", "text-align: center"],
+          "correctAnswer": "Both justify-content and align-items set to center",
+          "hints": ["One property per axis"],
+          "explanation": "justify-content: center centers on the main axis (horizontal in row mode). align-items: center centers on the cross axis (vertical in row mode). You need both to center in both dimensions."
+        }
+      ]
+    },
+    {
+      "id": "css-022-flex-items",
+      "title": "Flex Items & the Flex Shorthand",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["flex-grow", "flex-shrink", "flex-basis", "flex"],
+      "prerequisites": ["css-021-flexbox-basics"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Controlling Flex Item Sizing" },
+          { "type": "code", "language": "css", "content": ".item {\n  flex-grow: 1;    /* how much to grow relative to siblings */\n  flex-shrink: 1;  /* how much to shrink when space is tight */\n  flex-basis: 0%;  /* initial size before growing/shrinking */\n}\n\n/* Shorthand: flex: grow shrink basis */\n.item { flex: 1; }          /* 1 1 0 — grow equally, shrink equally */\n.item { flex: 0 0 200px; }  /* fixed 200px, no grow/shrink */\n.item { flex: 2; }          /* grows twice as fast as flex: 1 siblings */\n\n/* align-self: override align-items for a single item */\n.special { align-self: flex-end; }\n\n/* order: visual reordering without changing HTML */\n.first { order: -1; }\n.last  { order: 99; }" },
+          { "type": "callout", "variant": "tip", "content": "🎯 flex: 1 is the magic shorthand for 'fill remaining space equally'. Use flex: 0 0 auto for fixed-size items." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-022-mc",
+          "type": "multiple-choice",
+          "question": "A flex container has two items. One has flex: 1, the other flex: 2. How is the remaining space distributed?",
+          "options": ["50% / 50%", "33% / 66%", "25% / 75%", "Equally regardless of flex value"],
+          "correctAnswer": "33% / 66%",
+          "hints": ["flex-grow values are proportional — 1:2 ratio"],
+          "explanation": "flex: 1 and flex: 2 creates a 1:2 ratio. Total parts = 3. First item gets 1/3 ≈ 33%, second gets 2/3 ≈ 66% of available space."
+        }
+      ]
+    },
+    {
+      "id": "css-023-grid-basics",
+      "title": "CSS Grid Fundamentals",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 90,
+      "estimatedMinutes": 45,
+      "tags": ["grid", "grid-template-columns", "fr", "grid-area"],
+      "prerequisites": ["css-022-flex-items"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Defining a Grid" },
+          { "type": "text", "content": "CSS Grid is a two-dimensional layout system. You define rows and columns on the container; children automatically or explicitly place themselves into the resulting cells." },
+          { "type": "code", "language": "css", "content": ".grid {\n  display: grid;\n\n  /* 3 equal columns */\n  grid-template-columns: 1fr 1fr 1fr;\n  /* shorthand */\n  grid-template-columns: repeat(3, 1fr);\n\n  /* Explicit rows */\n  grid-template-rows: 80px auto 60px;\n\n  /* Gap */\n  gap: 24px;\n}\n\n/* Responsive grid without media queries */\n.auto-grid {\n  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n}" },
+          { "type": "heading", "content": "Placing Grid Items" },
+          { "type": "code", "language": "css", "content": ".header { grid-column: 1 / -1; }  /* span all columns */\n.sidebar { grid-column: 1 / 2; grid-row: 2 / 4; }\n.main    { grid-column: 2 / -1; }\n\n/* Named areas for readable layouts */\n.layout {\n  grid-template-areas:\n    'header header header'\n    'sidebar main main'\n    'footer footer footer';\n}\n.header  { grid-area: header; }\n.sidebar { grid-area: sidebar; }\n.main    { grid-area: main; }\n.footer  { grid-area: footer; }" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-023-mc",
+          "type": "multiple-choice",
+          "question": "What does repeat(auto-fit, minmax(250px, 1fr)) do?",
+          "options": ["Creates exactly 3 columns", "Creates columns that are always 250px wide", "Creates as many 250px+ columns as fit, filling remaining space", "Creates a responsive row height"],
+          "correctAnswer": "Creates as many 250px+ columns as fit, filling remaining space",
+          "hints": ["auto-fit fills available space, minmax sets constraints"],
+          "explanation": "auto-fit places as many columns as fit in the container. minmax(250px, 1fr) means each column is at least 250px but grows to fill available space. This creates a responsive grid with no media queries."
+        }
+      ]
+    },
+    {
+      "id": "css-024-grid-advanced",
+      "title": "Advanced Grid Techniques",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["grid", "subgrid", "auto-placement", "dense"],
+      "prerequisites": ["css-023-grid-basics"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Auto Placement & dense Packing" },
+          { "type": "code", "language": "css", "content": "/* Auto-placement: grid decides where items go */\n.gallery {\n  display: grid;\n  grid-template-columns: repeat(4, 1fr);\n  grid-auto-rows: 200px;\n  gap: 16px;\n}\n\n/* Dense packing fills gaps left by spanning items */\n.masonry {\n  grid-auto-flow: dense;\n}\n\n.wide-item {\n  grid-column: span 2; /* spans 2 cols, auto-placed by grid */\n}\n\n/* Explicit vs implicit tracks */\n.grid {\n  grid-template-columns: repeat(3, 1fr); /* explicit columns */\n  grid-auto-rows: minmax(100px, auto);   /* implicit row height */\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-024-mc",
+          "type": "multiple-choice",
+          "question": "What does grid-auto-flow: dense do?",
+          "options": ["Makes each grid track denser/smaller", "Fills empty gaps left by large spanning items with later items", "Sets all rows to the same height", "Removes gaps between items"],
+          "correctAnswer": "Fills empty gaps left by large spanning items with later items",
+          "hints": ["Dense packing tries to fill every empty cell"],
+          "explanation": "dense instructs the grid algorithm to backtrack and fill holes left when wide items skip cells. Items may appear out of source order visually — good for image galleries."
+        }
+      ]
+    },
+    {
+      "id": "css-025-layout-patterns",
+      "title": "Real-World Layout Patterns",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 90,
+      "estimatedMinutes": 45,
+      "tags": ["holy-grail", "card-grid", "sidebar", "layout"],
+      "prerequisites": ["css-024-grid-advanced"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Classic Layout Patterns" },
+          { "type": "code", "language": "css", "content": "/* Holy Grail Layout */\n.page {\n  display: grid;\n  grid-template-areas:\n    'header'\n    'main'\n    'sidebar'\n    'footer';\n  min-height: 100vh;\n}\n\n@media (min-width: 768px) {\n  .page {\n    grid-template-columns: 250px 1fr;\n    grid-template-areas:\n      'header  header'\n      'sidebar main'\n      'footer  footer';\n  }\n}\n\n/* Card grid: responsive, no media queries */\n.card-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));\n  gap: 24px;\n}\n\n/* Centered content with max-width */\n.container {\n  width: min(1200px, 100% - 48px);\n  margin-inline: auto;\n}\n\n/* Centered single element with flexbox */\n.full-center {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-height: 100vh;\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-025-mc",
+          "type": "multiple-choice",
+          "question": "Which layout system is best suited for a two-dimensional page layout with both defined rows and columns?",
+          "options": ["Flexbox", "CSS Grid", "Floats", "Position absolute"],
+          "correctAnswer": "CSS Grid",
+          "hints": ["One system is 1D, the other is 2D"],
+          "explanation": "CSS Grid is designed for two-dimensional layouts where you control both rows and columns. Flexbox is 1D — it manages items along a single axis (row or column)."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "css-cap-03",
+    "title": "Dashboard Layout",
+    "description": "Build a complete admin dashboard layout using CSS Grid for the page structure and Flexbox for component-level alignment.",
+    "difficulty": "intermediate",
+    "estimatedHours": 4,
+    "xpReward": 550,
+    "requirements": [
+      "Grid holy-grail page layout: fixed sidebar, header, main, footer",
+      "Responsive: single column on mobile, sidebar layout on desktop",
+      "Stats row: 4 equal-width card grid using Flexbox with gap",
+      "Chart area: Grid with a wide main chart and narrow supporting charts",
+      "Recent activity table: full-width, inside the grid main area",
+      "Sidebar nav: vertical Flexbox with space-between and icon+label items",
+      "All using grid-template-areas for readable code"
+    ]
+  }
+}

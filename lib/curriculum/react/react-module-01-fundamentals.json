@@ -1,0 +1,185 @@
+{
+  "id": "react-module-01-fundamentals",
+  "title": "React Fundamentals",
+  "description": "Learn the React mental model from the ground up. Understand components, JSX syntax, props, and how React efficiently updates the UI. Build your first interactive UI components from scratch.",
+  "track": "react",
+  "order": 1,
+  "estimatedHours": 10,
+  "difficulty": "beginner",
+  "prerequisites": [],
+  "learningObjectives": [
+    "Understand the React component model and virtual DOM",
+    "Write JSX and understand how it compiles to JavaScript",
+    "Build reusable function components",
+    "Pass and consume props including children",
+    "Understand component composition and prop drilling"
+  ],
+  "lessons": [
+    {
+      "id": "react-001-what-is-react",
+      "title": "What is React & The Component Model",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 60,
+      "estimatedMinutes": 25,
+      "tags": ["react", "components", "virtual-dom"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Why React?" },
+          { "type": "text", "content": "React is a JavaScript library for building user interfaces. Its key insight: break UI into small, reusable components — each responsible for its own appearance and behaviour. React efficiently updates only the parts of the DOM that change, using a virtual DOM diffing algorithm." },
+          { "type": "callout", "variant": "info", "content": "💡 React is not a full framework like Angular. It handles the View layer only. You pair it with tools like React Router (routing) and libraries like Zustand/Redux (state management)." },
+          { "type": "heading", "content": "Your First Component" },
+          { "type": "code", "language": "jsx", "content": "// Every React component is just a function\n// that returns JSX (HTML-like syntax)\nfunction Greeting() {\n  return (\n    <div>\n      <h1>Hello, World!</h1>\n      <p>Welcome to React</p>\n    </div>\n  );\n}\n\n// Render it to the page\n// ReactDOM.createRoot(document.getElementById('root')).render(<Greeting />);" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Component names MUST start with a capital letter. <greeting /> is treated as an HTML element; <Greeting /> is a React component." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-001-mc",
+          "type": "multiple-choice",
+          "question": "Why must React component names start with a capital letter?",
+          "options": ["It's a convention with no technical reason", "React uses it to distinguish components from HTML elements", "Lowercase causes a syntax error in JSX", "Capital letters improve performance"],
+          "correctAnswer": "React uses it to distinguish components from HTML elements",
+          "hints": ["JSX compiles to React.createElement calls"],
+          "explanation": "In JSX, <div> compiles to React.createElement('div', ...) — a string. <MyComp> compiles to React.createElement(MyComp, ...) — a reference to your function. Capital letters tell the JSX compiler to treat it as a component."
+        }
+      ]
+    },
+    {
+      "id": "react-002-jsx",
+      "title": "JSX Deep Dive",
+      "order": 2,
+      "difficulty": "beginner",
+      "xpReward": 65,
+      "estimatedMinutes": 30,
+      "tags": ["jsx", "expressions", "className", "fragments"],
+      "prerequisites": ["react-001-what-is-react"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "JSX Rules & Gotchas" },
+          { "type": "code", "language": "jsx", "content": "function Profile() {\n  const name = 'Alice';\n  const isAdmin = true;\n  const scores = [95, 87, 92];\n\n  return (\n    // 1. Must return a single root element (or Fragment)\n    <>\n      {/* 2. Comments use curly braces */}\n\n      {/* 3. class → className */}\n      <div className=\"profile-card\">\n\n        {/* 4. Embed JS expressions with curly braces */}\n        <h2>{name}</h2>\n\n        {/* 5. for → htmlFor on labels */}\n        <label htmlFor=\"email\">Email</label>\n\n        {/* 6. Conditional rendering */}\n        {isAdmin && <span className=\"badge\">Admin</span>}\n\n        {/* 7. Self-closing tags are required */}\n        <input type=\"email\" id=\"email\" />\n\n        {/* 8. Inline styles use objects */}\n        <p style={{ color: 'red', fontSize: '14px' }}>Danger</p>\n\n        {/* 9. Map arrays to elements */}\n        <ul>\n          {scores.map((score, i) => <li key={i}>{score}</li>)}\n        </ul>\n      </div>\n    </>\n  );\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-002-mc",
+          "type": "multiple-choice",
+          "question": "What is wrong with this JSX? <div class=\"hero\">Hello</div>",
+          "options": ["div is not a valid JSX element", "class should be className in JSX", "Hello must be wrapped in curly braces", "Missing a closing tag"],
+          "correctAnswer": "class should be className in JSX",
+          "hints": ["class is a reserved word in JavaScript"],
+          "explanation": "class is a reserved JavaScript keyword (used for ES6 classes). JSX uses className instead. When compiled, className becomes the class attribute in the final HTML."
+        }
+      ]
+    },
+    {
+      "id": "react-003-props",
+      "title": "Props — Passing Data to Components",
+      "order": 3,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 35,
+      "tags": ["props", "components", "reusability"],
+      "prerequisites": ["react-002-jsx"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Making Components Reusable with Props" },
+          { "type": "text", "content": "Props (properties) are how you pass data into components. They flow one-way: parent → child. A component receives props as its first function argument — an object containing all the passed values." },
+          { "type": "code", "language": "jsx", "content": "// Define a reusable card component\nfunction CourseCard({ title, description, difficulty, xp }) {\n  return (\n    <div className=\"card\">\n      <h3>{title}</h3>\n      <p>{description}</p>\n      <span className={`badge badge--${difficulty}`}>{difficulty}</span>\n      <span className=\"xp\">{xp} XP</span>\n    </div>\n  );\n}\n\n// Use it with different data\nfunction App() {\n  return (\n    <div className=\"grid\">\n      <CourseCard\n        title=\"Python Basics\"\n        description=\"Learn Python from scratch\"\n        difficulty=\"beginner\"\n        xp={50}\n      />\n      <CourseCard\n        title=\"React Hooks\"\n        description=\"Master modern React\"\n        difficulty=\"intermediate\"\n        xp={80}\n      />\n    </div>\n  );\n}" },
+          { "type": "heading", "content": "Default Props & Prop Types" },
+          { "type": "code", "language": "jsx", "content": "// Default parameter values as defaults\nfunction Button({ label = 'Click me', variant = 'primary', disabled = false }) {\n  return (\n    <button className={`btn btn--${variant}`} disabled={disabled}>\n      {label}\n    </button>\n  );\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-003-mc",
+          "type": "multiple-choice",
+          "question": "If a component receives props but doesn't use a prop that was passed, what happens?",
+          "options": ["React throws an error", "The prop is ignored silently", "The component fails to render", "TypeScript catches it at runtime"],
+          "correctAnswer": "The prop is ignored silently",
+          "hints": ["React is permissive about extra props"],
+          "explanation": "React silently ignores props that are passed but not destructured or accessed by the component. No error is thrown. This is how optional props work — they're simply not used if not needed."
+        }
+      ]
+    },
+    {
+      "id": "react-004-children",
+      "title": "The children Prop & Composition",
+      "order": 4,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["children", "composition", "slots"],
+      "prerequisites": ["react-003-props"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Composing Components with children" },
+          { "type": "text", "content": "The special children prop receives whatever is placed between a component's opening and closing tags. This enables powerful composition patterns — wrapper components like layouts, modals, and cards that display arbitrary content inside them." },
+          { "type": "code", "language": "jsx", "content": "// A generic Card wrapper\nfunction Card({ children, className = '' }) {\n  return (\n    <div className={`card ${className}`}>\n      {children}\n    </div>\n  );\n}\n\n// Use it to wrap any content\nfunction App() {\n  return (\n    <>\n      <Card className=\"card--featured\">\n        <h2>Python for Beginners</h2>\n        <p>Start your coding journey</p>\n        <button>Enroll Now</button>\n      </Card>\n\n      <Card>\n        <img src=\"avatar.jpg\" alt=\"User\" />\n        <h3>Alice Johnson</h3>\n      </Card>\n    </>\n  );\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-004-mc",
+          "type": "multiple-choice",
+          "question": "What is the 'children' prop in React?",
+          "options": ["An array of all child components in the app", "The content placed between a component's opening and closing tags", "A list of nested HTML elements", "React's internal state management"],
+          "correctAnswer": "The content placed between a component's opening and closing tags",
+          "hints": ["Think about how you nest HTML elements"],
+          "explanation": "children represents whatever JSX is placed between <Component>here</Component>. It can be text, elements, other components, or even functions — enabling composition-based patterns."
+        }
+      ]
+    },
+    {
+      "id": "react-005-lists-keys",
+      "title": "Rendering Lists & Keys",
+      "order": 5,
+      "difficulty": "beginner",
+      "xpReward": 65,
+      "estimatedMinutes": 25,
+      "tags": ["lists", "keys", "map", "rendering"],
+      "prerequisites": ["react-004-children"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Rendering Arrays with .map()" },
+          { "type": "code", "language": "jsx", "content": "const courses = [\n  { id: 1, title: 'HTML', level: 'Beginner' },\n  { id: 2, title: 'CSS', level: 'Beginner' },\n  { id: 3, title: 'React', level: 'Intermediate' },\n];\n\nfunction CourseList() {\n  return (\n    <ul>\n      {courses.map(course => (\n        // key must be a stable, unique identifier\n        <li key={course.id}>\n          <strong>{course.title}</strong> — {course.level}\n        </li>\n      ))}\n    </ul>\n  );\n}" },
+          { "type": "callout", "variant": "warning", "content": "⚠️ Never use array index as key if the list can be reordered or filtered. Use a stable unique ID from your data. Index keys cause React to misidentify elements and produce bugs." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "react-ex-005-mc",
+          "type": "multiple-choice",
+          "question": "Why does React require a key prop when rendering lists?",
+          "options": ["It improves CSS styling of list items", "It helps React identify which items changed, were added, or removed between renders", "It's required by the JavaScript spec", "It prevents duplicate components"],
+          "correctAnswer": "It helps React identify which items changed, were added, or removed between renders",
+          "hints": ["React needs to know which element is which during reconciliation"],
+          "explanation": "React uses keys to reconcile the virtual DOM with the actual DOM. Without keys, React re-renders the entire list on every change. With stable keys, it only updates the elements that actually changed."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "react-cap-01",
+    "title": "Component Library Showcase",
+    "description": "Build a component showcase page featuring 6 production-quality React components using only function components and props.",
+    "difficulty": "beginner",
+    "estimatedHours": 3,
+    "xpReward": 400,
+    "requirements": [
+      "Button component (variant prop: primary/secondary/danger, size: sm/md/lg, disabled)",
+      "Card component with children prop for content composition",
+      "Badge component with color and label props",
+      "Avatar component with src, alt, size, and fallback initials",
+      "CourseCard combining the above components",
+      "A CourseList that renders 6+ CourseCards from a data array using .map() with keys",
+      "All components are in separate files and exported correctly"
+    ]
+  }
+}

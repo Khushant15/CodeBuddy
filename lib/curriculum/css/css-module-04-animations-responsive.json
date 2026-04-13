@@ -1,0 +1,184 @@
+{
+  "id": "css-module-04-animations-responsive",
+  "title": "Animations, Transitions & Responsive Design",
+  "description": "Bring your interfaces to life with smooth CSS transitions and keyframe animations. Make them work on every screen size with mobile-first media queries, container queries, and the full responsive toolkit.",
+  "track": "css",
+  "order": 4,
+  "estimatedHours": 14,
+  "difficulty": "intermediate",
+  "prerequisites": ["css-module-03-layouts"],
+  "learningObjectives": [
+    "Add smooth transitions to interactive elements",
+    "Create keyframe animations with @keyframes",
+    "Write mobile-first responsive layouts with media queries",
+    "Use container queries for truly component-based responsiveness",
+    "Apply CSS transforms: translate, rotate, scale"
+  ],
+  "lessons": [
+    {
+      "id": "css-031-transitions",
+      "title": "CSS Transitions",
+      "order": 1,
+      "difficulty": "intermediate",
+      "xpReward": 70,
+      "estimatedMinutes": 30,
+      "tags": ["transitions", "hover", "timing-function"],
+      "prerequisites": [],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Smooth State Changes with transition" },
+          { "type": "text", "content": "The transition property animates changes between CSS states (like hover, focus, active). You define which property to animate, how long it takes, and the easing curve." },
+          { "type": "code", "language": "css", "content": ".btn {\n  background: #6366f1;\n  transform: translateY(0);\n  box-shadow: 0 4px 6px rgba(0,0,0,0.1);\n\n  /* property | duration | easing | delay */\n  transition: background 0.2s ease,\n              transform 0.2s ease,\n              box-shadow 0.2s ease;\n  /* Or: transition: all 0.2s ease; (avoid in production — too broad) */\n}\n\n.btn:hover {\n  background: #4f46e5;\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(99,102,241,0.4);\n}\n\n/* Timing functions */\n.ease   { transition-timing-function: ease; }       /* default */\n.linear { transition-timing-function: linear; }\n.bounce { transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); }" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Only animate transform and opacity for 60fps performance. Both are GPU-accelerated and don't trigger layout recalculation." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-031-mc",
+          "type": "multiple-choice",
+          "question": "Why are transform and opacity the preferred properties to animate?",
+          "options": ["They have more easing options", "They are GPU-accelerated and don't trigger layout recalculation", "They work on all browsers", "They require less code"],
+          "correctAnswer": "They are GPU-accelerated and don't trigger layout recalculation",
+          "hints": ["Think about what happens on the GPU vs CPU during animation"],
+          "explanation": "Animating width, height, or margin triggers layout (reflow) and paint on every frame — expensive. transform and opacity are handled entirely on the GPU compositor thread, enabling smooth 60fps animations."
+        }
+      ]
+    },
+    {
+      "id": "css-032-keyframes",
+      "title": "Keyframe Animations",
+      "order": 2,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 40,
+      "tags": ["keyframes", "animation", "infinite", "fill-mode"],
+      "prerequisites": ["css-031-transitions"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "@keyframes — Multi-step Animations" },
+          { "type": "text", "content": "While transition animates between two states, @keyframes lets you define a full sequence of intermediate steps. The animation property applies the keyframes with full control over timing, repetition, and direction." },
+          { "type": "code", "language": "css", "content": "@keyframes slide-in {\n  from {\n    opacity: 0;\n    transform: translateY(24px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n@keyframes pulse {\n  0%, 100% { transform: scale(1); opacity: 1; }\n  50%       { transform: scale(1.05); opacity: 0.8; }\n}\n\n@keyframes spin {\n  from { transform: rotate(0deg); }\n  to   { transform: rotate(360deg); }\n}\n\n.card {\n  animation: slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;\n  /* name | duration | easing | fill-mode */\n}\n\n.badge {\n  animation: pulse 2s ease-in-out infinite;\n}\n\n.spinner {\n  animation: spin 1s linear infinite;\n}\n\n/* Stagger with animation-delay */\n.card:nth-child(1) { animation-delay: 0ms; }\n.card:nth-child(2) { animation-delay: 100ms; }\n.card:nth-child(3) { animation-delay: 200ms; }" },
+          { "type": "callout", "variant": "info", "content": "💡 animation-fill-mode: both means the element holds the 'from' state before the animation starts and the 'to' state after it ends. Essential for entrance animations." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-032-mc",
+          "type": "multiple-choice",
+          "question": "What does animation-fill-mode: forwards do?",
+          "options": ["Makes the animation run forward (not reverse)", "Keeps the final animation state after it ends", "Animates only going forward, not back", "Applies the style before the animation starts"],
+          "correctAnswer": "Keeps the final animation state after it ends",
+          "hints": ["'Forwards' refers to after the animation ends"],
+          "explanation": "animation-fill-mode: forwards keeps the element in the final keyframe state after the animation completes. Without it, elements snap back to their original style."
+        }
+      ]
+    },
+    {
+      "id": "css-033-transforms",
+      "title": "CSS Transforms",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 75,
+      "estimatedMinutes": 30,
+      "tags": ["transform", "translate", "rotate", "scale", "3d"],
+      "prerequisites": ["css-032-keyframes"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "The transform Property" },
+          { "type": "code", "language": "css", "content": "/* 2D transforms */\n.move   { transform: translate(50px, 20px); }  /* right, down */\n.moveX  { transform: translateX(50px); }\n.moveY  { transform: translateY(-20px); }      /* up */\n.grow   { transform: scale(1.5); }             /* 150% size */\n.shrink { transform: scale(0.8); }\n.spin   { transform: rotate(45deg); }\n.tilt   { transform: skew(10deg, 0deg); }\n\n/* Multiple transforms — right to left order matters! */\n.combined {\n  transform: translateY(-4px) scale(1.05) rotate(2deg);\n}\n\n/* 3D transforms */\n.flip-card {\n  transform: perspective(1000px) rotateY(180deg);\n  transform-style: preserve-3d;\n  backface-visibility: hidden;\n}\n\n/* transform-origin: change the pivot point */\n.corner-rotate {\n  transform-origin: top left;\n  transform: rotate(45deg);\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-033-mc",
+          "type": "multiple-choice",
+          "question": "Which transform moves an element 20px to the right without affecting surrounding elements' layout?",
+          "options": ["margin-left: 20px", "left: 20px", "transform: translateX(20px)", "padding-left: 20px"],
+          "correctAnswer": "transform: translateX(20px)",
+          "hints": ["Transforms don't affect document flow"],
+          "explanation": "transform doesn't affect document flow — surrounding elements don't move. margin-left and padding-left do affect layout. left: 20px requires a positioned element."
+        }
+      ]
+    },
+    {
+      "id": "css-034-media-queries",
+      "title": "Responsive Design & Media Queries",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["responsive", "media-queries", "mobile-first", "breakpoints"],
+      "prerequisites": ["css-033-transforms"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Mobile-First Responsive Design" },
+          { "type": "text", "content": "Mobile-first means writing base styles for mobile screens and using min-width media queries to progressively enhance for larger screens. This is better than desktop-first because mobile is the harder constraint." },
+          { "type": "code", "language": "css", "content": "/* Mobile-first base styles */\n.nav { display: none; }\n.hero h1 { font-size: 1.75rem; }\n.card-grid { grid-template-columns: 1fr; }\n\n/* Tablet: 768px+ */\n@media (min-width: 768px) {\n  .nav { display: flex; }\n  .hero h1 { font-size: 2.5rem; }\n  .card-grid { grid-template-columns: repeat(2, 1fr); }\n}\n\n/* Desktop: 1200px+ */\n@media (min-width: 1200px) {\n  .hero h1 { font-size: 3.5rem; }\n  .card-grid { grid-template-columns: repeat(3, 1fr); }\n}\n\n/* Dark mode preference */\n@media (prefers-color-scheme: dark) {\n  :root { --bg: #0a0a0a; --text: #f5f5f5; }\n}\n\n/* Reduced motion preference */\n@media (prefers-reduced-motion: reduce) {\n  *, *::before, *::after {\n    animation-duration: 0.01ms !important;\n    transition-duration: 0.01ms !important;\n  }\n}" },
+          { "type": "callout", "variant": "tip", "content": "🎯 Standard breakpoints: sm: 640px, md: 768px, lg: 1024px, xl: 1280px. But always add breakpoints where your content breaks, not at arbitrary device sizes." }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-034-mc",
+          "type": "multiple-choice",
+          "question": "In mobile-first CSS, which query correctly targets tablets and above?",
+          "options": ["@media (max-width: 768px)", "@media (min-width: 768px)", "@media screen and (device-width: 768px)", "@media (width: 768px)"],
+          "correctAnswer": "@media (min-width: 768px)",
+          "hints": ["min-width means: at least this wide"],
+          "explanation": "@media (min-width: 768px) applies styles when the viewport is 768px or wider. In mobile-first, base styles target small screens, and min-width queries progressively enhance for larger screens."
+        }
+      ]
+    },
+    {
+      "id": "css-035-modern-css",
+      "title": "Modern CSS: Container Queries & :has()",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 90,
+      "estimatedMinutes": 35,
+      "tags": ["container-queries", "has", "modern-css", "aspect-ratio"],
+      "prerequisites": ["css-034-media-queries"],
+      "theory": {
+        "sections": [
+          { "type": "heading", "content": "Container Queries — The Game Changer" },
+          { "type": "text", "content": "Media queries respond to the viewport width. Container queries respond to the parent container's size. This enables truly component-based responsive design — a card component that adapts whether it's in a sidebar or a full-width grid." },
+          { "type": "code", "language": "css", "content": "/* Enable container queries on the parent */\n.card-wrapper {\n  container-type: inline-size;\n  container-name: card;\n}\n\n/* Style based on the container width, not viewport */\n@container card (min-width: 600px) {\n  .card {\n    display: grid;\n    grid-template-columns: 200px 1fr;\n  }\n}\n\n/* :has() — the 'parent selector' CSS never had */\n/* Style a form that contains an invalid input */\nform:has(input:invalid) .submit-btn {\n  opacity: 0.5;\n  pointer-events: none;\n}\n\n/* Style .card if it contains an img */\n.card:has(img) .card__content {\n  padding-top: 0;\n}\n\n/* aspect-ratio — prevent layout shift */\n.video-wrapper {\n  aspect-ratio: 16 / 9;\n  width: 100%;\n}" }
+        ]
+      },
+      "examples": [],
+      "exercises": [
+        {
+          "id": "css-ex-035-mc",
+          "type": "multiple-choice",
+          "question": "What is the key difference between media queries and container queries?",
+          "options": ["Media queries are newer", "Container queries respond to parent width; media queries respond to viewport width", "Container queries don't work on mobile", "Media queries can only target screen size"],
+          "correctAnswer": "Container queries respond to parent width; media queries respond to viewport width",
+          "hints": ["One looks at the screen, the other at the parent element"],
+          "explanation": "Media queries apply styles based on the viewport (browser window) size. Container queries apply styles based on the width of the component's containing element — enabling components that intelligently adapt wherever they are placed."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "css-cap-04",
+    "title": "Animated Portfolio Page",
+    "description": "Build a fully responsive, animated portfolio page that delights on every device and respects user motion preferences.",
+    "difficulty": "intermediate",
+    "estimatedHours": 5,
+    "xpReward": 600,
+    "requirements": [
+      "Mobile-first layout with 3 breakpoints (sm, md, lg)",
+      "At least 4 keyframe animations (entrance, hover pulse, loading spinner, floating badge)",
+      "Smooth transitions on all interactive elements (links, buttons, cards)",
+      "A CSS-only card flip using 3D transforms",
+      "Container query on project cards (switches layout in sidebar vs main)",
+      "Dark mode via @media (prefers-color-scheme: dark) using CSS variables",
+      "All animations respect @media (prefers-reduced-motion: reduce)",
+      "Responsive images with aspect-ratio to prevent layout shift"
+    ]
+  }
+}

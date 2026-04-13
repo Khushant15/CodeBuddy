@@ -1,0 +1,120 @@
+{
+  "id": "html-module-02-structure",
+  "title": "Page Structure & Content",
+  "description": "Learn how to structure web pages using common HTML elements like headings, paragraphs, lists, links, and images.",
+  "difficulty": "beginner",
+  "estimatedHours": 8,
+  "totalLessons": 5,
+  "lessons": [
+    {
+      "id": "html-lesson-04-headings",
+      "title": "Headings & Paragraphs",
+      "duration": 1.5,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Headings (h1 through h6) indicate the importance of content. Use the <p> tag for standard paragraphs."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<h1>Main Title</h1>\n<h2>Subheading</h2>\n<p>This is a paragraph.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "id": "html-lesson-05-lists",
+      "title": "Lists (Ordered & Unordered)",
+      "duration": 1.5,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Use <ul> for bulleted lists and <ol> for numbered lists. Each item is wrapped in an <li> tag."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>\n\n<ol>\n  <li>Step 1</li>\n  <li>Step 2</li>\n</ol>"
+          }
+        ]
+      }
+    },
+    {
+      "id": "html-lesson-06-links",
+      "title": "Links & Navigation",
+      "duration": 1.5,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Links are created with the <a> tag. Use the href attribute for the destination, and target='_blank' to open in a new tab."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<a href=\"https://google.com\" target=\"_blank\">Visit Google</a>"
+          }
+        ]
+      }
+    },
+    {
+      "id": "html-lesson-07-images",
+      "title": "Images",
+      "duration": 1.5,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Use the <img> tag for images. The 'src' attribute points to the image file, and 'alt' provides a text description."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<img src=\"image.jpg\" alt=\"Sample Image\" width=\"200\" />"
+          }
+        ]
+      }
+    },
+    {
+      "id": "html-lesson-08-combine",
+      "title": "Combining Elements",
+      "duration": 2,
+      "type": "theory",
+      "theory": {
+        "sections": [
+          {
+            "type": "text",
+            "content": "Real-world web pages combine all these elements to create structured content."
+          },
+          {
+            "type": "code",
+            "language": "html",
+            "content": "<h1>My Blog</h1>\n<p>Welcome to my blog</p>\n<img src=\"pic.jpg\" alt=\"blog\" />\n<a href=\"#\">Read more</a>"
+          }
+        ]
+      }
+    }
+  ],
+  "miniProject": {
+    "title": "Simple Blog Page",
+    "description": "Create a basic blog page using headings, lists, images, and links.",
+    "requirements": [
+      "Use headings and paragraphs",
+      "Add at least one list",
+      "Include an image",
+      "Add a clickable link"
+    ]
+  },
+  "outcomes": [
+    "Structure readable content",
+    "Use common HTML elements",
+    "Build simple web pages"
+  ]
+}
