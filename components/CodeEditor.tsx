@@ -88,6 +88,7 @@ export function CodeEditor({
   minHeight = '240px',
   showPreview = true,
   runTrigger,
+  onChange,
   className = '',
 }: CodeEditorProps) {
   const { isLoading: pyLoading } = usePyodide();
