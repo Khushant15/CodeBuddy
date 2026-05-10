@@ -115,10 +115,10 @@ export default function DashboardPage() {
   const streak = profile?.streak ?? 0;
 
   const reviewsDue = lessonProgress
-    .filter(lp => lp.reviewState && lp.reviewState.dueDate <= Date.now())
-    .map(lp => ({
+    .filter((lp: LessonProgress) => lp.reviewState && lp.reviewState.dueDate <= Date.now())
+    .map((lp: LessonProgress) => ({
       lessonId: lp.lessonId,
-      title: lp.lessonId.split("-").map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(" "),
+      title: lp.lessonId.split("-").map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)).join(" "),
       dueToday: true
     }));
 
@@ -287,7 +287,7 @@ export default function DashboardPage() {
             <div className="card p-6">
               <h2 className="font-heading text-sm font-700 tracking-wider text-white/70 mb-6">CURRENT GOALS</h2>
               <div className="space-y-5">
-                {goals.map((g, i) => {
+                {goals.map((g: typeof goals[0], i: number) => {
                   const progress = getGoalProgress(g);
                   const pct = Math.min(Math.round((progress / g.target) * 100), 100);
                   return (
