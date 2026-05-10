@@ -27,8 +27,8 @@ function renderContent(text: string) {
   // Bold **text**, inline code `code`, and newlines
   return text
     .split("\n")
-    .map((line, i) => {
-      const parts = line.split(/(`[^`]+`|\*\*[^*]+\*\*)/g).map((part, j) => {
+    .map((line: string, i: number) => {
+      const parts = line.split(/(`[^`]+`|\*\*[^*]+\*\*)/g).map((part: string, j: number) => {
         if (part.startsWith("`") && part.endsWith("`"))
           return <code key={j} className="bg-[rgba(0,255,135,0.12)] text-[var(--neon-green)] px-1 py-0.5 rounded text-[11px] font-mono">{part.slice(1, -1)}</code>;
         if (part.startsWith("**") && part.endsWith("**"))
@@ -90,7 +90,7 @@ export function ChatBot() {
     setInput("");
 
     const userMsg: Message = { id: Date.now(), role: "user", content: msg, ts: new Date() };
-    setMessages(prev => [...prev, userMsg]);
+    setMessages((prev: Message[]) => [...prev, userMsg]);
     setLoading(true);
 
     try {
@@ -106,10 +106,10 @@ export function ChatBot() {
         content: data.reply || data.error || "⚠️ Something went wrong.",
         ts: new Date(),
       };
-      setMessages(prev => [...prev, botMsg]);
-      if (!open) setUnread(u => u + 1);
+      setMessages((prev: Message[]) => [...prev, botMsg]);
+      if (!open) setUnread((u: number) => u + 1);
     } catch {
-      setMessages(prev => [...prev, {
+      setMessages((prev: Message[]) => [...prev, {
         id: Date.now() + 1, role: "assistant", ts: new Date(),
         content: "⚠️ Connection error. Please check your network.",
       }]);
@@ -126,7 +126,7 @@ export function ChatBot() {
     <>
       {/* Floating button */}
       <motion.button
-        onClick={() => setOpen(o => !o)}
+        onClick={() => setOpen((o: boolean) => !o)}
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-2xl shadow-2xl flex items-center justify-center transition-all"
         style={{
           background: open ? "rgba(191,95,255,0.2)" : "var(--neon-green)",

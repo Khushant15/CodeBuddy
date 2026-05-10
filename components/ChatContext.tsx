@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useCallback } from 'react';
 
 interface ChatContextType {
   isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
+  setIsOpen: (open: boolean | ((prev: boolean) => boolean)) => void;
   openChat: (initialMessage?: string) => void;
 }
 
