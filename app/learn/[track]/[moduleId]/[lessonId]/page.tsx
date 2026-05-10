@@ -16,9 +16,11 @@ import {
   completeModuleInFirebase,
   getOrCreateUserProfile,
   getTrackProgress,
+  saveLessonProgress,
 } from '@/lib/userService';
-import { BookOpen, Code, Trophy, Star, Zap } from 'lucide-react';
+import { BookOpen, Code, Trophy, Star, Zap, Lock, Circle, RotateCcw } from 'lucide-react';
 import Link from 'next/link';
+import { canAccessContent } from '@/lib/learningPath';
 
 interface PageProps {
   params: Promise<{
@@ -39,6 +41,9 @@ export default function DynamicLessonPage({ params }: PageProps) {
   const [uid, setUid] = useState<string | null>(null);
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
   const [completedModules, setCompletedModules] = useState<string[]>([]);
+
+  const [isAllowed, setIsAllowed] = useState(true);
+  const [blockedBy, setBlockedBy] = useState<string[]>([]);
 
   // Level-up / module complete toast state
   const [toast, setToast] = useState<{ message: string; type: 'xp' | 'level' | 'module' } | null>(null);
@@ -64,6 +69,12 @@ export default function DynamicLessonPage({ params }: PageProps) {
         if (profile.completedLessons?.includes(lessonId)) {
           setCompleted(true);
         }
+
+        if (lesson?.prerequisiteLessons && lesson.prerequisiteLessons.length > 0) {
+          const acc = canAccessContent(profile.completedLessons || [], lesson.prerequisiteLessons);
+          setIsAllowed(acc.allowed);
+          setBlockedBy(acc.blockedBy);
+        }
       }
     });
 
@@ -73,7 +84,16 @@ export default function DynamicLessonPage({ params }: PageProps) {
         const modData = await getModule(moduleId, track);
         setModule(modData);
         const lessonData = modData.lessons.find(l => l.id === lessonId);
-        if (lessonData) setLesson(lessonData);
+        if (lessonData) {
+          setLesson(lessonData);
+          
+          // Verify Permissions immediately if user is already loaded, else it handles in unsub
+          if (uid && lessonData.prerequisiteLessons && lessonData.prerequisiteLessons.length > 0) {
+              const acc = canAccessContent(completedLessons, lessonData.prerequisiteLessons);
+              setIsAllowed(acc.allowed);
+              setBlockedBy(acc.blockedBy);
+          }
+        }
       } catch (err) {
         console.error('Failed to load lesson:', err);
       } finally {
@@ -85,30 +105,53 @@ export default function DynamicLessonPage({ params }: PageProps) {
     return unsub;
   }, [moduleId, lessonId]);
 
-  const handleLessonComplete = async (exercisePassed: boolean) => {
+  const handleLessonComplete = async (
+    exercisePassed: boolean,
+    xpOverride?: number,
+    xpLabel?: string
+  ) => {
     if (!exercisePassed || completed || !uid || !module) return;
 
     setCompleted(true);
     const newCompletedLessons = [...completedLessons, lessonId];
     setCompletedLessons(newCompletedLessons);
 
+    // Use the XP computed by calculateExerciseXp (with modifiers) or fall back
+    const finalXp = xpOverride ?? lesson?.xpReward ?? 50;
+
     // 1. Save lesson + XP + streak to Firestore
     const { newXp, newLevel, leveledUp } = await completeLessonInFirebase(
       uid,
       lessonId,
-      lesson?.xpReward || 50,
+      finalXp,
       track
     );
 
-    // 2. Show XP toast
-    showToast(`+${lesson?.xpReward || 50} XP earned!`, 'xp');
+    // 2. Save granular lesson progress
+    await saveLessonProgress(uid, {
+      lessonId,
+      trackId:  track,
+      moduleId,
+      codeRunAttempts:  0, // already tracked inside CodeEditor; 0 means "cumulative add"
+      correctRuns:      1,
+      solutionRevealed: false,
+      timeSpentSeconds: 0,
+      xpEarned:         finalXp,
+      status:           'completed',
+    });
 
-    // 3. Level-up toast
+    // 3. Show XP toast (include breakdown label if available)
+    const toastMsg = xpLabel
+      ? `+${finalXp} XP  ·  ${xpLabel}`
+      : `+${finalXp} XP earned!`;
+    showToast(toastMsg, 'xp');
+
+    // 4. Level-up toast
     if (leveledUp) {
       setTimeout(() => showToast(`🎉 Level Up! You're now Level ${newLevel}!`, 'level'), 1500);
     }
 
-    // 4. Check if ALL lessons in this module are now done
+    // 5. Check if ALL lessons in this module are now done
     const allModuleLessonIds = module.lessons.map(l => l.id);
     const allDone = allModuleLessonIds.every(id => newCompletedLessons.includes(id));
 
@@ -129,6 +172,37 @@ export default function DynamicLessonPage({ params }: PageProps) {
   );
 
   if (!lesson) return <div className="p-10 text-white">Lesson not found.</div>;
+
+  if (!isAllowed) return (
+    <AuthGuard>
+      <div className="min-h-screen bg-black flex items-center justify-center text-white px-6">
+        <div className="max-w-md w-full bg-gray-900 border border-gray-800 rounded-2xl p-8 text-center shadow-xl">
+           <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+             <Lock className="text-red-400 w-8 h-8" />
+           </div>
+           <h2 className="text-2xl font-bold mb-3">Content Locked</h2>
+           <p className="text-gray-400 text-sm mb-6">
+             You need to master earlier concepts to unlock this lesson.
+           </p>
+           <div className="bg-gray-950 border border-gray-800 rounded-xl p-4 text-left">
+             <p className="text-xs font-mono text-cyan-400 uppercase tracking-widest mb-3">Required Lessons</p>
+             <ul className="space-y-2">
+               {blockedBy.map(b => (
+                 <li key={b} className="flex items-center gap-2 text-sm text-gray-300">
+                   <Circle size={14} className="text-gray-600" />
+                   {b}
+                 </li>
+               ))}
+             </ul>
+           </div>
+           
+           <Link href={`/learn/${track}`} className="mt-8 btn-neon w-full justify-center text-sm py-3">
+             <RotateCcw size={16} /> Return to Track
+           </Link>
+        </div>
+      </div>
+    </AuthGuard>
+  );
 
   return (
     <AuthGuard>
@@ -165,7 +239,7 @@ export default function DynamicLessonPage({ params }: PageProps) {
                 {lesson.title}
               </h1>
 
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 flex-wrap">
                 <div className="flex items-center gap-2 text-neon-green bg-neon-green/10 px-3 py-1 rounded-full border border-neon-green/20">
                   <Trophy size={14} />
                   <span className="text-xs font-bold font-mono">+{lesson.xpReward || 50} XP</span>
@@ -186,7 +260,16 @@ export default function DynamicLessonPage({ params }: PageProps) {
                     <span>Final Lesson</span>
                   </div>
                 )}
+                {/* Progress dashboard link */}
+                <Link
+                  href={`/learn/${track}/${moduleId}/${lessonId}/progress`}
+                  className="flex items-center gap-1.5 text-xs font-mono text-gray-500 hover:text-neon-cyan transition-colors border border-gray-700 hover:border-neon-cyan/40 px-3 py-1 rounded-full"
+                >
+                  <Star size={12} />
+                  View Progress
+                </Link>
               </div>
+
             </motion.header>
 
             {/* Theory */}

@@ -3,11 +3,11 @@ import { getGroqResponse } from "@/lib/groqService";
 
 export async function POST(req: Request) {
   try {
-    const { message } = await req.json();
+    const { message, context } = await req.json();
     if (!message || typeof message !== "string")
       return NextResponse.json({ error: "Message required" }, { status: 400 });
 
-    const reply = await getGroqResponse(message);
+    const reply = await getGroqResponse(message, context);
     return NextResponse.json({ reply });
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";

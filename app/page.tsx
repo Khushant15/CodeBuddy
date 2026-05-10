@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Code2, Zap, Trophy, Bug, BookOpen, Star } from "lucide-react";
+import { ArrowRight, Code2, Zap, Trophy, Bug, BookOpen, Star, Github, Linkedin, Globe } from "lucide-react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
@@ -122,6 +122,48 @@ export default function LandingPage() {
               </Link>
             </div>
           </div>
+        </motion.div>
+      </section>
+
+      {/* SOCIAL LINKS */}
+      <section className="container pb-20">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="flex flex-col items-center gap-6"
+        >
+          <div className="h-px w-20 bg-gradient-to-r from-transparent via-white/10 to-transparent mb-4" />
+          <div className="flex items-center gap-8">
+            <a 
+              href="https://github.com/Khushant15" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group transition-all hover:scale-110"
+              title="GitHub"
+            >
+              <Github className="w-6 h-6 text-white/20 group-hover:text-white transition-colors" />
+            </a>
+            <a 
+              href="https://khushant-portfolio.vercel.app/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group transition-all hover:scale-110"
+              title="Portfolio"
+            >
+              <Globe className="w-6 h-6 text-white/20 group-hover:text-[var(--neon-green)] transition-colors" />
+            </a>
+            <a 
+              href="https://www.linkedin.com/in/khushant-sharma-9318962b2/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group transition-all hover:scale-110"
+              title="LinkedIn"
+            >
+              <Linkedin className="w-6 h-6 text-white/20 group-hover:text-[#0077b5] transition-colors" />
+            </a>
+          </div>
+          <p className="text-[10px] font-mono text-white/20 uppercase tracking-[0.2em]">Connect with the developer</p>
         </motion.div>
       </section>
     </div>

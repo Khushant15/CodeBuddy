@@ -6,50 +6,26 @@ import Link from "next/link";
 
 const projects = [
   {
-    id: 1, title: "CLI Calculator", track: "Python", icon: Code2, locked: false,
+    id: "cli-calculator", title: "CLI Calculator", track: "Python", icon: Code2, locked: false,
     desc: "Build a command-line calculator that handles +, -, *, / operations with error handling.",
     skills: ["Functions", "Loops", "Input/Output", "Error handling"],
-    time: "2–3 hours", xp: 200, cardClass: "",
+    time: "2–3 hours", xp: 175, cardClass: "",
     iconBg: "bg-[rgba(0,255,135,0.1)]", iconColor: "text-[var(--neon-green)]",
     diffBadge: "badge-green", diff: "Beginner",
   },
   {
-    id: 2, title: "Personal Portfolio", track: "HTML/CSS", icon: Globe, locked: false,
+    id: "personal-portfolio", title: "Personal Portfolio", track: "HTML/CSS", icon: Globe, locked: false,
     desc: "Design and build a beautiful personal portfolio page showcasing your projects and skills.",
     skills: ["Semantic HTML", "CSS Grid", "Flexbox", "Responsive Design"],
-    time: "4–6 hours", xp: 300, cardClass: "card-violet",
+    time: "4–6 hours", xp: 200, cardClass: "card-violet",
     iconBg: "bg-[rgba(191,95,255,0.1)]", iconColor: "text-[var(--neon-violet)]",
     diffBadge: "badge-violet", diff: "Beginner",
   },
   {
-    id: 3, title: "Todo App", track: "Python", icon: Code2, locked: true,
-    desc: "Create a terminal-based todo application with file persistence to save your tasks.",
-    skills: ["File I/O", "Lists", "Functions", "OOP basics"],
-    time: "3–4 hours", xp: 250, cardClass: "",
-    iconBg: "bg-[rgba(0,255,135,0.1)]", iconColor: "text-[var(--neon-green)]",
-    diffBadge: "badge-green", diff: "Beginner",
-  },
-  {
-    id: 4, title: "Animated Landing Page", track: "CSS", icon: Palette, locked: true,
-    desc: "Build a stunning animated landing page with CSS keyframes, transitions, and hover effects.",
-    skills: ["Animations", "Pseudo-elements", "Grid", "Custom properties"],
-    time: "5–8 hours", xp: 350, cardClass: "card-cyan",
-    iconBg: "bg-[rgba(0,229,255,0.1)]", iconColor: "text-[var(--neon-cyan)]",
-    diffBadge: "badge-cyan", diff: "Intermediate",
-  },
-  {
-    id: 5, title: "Number Guessing Game", track: "Python", icon: Code2, locked: true,
-    desc: "Build an interactive guessing game with difficulty levels, hints, and score tracking.",
-    skills: ["Random module", "Loops", "Conditionals", "Functions"],
-    time: "2–3 hours", xp: 200, cardClass: "card-violet",
-    iconBg: "bg-[rgba(191,95,255,0.1)]", iconColor: "text-[var(--neon-violet)]",
-    diffBadge: "badge-green", diff: "Beginner",
-  },
-  {
-    id: 6, title: "CSS Art — Neon Card", track: "CSS", icon: Palette, locked: true,
-    desc: "Create a glowing neon-styled card component purely with CSS — no images allowed.",
-    skills: ["box-shadow", "Gradients", "Pseudo-elements", "Animations"],
-    time: "2–3 hours", xp: 180, cardClass: "card-cyan",
+    id: "todo-app", title: "Interactive Todo App", track: "JS/HTML", icon: Code2, locked: false,
+    desc: "Build a functional Todo list application using HTML, CSS, and Vanilla JavaScript.",
+    skills: ["DOM", "Events", "State", "Vanilla JS"],
+    time: "3–4 hours", xp: 250, cardClass: "card-cyan",
     iconBg: "bg-[rgba(0,229,255,0.1)]", iconColor: "text-[var(--neon-cyan)]",
     diffBadge: "badge-cyan", diff: "Intermediate",
   },
@@ -106,7 +82,7 @@ export default function ProjectsPage() {
                   {p.locked ? (
                     <Link href="/learn" className="btn-neon py-2 px-4 text-[10px] opacity-50">Unlock via Learn</Link>
                   ) : (
-                    <Link href="/learn" className="btn-neon btn-neon-solid py-2 px-4 text-[10px]">
+                    <Link href={`/projects/${p.id}/guided`} className="btn-neon btn-neon-solid py-2 px-4 text-[10px]">
                       Start <ArrowRight className="w-3 h-3" />
                     </Link>
                   )}

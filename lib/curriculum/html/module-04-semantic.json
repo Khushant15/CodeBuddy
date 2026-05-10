@@ -1,0 +1,165 @@
+{
+  "id": "html-module-04-semantic-seo",
+  "title": "Semantic HTML, SEO & Accessibility",
+  "description": "Learn how to write meaningful HTML using semantic tags, improve SEO, and build accessible web pages for all users.",
+  "difficulty": "intermediate",
+  "estimatedHours": 12,
+  "totalLessons": 6,
+  "skillsGained": [
+    "Semantic HTML structuring",
+    "SEO fundamentals",
+    "Accessibility best practices",
+    "Writing clean, professional markup"
+  ],
+  "lessons": [
+    {
+      "id": "html-lesson-15-semantic-intro",
+      "title": "Introduction to Semantic HTML",
+      "duration": 2,
+      "topics": [
+        "What is semantic HTML",
+        "Why semantics matter",
+        "div vs semantic tags"
+      ],
+      "example": "<header>Header</header>\n<main>Main Content</main>\n<footer>Footer</footer>",
+      "keyPoint": "Semantic tags improve readability, SEO, and accessibility."
+    },
+    {
+      "id": "html-lesson-16-semantic-tags",
+      "title": "Common Semantic Tags",
+      "duration": 2,
+      "topics": [
+        "header, footer",
+        "section, article",
+        "nav, aside"
+      ],
+      "example": "<nav>\n  <a href=\"#\">Home</a>\n  <a href=\"#\">About</a>\n</nav>"
+    },
+    {
+      "id": "html-lesson-17-seo-basics",
+      "title": "SEO Basics",
+      "duration": 2,
+      "topics": [
+        "Meta tags",
+        "Title and description",
+        "Alt attributes"
+      ],
+      "example": "<meta name=\"description\" content=\"Learn HTML easily\">\n<img src=\"img.jpg\" alt=\"HTML tutorial\" />",
+      "quiz": [
+        {
+          "question": "Which tag helps SEO the most?",
+          "options": ["div", "meta", "span", "br"],
+          "answer": "meta"
+        }
+      ]
+    },
+    {
+      "id": "html-lesson-18-accessibility",
+      "title": "Accessibility (a11y)",
+      "duration": 2,
+      "topics": [
+        "aria attributes",
+        "alt text",
+        "keyboard navigation"
+      ],
+      "example": "<button aria-label=\"Close\">X</button>",
+      "importance": "Accessibility ensures websites are usable by everyone, including people with disabilities."
+    },
+    {
+      "id": "html-lesson-19-best-practices",
+      "title": "HTML Best Practices",
+      "duration": 2,
+      "topics": [
+        "Clean code",
+        "Proper indentation",
+        "Avoid excessive divs"
+      ],
+      "tips": [
+        "Use semantic tags over divs",
+        "Keep code readable",
+        "Always use alt attributes"
+      ]
+    },
+    {
+      "id": "html-lesson-20-final-build",
+      "title": "Building a Structured Webpage",
+      "duration": 2,
+      "topics": [
+        "Combining everything",
+        "Real-world structure",
+        "SEO + accessibility together"
+      ],
+      "example": "<header>My Site</header>\n<nav>Menu</nav>\n<main>\n<section>Content</section>\n</main>\n<footer>Footer</footer>",
+      "codeEditorTask": {
+        "task": "Create a semantic webpage using header, nav, main, section, and footer",
+        "validationRules": [
+          "Must include header",
+          "Must include nav",
+          "Must include main",
+          "Must include footer"
+        ]
+      }
+    }
+  ],
+  "miniProject": {
+    "title": "Professional Landing Page",
+    "description": "Build a fully structured landing page using semantic HTML with SEO and accessibility.",
+    "requirements": [
+      "Use semantic tags (header, nav, main, footer)",
+      "Add meta description",
+      "Use alt attributes for images",
+      "Structure content properly"
+    ],
+    "bonus": [
+      "Add multiple sections",
+      "Improve readability",
+      "Make it SEO optimized"
+    ]
+  },
+  "finalProject": {
+    "title": "Portfolio Website (HTML Only)",
+    "description": "Create a complete personal portfolio website using only HTML.",
+    "features": [
+      "Header with navigation",
+      "About section",
+      "Projects section",
+      "Contact section with form",
+      "Semantic structure",
+      "SEO-friendly metadata"
+    ]
+  },
+  "quiz": [
+    {
+      "question": "Which tag defines navigation links?",
+      "options": ["nav", "section", "header", "aside"],
+      "answer": "nav"
+    },
+    {
+      "question": "What does 'alt' attribute do?",
+      "options": [
+        "Styles image",
+        "Provides alternative text",
+        "Adds animation",
+        "Links image"
+      ],
+      "answer": "Provides alternative text"
+    }
+  ],
+  "checkpoints": [
+    "Uses semantic HTML correctly",
+    "Understands SEO basics",
+    "Applies accessibility principles",
+    "Writes clean HTML code"
+  ],
+  "certificateCriteria": {
+    "requiredLessonsCompleted": 6,
+    "minQuizScore": 75,
+    "finalProjectRequired": true
+  },
+  "outcomes": [
+    "Write professional HTML",
+    "Build SEO-friendly websites",
+    "Create accessible web pages",
+    "Be ready for CSS and frontend frameworks"
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "id": "html-module-01-fundamentals",
+  "title": "HTML Fundamentals",
+  "description": "Master the building blocks of the web by learning HTML structure, elements, and how browsers interpret markup.",
+  "difficulty": "beginner",
+  "estimatedHours": 6,
+  "totalLessons": 3,
+  "skillsGained": [
+    "HTML syntax understanding",
+    "Webpage structuring",
+    "Using tags and attributes",
+    "Writing clean and readable markup"
+  ],
+  "toolsUsed": [
+    "VS Code",
+    "Chrome Browser",
+    "Chrome DevTools"
+  ],
+  "lessons": [
+    {
+      "id": "html-lesson-01-intro",
+      "title": "Introduction to HTML",
+      "duration": 2,
+      "type": "theory",
+      "content": {
+        "explanation": "HTML (HyperText Markup Language) is the standard language used to create web pages. It structures content using elements like headings, paragraphs, and links.",
+        "realWorldExample": "Every website you visit (Google, YouTube, Instagram) is built using HTML as its foundation.",
+        "analogy": "Think of HTML as the skeleton of a human body — it gives structure, while CSS adds style and JavaScript adds behavior."
+      },
+      "topics": [
+        "What is HTML?",
+        "History of HTML",
+        "How browsers render HTML",
+        "HTML vs CSS vs JavaScript"
+      ],
+      "objectives": [
+        "Understand the role of HTML",
+        "Differentiate HTML from CSS and JS",
+        "Recognize webpage structure"
+      ],
+      "quiz": [
+        {
+          "question": "What does HTML stand for?",
+          "options": [
+            "Hyper Trainer Marking Language",
+            "HyperText Markup Language",
+            "HighText Machine Language",
+            "None of the above"
+          ],
+          "answer": "HyperText Markup Language"
+        },
+        {
+          "question": "Which language is used for styling web pages?",
+          "options": ["HTML", "CSS", "Python", "C++"],
+          "answer": "CSS"
+        }
+      ]
+    },
+    {
+      "id": "html-lesson-02-elements",
+      "title": "HTML Elements & Tags",
+      "duration": 2,
+      "type": "practice",
+      "content": {
+        "explanation": "HTML uses tags to define elements. Tags usually come in pairs like <p></p> and can include attributes.",
+        "examples": [
+          "<h1>Hello World</h1>",
+          "<a href=\"https://example.com\">Visit</a>"
+        ],
+        "bestPractices": [
+          "Always close tags properly",
+          "Use lowercase for tags",
+          "Indent nested elements"
+        ]
+      },
+      "topics": [
+        "Tags vs Elements",
+        "Attributes",
+        "Nesting",
+        "Common tags (h1, p, a, img)"
+      ],
+      "objectives": [
+        "Write correct HTML syntax",
+        "Use attributes effectively",
+        "Build nested structures"
+      ],
+      "exercise": {
+        "title": "Build Your First Webpage",
+        "description": "Create a webpage with heading, paragraph, and a clickable link.",
+        "starterCode": "<!DOCTYPE html>\n<html>\n<body>\n\n<!-- Your code here -->\n\n</body>\n</html>",
+        "expectedOutput": "A page displaying a heading, paragraph, and link",
+        "hints": [
+          "Use <h1> for heading",
+          "Use <p> for paragraph",
+          "Use <a href=''> for links"
+        ],
+        "solution": "<h1>Welcome</h1>\n<p>This is my first webpage</p>\n<a href='https://google.com'>Go to Google</a>"
+      },
+      "codeEditorTask": {
+        "task": "Create a page with an image and a link below it.",
+        "difficulty": "easy",
+        "validationRules": [
+          "Must include <img>",
+          "Must include <a>",
+          "Image should have src attribute"
+        ]
+      }
+    },
+    {
+      "id": "html-lesson-03-structure",
+      "title": "HTML Document Structure",
+      "duration": 2,
+      "type": "project",
+      "content": {
+        "explanation": "Every HTML document follows a standard structure including DOCTYPE, html, head, and body.",
+        "structureExample": "<!DOCTYPE html>\n<html>\n<head>\n<title>Page</title>\n</head>\n<body>\nContent\n</body>\n</html>",
+        "importance": "Proper structure ensures compatibility, SEO, and accessibility."
+      },
+      "topics": [
+        "DOCTYPE",
+        "html, head, body",
+        "Meta tags",
+        "Title tag"
+      ],
+      "objectives": [
+        "Build full HTML document",
+        "Understand head vs body",
+        "Use metadata properly"
+      ],
+      "project": {
+        "title": "Personal Intro Page",
+        "description": "Create a personal webpage introducing yourself.",
+        "requirements": [
+          "Use proper HTML structure",
+          "Include title in head",
+          "Add headings and paragraphs",
+          "Include at least one link"
+        ],
+        "bonus": [
+          "Add an image",
+          "Add multiple sections",
+          "Use lists"
+        ]
+      },
+      "quiz": [
+        {
+          "question": "Which tag contains metadata?",
+          "options": ["body", "head", "html", "footer"],
+          "answer": "head"
+        }
+      ]
+    }
+  ],
+  "checkpoints": [
+    "Can create a basic HTML page",
+    "Understands tags and attributes",
+    "Can structure a full document"
+  ],
+  "miniProject": {
+    "title": "My First Website",
+    "description": "Combine everything learned to build a simple multi-section webpage.",
+    "features": [
+      "Header with title",
+      "About section",
+      "Link to external site",
+      "Clean structure"
+    ]
+  },
+  "certificateCriteria": {
+    "requiredLessonsCompleted": 3,
+    "minQuizScore": 70,
+    "projectSubmission": true
+  },
+  "outcomes": [
+    "Build structured HTML pages",
+    "Understand how the web works",
+    "Prepare for CSS and frontend development"
+  ]
+}

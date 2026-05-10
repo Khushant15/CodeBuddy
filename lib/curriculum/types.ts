@@ -48,6 +48,7 @@ export interface Lesson {
   estimatedMinutes: number;
   tags: string[];
   prerequisites: string[]; // lesson IDs
+  prerequisiteLessons?: string[];
   
   // Content
   theory: TheoryContent;

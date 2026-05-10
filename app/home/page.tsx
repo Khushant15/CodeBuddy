@@ -9,12 +9,12 @@ import {
 } from "lucide-react";
 import { auth } from "@/app/firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
-import { AIChat } from "@/components/AIChat";
 import { getOrCreateUserProfile, updateStreak, xpToLevel, type UserProfile } from "@/lib/userService";
+import { useChat } from "@/components/ChatContext";
 
 export default function HomePage() {
   const [userName, setUserName] = useState("Developer");
-  const [showChat, setShowChat] = useState(false);
+  const { setIsOpen: setShowChat } = useChat();
   const [profile, setProfile] = useState<UserProfile | null>(null);
 
   useEffect(() => {
@@ -156,8 +156,6 @@ export default function HomePage() {
           </div>
         </motion.div>
 
-        {/* AI Chat modal */}
-        {showChat && <AIChat onClose={() => setShowChat(false)} />}
       </div>
     </AuthGuard>
   );

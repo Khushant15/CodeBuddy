@@ -1,0 +1,505 @@
+{
+  "id": "python-module-04-oop",
+  "title": "Object-Oriented Programming",
+  "description": "Master object-oriented programming in Python. Learn to create classes, work with objects, implement inheritance, and design reusable, maintainable code.",
+  "track": "python",
+  "order": 4,
+  "estimatedHours": 14,
+  "difficulty": "intermediate",
+  "prerequisites": ["python-module-03-functions"],
+  "learningObjectives": [
+    "Understand classes and objects fundamentals",
+    "Create and use instance attributes and methods",
+    "Implement the __init__ constructor",
+    "Apply inheritance and method overriding",
+    "Use encapsulation and property decorators",
+    "Understand polymorphism and special methods"
+  ],
+  "lessons": [
+    {
+      "id": "py-058-classes-objects-intro",
+      "title": "Introduction to Classes and Objects",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 90,
+      "estimatedMinutes": 45,
+      "tags": ["oop", "classes", "objects", "basics"],
+      "prerequisites": ["py-042-lambda-functions"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What is Object-Oriented Programming?"
+          },
+          {
+            "type": "text",
+            "content": "OOP is a programming paradigm that organizes code around **objects** - bundles of data (attributes) and functions (methods) that work together. Think of it like creating blueprints (classes) and building things from those blueprints (objects)."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Define a class (blueprint)\nclass Dog:\n    pass  # Empty for now\n\n# Create objects (instances) from the class\nmy_dog = Dog()\nyour_dog = Dog()\n\nprint(type(my_dog))  # <class '__main__.Dog'>"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 Class = blueprint/template. Object = specific instance created from that blueprint."
+          },
+          {
+            "type": "heading",
+            "content": "Creating Your First Class"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "class Car:\n    # Class attribute (shared by all cars)\n    wheels = 4\n    \n    # No methods yet\n    pass\n\n# Create car objects\nmy_car = Car()\nyour_car = Car()\n\nprint(my_car.wheels)   # 4\nprint(your_car.wheels) # 4"
+          },
+          {
+            "type": "heading",
+            "content": "Adding Attributes"
+          },
+          {
+            "type": "text",
+            "content": "Attributes are variables that belong to an object. They store the object's data/state."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "class Person:\n    pass\n\n# Create a person\nalice = Person()\n\n# Add attributes dynamically\nalice.name = \"Alice\"\nalice.age = 25\nalice.city = \"NYC\"\n\nprint(f\"{alice.name} is {alice.age} years old\")"
+          },
+          {
+            "type": "heading",
+            "content": "Adding Methods"
+          },
+          {
+            "type": "text",
+            "content": "Methods are functions that belong to a class. They define what objects can do."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "class Dog:\n    def bark(self):\n        print(\"Woof! Woof!\")\n    \n    def sit(self):\n        print(\"The dog is sitting.\")\n\nmy_dog = Dog()\nmy_dog.bark()  # Woof! Woof!\nmy_dog.sit()   # The dog is sitting."
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 The 'self' parameter refers to the instance calling the method. It's required but automatic!"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Think of a class like a cookie cutter - it defines the shape. Objects are the individual cookies you make!"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Simple Book Class",
+          "code": "class Book:\n    def __init__(self):\n        self.title = \"Unknown\"\n        self.author = \"Unknown\"\n    \n    def display_info(self):\n        print(f\"'{self.title}' by {self.author}\")\n\n# Create books\nbook1 = Book()\nbook1.title = \"1984\"\nbook1.author = \"George Orwell\"\n\nbook2 = Book()\nbook2.title = \"To Kill a Mockingbird\"\nbook2.author = \"Harper Lee\"\n\nbook1.display_info()\nbook2.display_info()",
+          "output": "'1984' by George Orwell\n'To Kill a Mockingbird' by Harper Lee",
+          "explanation": "Each Book object has its own title and author attributes. The method displays them.",
+          "language": "python"
+        },
+        {
+          "title": "Counter Class",
+          "code": "class Counter:\n    def __init__(self):\n        self.count = 0\n    \n    def increment(self):\n        self.count += 1\n    \n    def get_count(self):\n        return self.count\n\ncounter = Counter()\ncounter.increment()\ncounter.increment()\ncounter.increment()\nprint(f\"Count: {counter.get_count()}\")",
+          "output": "Count: 3",
+          "explanation": "The counter object maintains its own state (count) and provides methods to modify it.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-058-01",
+          "type": "multiple-choice",
+          "question": "What's the difference between a class and an object?",
+          "options": [
+            "They're the same thing",
+            "A class is a blueprint, an object is an instance of that class",
+            "Classes are faster than objects",
+            "Objects can't have methods"
+          ],
+          "correctAnswer": "A class is a blueprint, an object is an instance of that class",
+          "explanation": "A class defines the structure, while objects are specific instances created from that class."
+        },
+        {
+          "id": "ex-058-02",
+          "type": "code-write",
+          "question": "Create a class called 'Student' with a method 'study' that prints 'Studying hard!'. Then create a student object and call the method.",
+          "starterCode": "# Define Student class\n\n\n\n\n# Create object and call method\n",
+          "solution": "# Define Student class\nclass Student:\n    def study(self):\n        print(\"Studying hard!\")\n\n# Create object and call method\nstudent = Student()\nstudent.study()",
+          "hints": [
+            "Use 'class' keyword",
+            "Methods need 'self' parameter",
+            "Create object: variable = ClassName()",
+            "Call method: object.method()"
+          ],
+          "explanation": "Classes define behavior through methods. Each object can use those methods.",
+          "testCases": []
+        },
+        {
+          "id": "ex-058-03",
+          "type": "code-output",
+          "question": "What will this print?",
+          "code": "class Cat:\n    def meow(self):\n        return \"Meow!\"\n\nmy_cat = Cat()\nprint(my_cat.meow())",
+          "correctAnswer": "Meow!",
+          "explanation": "The method returns a string which is then printed."
+        },
+        {
+          "id": "ex-058-04",
+          "type": "multiple-choice",
+          "question": "What does 'self' refer to in a method?",
+          "options": [
+            "The class itself",
+            "The instance calling the method",
+            "The method itself",
+            "It's just a keyword"
+          ],
+          "correctAnswer": "The instance calling the method",
+          "explanation": "'self' refers to the specific object instance that called the method."
+        },
+        {
+          "id": "ex-058-05",
+          "type": "code-write",
+          "question": "Create a 'Rectangle' class with attributes 'width' and 'height'. Add a method 'area' that returns width * height.",
+          "starterCode": "# Define Rectangle class\n\n\n\n\n\n# Test\nrect = Rectangle()\nrect.width = 5\nrect.height = 3\nprint(rect.area())",
+          "solution": "# Define Rectangle class\nclass Rectangle:\n    def area(self):\n        return self.width * self.height\n\n# Test\nrect = Rectangle()\nrect.width = 5\nrect.height = 3\nprint(rect.area())",
+          "hints": [
+            "Access attributes with self.width",
+            "Return the calculation",
+            "Call with parentheses: rect.area()"
+          ],
+          "explanation": "Methods can access the object's attributes using self.",
+          "testCases": []
+        }
+      ]
+    },
+    {
+      "id": "py-059-init-constructor",
+      "title": "The __init__ Constructor",
+      "order": 2,
+      "difficulty": "beginner",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["oop", "constructor", "init", "initialization"],
+      "prerequisites": ["py-058-classes-objects-intro"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What is __init__?"
+          },
+          {
+            "type": "text",
+            "content": "The __init__ method is a special method (constructor) that runs automatically when you create a new object. It's used to set initial values for attributes."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n# When you create an object, __init__ runs\nalice = Person(\"Alice\", 25)\nprint(alice.name)  # Alice\nprint(alice.age)   # 25"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 __init__ always takes 'self' as the first parameter, plus any values you want to initialize."
+          },
+          {
+            "type": "heading",
+            "content": "Setting Default Values"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n# With initial balance\naccount1 = BankAccount(\"Alice\", 1000)\nprint(f\"{account1.owner}: ${account1.balance}\")\n\n# Without (uses default 0)\naccount2 = BankAccount(\"Bob\")\nprint(f\"{account2.owner}: ${account2.balance}\")"
+          },
+          {
+            "type": "heading",
+            "content": "Why Use __init__?"
+          },
+          {
+            "type": "text",
+            "content": "Without __init__, you'd have to manually set attributes after creating objects:\n\n**Without __init__ (tedious):**"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "car = Car()\ncar.brand = \"Toyota\"\ncar.model = \"Camry\"\ncar.year = 2024"
+          },
+          {
+            "type": "text",
+            "content": "**With __init__ (clean):**"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "class Car:\n    def __init__(self, brand, model, year):\n        self.brand = brand\n        self.model = model\n        self.year = year\n\ncar = Car(\"Toyota\", \"Camry\", 2024)"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Use __init__ to ensure every object starts with all required data. It makes object creation cleaner!"
+          },
+          {
+            "type": "heading",
+            "content": "Combining __init__ with Methods"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "class Circle:\n    def __init__(self, radius):\n        self.radius = radius\n    \n    def area(self):\n        return 3.14159 * self.radius ** 2\n    \n    def circumference(self):\n        return 2 * 3.14159 * self.radius\n\ncircle = Circle(5)\nprint(f\"Area: {circle.area():.2f}\")\nprint(f\"Circumference: {circle.circumference():.2f}\")"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Student Class with __init__",
+          "code": "class Student:\n    def __init__(self, name, grade, subjects):\n        self.name = name\n        self.grade = grade\n        self.subjects = subjects\n    \n    def display_info(self):\n        print(f\"Student: {self.name}\")\n        print(f\"Grade: {self.grade}\")\n        print(f\"Subjects: {', '.join(self.subjects)}\")\n\nstudent = Student(\"Alice\", 10, [\"Math\", \"Science\", \"English\"])\nstudent.display_info()",
+          "output": "Student: Alice\nGrade: 10\nSubjects: Math, Science, English",
+          "explanation": "__init__ sets up all the student's data when the object is created.",
+          "language": "python"
+        },
+        {
+          "title": "Product with Discounts",
+          "code": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n    \n    def apply_discount(self, percent):\n        self.price = self.price * (1 - percent / 100)\n    \n    def display(self):\n        print(f\"{self.name}: ${self.price:.2f}\")\n\nitem = Product(\"Laptop\", 1000)\nitem.display()\nitem.apply_discount(20)\nitem.display()",
+          "output": "Laptop: $1000.00\nLaptop: $800.00",
+          "explanation": "The constructor initializes the product, then methods can modify its state.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-059-01",
+          "type": "code-write",
+          "question": "Create a 'Book' class with __init__ that takes title and author. Then create a book object.",
+          "starterCode": "# Define Book class\n\n\n\n\n# Create a book\nbook = Book(\"1984\", \"George Orwell\")\nprint(book.title)\nprint(book.author)",
+          "solution": "# Define Book class\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n\n# Create a book\nbook = Book(\"1984\", \"George Orwell\")\nprint(book.title)\nprint(book.author)",
+          "hints": [
+            "__init__ takes self, title, author",
+            "Assign to self.title and self.author",
+            "Create with: Book(title, author)"
+          ],
+          "explanation": "__init__ automatically runs when creating a new object.",
+          "testCases": []
+        },
+        {
+          "id": "ex-059-02",
+          "type": "multiple-choice",
+          "question": "When does __init__ run?",
+          "options": [
+            "When you call a method",
+            "Automatically when creating a new object",
+            "Only when you explicitly call it",
+            "At the end of the program"
+          ],
+          "correctAnswer": "Automatically when creating a new object",
+          "explanation": "__init__ is called automatically during object creation to initialize attributes."
+        },
+        {
+          "id": "ex-059-03",
+          "type": "code-write",
+          "question": "Create a 'Temperature' class with __init__ taking celsius. Add a method to_fahrenheit() that returns (celsius * 9/5) + 32.",
+          "starterCode": "# Define Temperature class\n\n\n\n\n\n# Test\ntemp = Temperature(25)\nprint(f\"{temp.celsius}°C = {temp.to_fahrenheit()}°F\")",
+          "solution": "# Define Temperature class\nclass Temperature:\n    def __init__(self, celsius):\n        self.celsius = celsius\n    \n    def to_fahrenheit(self):\n        return (self.celsius * 9/5) + 32\n\n# Test\ntemp = Temperature(25)\nprint(f\"{temp.celsius}°C = {temp.to_fahrenheit()}°F\")",
+          "hints": [
+            "__init__ stores celsius",
+            "Method accesses self.celsius",
+            "Formula: (c * 9/5) + 32"
+          ],
+          "explanation": "The constructor stores data that methods can then use.",
+          "testCases": []
+        },
+        {
+          "id": "ex-059-04",
+          "type": "code-output",
+          "question": "What will be printed?",
+          "code": "class Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\np = Point(3, 4)\nprint(p.x + p.y)",
+          "correctAnswer": "7",
+          "explanation": "__init__ sets x=3 and y=4, so x+y equals 7."
+        },
+        {
+          "id": "ex-059-05",
+          "type": "code-write",
+          "question": "Create a 'Counter' class with __init__ that sets count to 0. Add increment() and get_count() methods.",
+          "starterCode": "# Define Counter class\n\n\n\n\n\n\n\n# Test\ncounter = Counter()\ncounter.increment()\ncounter.increment()\nprint(counter.get_count())",
+          "solution": "# Define Counter class\nclass Counter:\n    def __init__(self):\n        self.count = 0\n    \n    def increment(self):\n        self.count += 1\n    \n    def get_count(self):\n        return self.count\n\n# Test\ncounter = Counter()\ncounter.increment()\ncounter.increment()\nprint(counter.get_count())",
+          "hints": [
+            "__init__ initializes count to 0",
+            "increment adds 1 to self.count",
+            "get_count returns self.count"
+          ],
+          "explanation": "__init__ ensures every Counter starts at 0.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "2",
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "py-060-inheritance",
+      "title": "Inheritance: Building on Existing Classes",
+      "order": 3,
+      "difficulty": "intermediate",
+      "xpReward": 95,
+      "estimatedMinutes": 45,
+      "tags": ["oop", "inheritance", "parent-class", "child-class"],
+      "prerequisites": ["py-059-init-constructor"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What is Inheritance?"
+          },
+          {
+            "type": "text",
+            "content": "Inheritance allows you to create a new class based on an existing class. The new class (child) inherits all attributes and methods from the parent class, and can add or override them."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Parent class\nclass Animal:\n    def __init__(self, name):\n        self.name = name\n    \n    def speak(self):\n        print(f\"{self.name} makes a sound\")\n\n# Child class inherits from Animal\nclass Dog(Animal):\n    def speak(self):\n        print(f\"{self.name} barks: Woof!\")\n\ndog = Dog(\"Rex\")\ndog.speak()  # Rex barks: Woof!"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 Syntax: class ChildClass(ParentClass):\nThe child inherits everything from the parent."
+          },
+          {
+            "type": "heading",
+            "content": "Why Use Inheritance?"
+          },
+          {
+            "type": "text",
+            "content": "**1. Code Reuse** - Don't repeat common functionality\n**2. Organization** - Group related classes hierarchically\n**3. Extensibility** - Add specific features to general classes"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "class Vehicle:\n    def __init__(self, brand):\n        self.brand = brand\n    \n    def start(self):\n        print(f\"{self.brand} is starting...\")\n\nclass Car(Vehicle):\n    def __init__(self, brand, doors):\n        super().__init__(brand)  # Call parent __init__\n        self.doors = doors\n\nmy_car = Car(\"Toyota\", 4)\nmy_car.start()  # Inherited method\nprint(my_car.doors)  # New attribute"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Use super() to call methods from the parent class, especially __init__!"
+          },
+          {
+            "type": "heading",
+            "content": "Method Overriding"
+          },
+          {
+            "type": "text",
+            "content": "Child classes can override (replace) parent methods with their own versions:"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "class Bird(Animal):\n    def speak(self):\n        print(f\"{self.name} chirps: Tweet!\")\n\nclass Cat(Animal):\n    def speak(self):\n        print(f\"{self.name} meows: Meow!\")\n\nbird = Bird(\"Tweety\")\ncat = Cat(\"Whiskers\")\n\nbird.speak()  # Tweety chirps: Tweet!\ncat.speak()   # Whiskers meows: Meow!"
+          },
+          {
+            "type": "heading",
+            "content": "Adding New Methods"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "class Fish(Animal):\n    def swim(self):\n        print(f\"{self.name} is swimming\")\n\nfish = Fish(\"Nemo\")\nfish.speak()  # Inherited from Animal\nfish.swim()   # New method specific to Fish"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Employee Hierarchy",
+          "code": "class Employee:\n    def __init__(self, name, salary):\n        self.name = name\n        self.salary = salary\n    \n    def display_info(self):\n        print(f\"{self.name}: ${self.salary}\")\n\nclass Manager(Employee):\n    def __init__(self, name, salary, department):\n        super().__init__(name, salary)\n        self.department = department\n    \n    def display_info(self):\n        super().display_info()\n        print(f\"Department: {self.department}\")\n\nmanager = Manager(\"Alice\", 80000, \"IT\")\nmanager.display_info()",
+          "output": "Alice: $80000\nDepartment: IT",
+          "explanation": "Manager extends Employee, adding department and overriding display_info().",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-060-01",
+          "type": "multiple-choice",
+          "question": "What does a child class inherit from its parent?",
+          "options": [
+            "Only methods",
+            "Only attributes",
+            "Both attributes and methods",
+            "Nothing, you must rewrite everything"
+          ],
+          "correctAnswer": "Both attributes and methods",
+          "explanation": "Child classes inherit all attributes and methods from their parent class."
+        },
+        {
+          "id": "ex-060-02",
+          "type": "code-write",
+          "question": "Create a parent class 'Shape' with a method area() that prints 'Calculating area...'. Then create a child class 'Square' that inherits from Shape.",
+          "starterCode": "# Parent class\n\n\n\n\n# Child class\n\n\n# Test\nsquare = Square()\nsquare.area()",
+          "solution": "# Parent class\nclass Shape:\n    def area(self):\n        print(\"Calculating area...\")\n\n# Child class\nclass Square(Shape):\n    pass\n\n# Test\nsquare = Square()\nsquare.area()",
+          "hints": [
+            "Child syntax: class Child(Parent):",
+            "Use 'pass' if no additional code",
+            "Child inherits parent methods"
+          ],
+          "explanation": "The child class inherits the area() method from Shape.",
+          "testCases": []
+        },
+        {
+          "id": "ex-060-03",
+          "type": "code-output",
+          "question": "What will this print?",
+          "code": "class Parent:\n    def greet(self):\n        print(\"Hello from Parent\")\n\nclass Child(Parent):\n    def greet(self):\n        print(\"Hello from Child\")\n\nobj = Child()\nobj.greet()",
+          "correctAnswer": "Hello from Child",
+          "explanation": "The child's overridden method is called, not the parent's."
+        },
+        {
+          "id": "ex-060-04",
+          "type": "code-write",
+          "question": "Create a 'Rectangle' class with __init__(width, height). Then create 'Square' that inherits and sets width=height.",
+          "starterCode": "# Parent\nclass Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n\n# Child\n\n\n\n\n# Test\nsquare = Square(5)\nprint(f\"Width: {square.width}, Height: {square.height}\")",
+          "solution": "# Parent\nclass Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n\n# Child\nclass Square(Rectangle):\n    def __init__(self, size):\n        super().__init__(size, size)\n\n# Test\nsquare = Square(5)\nprint(f\"Width: {square.width}, Height: {square.height}\")",
+          "hints": [
+            "Square takes one parameter: size",
+            "Call super().__init__(size, size)",
+            "This sets both width and height to size"
+          ],
+          "explanation": "Square reuses Rectangle's __init__ with equal dimensions.",
+          "testCases": []
+        },
+        {
+          "id": "ex-060-05",
+          "type": "multiple-choice",
+          "question": "What does super() do?",
+          "options": [
+            "Creates a new class",
+            "Calls methods from the parent class",
+            "Deletes the parent class",
+            "Makes a class faster"
+          ],
+          "correctAnswer": "Calls methods from the parent class",
+          "explanation": "super() allows you to call methods from the parent class, especially useful in __init__."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "proj-module-04",
+    "title": "Library Management System",
+    "description": "Build a complete library system with Book, Member, and Library classes using OOP principles including inheritance and encapsulation.",
+    "difficulty": "advanced",
+    "estimatedHours": 5,
+    "xpReward": 400,
+    "requirements": [
+      "Book class with title, author, ISBN",
+      "Member class with name, member_id, borrowed_books list",
+      "Library class to manage books and members",
+      "Methods: borrow_book, return_book, add_book, register_member",
+      "Use inheritance for different member types (Regular, Premium)",
+      "Implement proper __init__ and __str__ methods"
+    ],
+    "starterCode": "class Book:\n    def __init__(self, title, author, isbn):\n        # TODO: Initialize attributes\n        pass\n\nclass Member:\n    def __init__(self, name, member_id):\n        # TODO: Initialize with empty borrowed_books list\n        pass\n\nclass Library:\n    def __init__(self):\n        self.books = []\n        self.members = []\n    \n    def add_book(self, book):\n        # TODO: Add book to collection\n        pass\n    \n    def borrow_book(self, member, isbn):\n        # TODO: Implement borrowing logic\n        pass",
+    "sampleOutput": "Book added: 1984 by George Orwell\nMember registered: Alice (ID: 001)\nAlice borrowed: 1984\nLibrary has 0 available books"
+  }
+}

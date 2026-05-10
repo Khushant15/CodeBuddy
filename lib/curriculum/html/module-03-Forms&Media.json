@@ -1,0 +1,139 @@
+{
+  "id": "html-module-03-forms-media",
+  "title": "Forms & Media",
+  "description": "Learn how to collect user input using forms and enhance web pages with multimedia elements like audio and video.",
+  "difficulty": "intermediate",
+  "estimatedHours": 10,
+  "totalLessons": 6,
+  "skillsGained": [
+    "Creating forms",
+    "Handling user input",
+    "Using media elements",
+    "Embedding external content"
+  ],
+  "lessons": [
+    {
+      "id": "html-lesson-09-forms-intro",
+      "title": "Introduction to Forms",
+      "duration": 1.5,
+      "topics": [
+        "form tag",
+        "action and method",
+        "Why forms are used"
+      ],
+      "example": "<form action=\"/submit\" method=\"POST\">\n</form>",
+      "quiz": [
+        {
+          "question": "Which tag is used to create a form?",
+          "options": ["form", "input", "button", "textarea"],
+          "answer": "form"
+        }
+      ]
+    },
+    {
+      "id": "html-lesson-10-inputs",
+      "title": "Input Fields",
+      "duration": 2,
+      "topics": [
+        "input types (text, email, password)",
+        "placeholder",
+        "required attribute"
+      ],
+      "example": "<input type=\"text\" placeholder=\"Enter name\" required />",
+      "exercise": {
+        "task": "Create input fields for name and email",
+        "solution": "<input type=\"text\" placeholder=\"Name\" />\n<input type=\"email\" placeholder=\"Email\" />"
+      }
+    },
+    {
+      "id": "html-lesson-11-labels-buttons",
+      "title": "Labels & Buttons",
+      "duration": 1.5,
+      "topics": [
+        "label tag",
+        "button types",
+        "submit button"
+      ],
+      "example": "<label>Name:</label>\n<input type=\"text\" />\n<button type=\"submit\">Submit</button>"
+    },
+    {
+      "id": "html-lesson-12-form-structure",
+      "title": "Building a Complete Form",
+      "duration": 2,
+      "topics": [
+        "Combining inputs",
+        "Form layout basics",
+        "Grouping fields"
+      ],
+      "example": "<form>\n<label>Email:</label>\n<input type=\"email\" />\n<button>Send</button>\n</form>",
+      "codeEditorTask": {
+        "task": "Build a login form with email and password",
+        "validationRules": [
+          "Must include email input",
+          "Must include password input",
+          "Must include submit button"
+        ]
+      }
+    },
+    {
+      "id": "html-lesson-13-media",
+      "title": "Audio & Video",
+      "duration": 1.5,
+      "topics": [
+        "audio tag",
+        "video tag",
+        "controls attribute"
+      ],
+      "example": "<video controls width=\"300\">\n<source src=\"video.mp4\" type=\"video/mp4\">\n</video>"
+    },
+    {
+      "id": "html-lesson-14-embedding",
+      "title": "Embedding Content",
+      "duration": 1.5,
+      "topics": [
+        "iframe",
+        "Embedding YouTube",
+        "External content"
+      ],
+      "example": "<iframe src=\"https://www.youtube.com/embed/dQw4w9WgXcQ\"></iframe>"
+    }
+  ],
+  "miniProject": {
+    "title": "Contact Form Page",
+    "description": "Build a contact page with a form and media content.",
+    "requirements": [
+      "Name and email input",
+      "Message textarea",
+      "Submit button",
+      "Embed a video or map"
+    ],
+    "bonus": [
+      "Add validation",
+      "Add multiple input types",
+      "Improve layout"
+    ]
+  },
+  "quiz": [
+    {
+      "question": "Which input type is used for email?",
+      "options": ["text", "email", "password", "number"],
+      "answer": "email"
+    },
+    {
+      "question": "Which tag is used to embed videos?",
+      "options": ["media", "video", "embed", "iframe"],
+      "answer": "video"
+    }
+  ],
+  "checkpoints": [
+    "Can create forms",
+    "Understands input types",
+    "Can embed media",
+    "Can build functional UI"
+  ],
+  "outcomes": [
+    "Build real-world forms",
+    "Handle user input",
+    "Use multimedia effectively"
+  ]
+}

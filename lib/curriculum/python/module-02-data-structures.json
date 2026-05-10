@@ -1,0 +1,770 @@
+{
+  "id": "python-module-02-data-structures",
+  "title": "Python Data Structures",
+  "description": "Master Python's built-in data structures including lists, tuples, sets, and dictionaries. Learn to store, organize, and manipulate collections of data efficiently.",
+  "track": "python",
+  "order": 2,
+  "estimatedHours": 12,
+  "difficulty": "beginner",
+  "prerequisites": ["python-module-01-fundamentals"],
+  "learningObjectives": [
+    "Create and manipulate lists with various methods",
+    "Understand when to use tuples vs lists",
+    "Work with sets for unique collections",
+    "Master dictionary operations and common patterns",
+    "Implement nested data structures",
+    "Choose the right data structure for your problem"
+  ],
+  "lessons": [
+    {
+      "id": "py-023-lists-basics",
+      "title": "Introduction to Lists",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 60,
+      "estimatedMinutes": 30,
+      "tags": ["lists", "collections", "basics"],
+      "prerequisites": ["py-001-intro-variables"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What are Lists?"
+          },
+          {
+            "type": "text",
+            "content": "Lists are ordered collections that can hold multiple items of any type. Think of them as containers that keep items in sequence, like a shopping list or a playlist."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Creating lists\nfruits = [\"apple\", \"banana\", \"orange\"]\nnumbers = [1, 2, 3, 4, 5]\nmixed = [\"hello\", 42, True, 3.14]\nempty_list = []"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 Lists use square brackets [] and items are separated by commas. Unlike some languages, Python lists can hold different data types!"
+          },
+          {
+            "type": "heading",
+            "content": "Accessing List Items"
+          },
+          {
+            "type": "text",
+            "content": "Each item in a list has an index (position). Python uses **zero-based indexing**, meaning the first item is at index 0."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "fruits = [\"apple\", \"banana\", \"orange\", \"grape\"]\n\nprint(fruits[0])   # apple (first item)\nprint(fruits[1])   # banana (second item)\nprint(fruits[-1])  # grape (last item)\nprint(fruits[-2])  # orange (second from last)"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Negative indices count from the end: -1 is the last item, -2 is second-to-last, etc."
+          },
+          {
+            "type": "heading",
+            "content": "List Length"
+          },
+          {
+            "type": "text",
+            "content": "Use len() to get the number of items in a list:"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "numbers = [10, 20, 30, 40, 50]\nprint(len(numbers))  # 5\n\nif len(numbers) > 0:\n    print(\"List is not empty\")"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Creating and Accessing Lists",
+          "code": "# Create a list of student names\nstudents = [\"Alice\", \"Bob\", \"Charlie\", \"Diana\"]\n\nprint(f\"First student: {students[0]}\")\nprint(f\"Last student: {students[-1]}\")\nprint(f\"Total students: {len(students)}\")",
+          "output": "First student: Alice\nLast student: Diana\nTotal students: 4",
+          "explanation": "This shows how to create a list and access items using positive and negative indices.",
+          "language": "python"
+        },
+        {
+          "title": "Mixed Type Lists",
+          "code": "# Lists can hold different types\nperson = [\"John\", 25, True, 5.9]\n\nname = person[0]\nage = person[1]\nis_student = person[2]\nheight = person[3]\n\nprint(f\"{name} is {age} years old\")",
+          "output": "John is 25 years old",
+          "explanation": "Python lists are flexible and can store different data types in the same list.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-023-01",
+          "type": "code-write",
+          "question": "Create a list called 'colors' with three color names: \"red\", \"green\", \"blue\". Then print the second color.",
+          "starterCode": "# Create your list here\n\n\n# Print the second color\n",
+          "solution": "# Create your list here\ncolors = [\"red\", \"green\", \"blue\"]\n\n# Print the second color\nprint(colors[1])",
+          "hints": [
+            "Remember: indices start at 0",
+            "The second item is at index 1",
+            "Use square brackets: colors[1]"
+          ],
+          "explanation": "Lists use zero-based indexing, so colors[1] gives us the second item.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "green",
+              "hidden": false
+            }
+          ]
+        },
+        {
+          "id": "ex-023-02",
+          "type": "multiple-choice",
+          "question": "What will fruits[-1] return if fruits = ['apple', 'banana', 'orange']?",
+          "options": [
+            "apple",
+            "banana",
+            "orange",
+            "Error"
+          ],
+          "correctAnswer": "orange",
+          "explanation": "Negative indices count from the end. -1 always refers to the last item in the list."
+        },
+        {
+          "id": "ex-023-03",
+          "type": "code-output",
+          "question": "What will be printed?",
+          "code": "numbers = [5, 10, 15, 20]\nprint(len(numbers))",
+          "correctAnswer": "4",
+          "explanation": "len() returns the number of items in the list. There are 4 numbers in the list."
+        },
+        {
+          "id": "ex-023-04",
+          "type": "code-write",
+          "question": "Create a list with your favorite 4 foods, then print the first and last items.",
+          "starterCode": "# Create your list\nfavorite_foods = \n\n# Print first and last\n",
+          "solution": "# Create your list\nfavorite_foods = [\"pizza\", \"sushi\", \"pasta\", \"tacos\"]\n\n# Print first and last\nprint(favorite_foods[0])\nprint(favorite_foods[-1])",
+          "hints": [
+            "Use square brackets to create a list",
+            "First item: index 0",
+            "Last item: index -1"
+          ],
+          "explanation": "You can access the first item with [0] and the last with [-1].",
+          "testCases": []
+        },
+        {
+          "id": "ex-023-05",
+          "type": "multiple-choice",
+          "question": "Which of these creates a valid empty list?",
+          "options": [
+            "empty = ()",
+            "empty = []",
+            "empty = {}",
+            "empty = list"
+          ],
+          "correctAnswer": "empty = []",
+          "explanation": "Square brackets [] create an empty list. () creates a tuple, {} creates a dictionary."
+        }
+      ]
+    },
+    {
+      "id": "py-024-list-slicing",
+      "title": "List Slicing and Indexing",
+      "order": 2,
+      "difficulty": "beginner",
+      "xpReward": 70,
+      "estimatedMinutes": 35,
+      "tags": ["lists", "slicing", "indexing"],
+      "prerequisites": ["py-023-lists-basics"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What is Slicing?"
+          },
+          {
+            "type": "text",
+            "content": "Slicing allows you to extract a portion of a list. The syntax is: list[start:stop:step]"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n\n# Get items from index 2 to 5 (not including 5)\nprint(numbers[2:5])  # [2, 3, 4]\n\n# Get first 3 items\nprint(numbers[:3])   # [0, 1, 2]\n\n# Get last 3 items\nprint(numbers[-3:])  # [7, 8, 9]\n\n# Get every second item\nprint(numbers[::2])  # [0, 2, 4, 6, 8]"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 The slice [start:stop] includes 'start' but excludes 'stop'. Think of it as [inclusive:exclusive]."
+          },
+          {
+            "type": "heading",
+            "content": "Slice Parameters"
+          },
+          {
+            "type": "text",
+            "content": "**start**: Where to begin (default: 0)\n**stop**: Where to end (default: end of list)\n**step**: How many items to skip (default: 1)"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "letters = ['a', 'b', 'c', 'd', 'e', 'f']\n\n# Every element from index 1 to 4\nprint(letters[1:5])     # ['b', 'c', 'd', 'e']\n\n# Every 2nd element from start to end\nprint(letters[::2])     # ['a', 'c', 'e']\n\n# Reverse the list\nprint(letters[::-1])    # ['f', 'e', 'd', 'c', 'b', 'a']"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Pro tip: [::-1] is a quick way to reverse any list!"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Extracting Sublists",
+          "code": "fruits = ['apple', 'banana', 'cherry', 'date', 'elderberry']\n\n# Get first 3 fruits\nfirst_three = fruits[:3]\nprint(first_three)\n\n# Get middle fruits (skip first and last)\nmiddle = fruits[1:-1]\nprint(middle)",
+          "output": "['apple', 'banana', 'cherry']\n['banana', 'cherry', 'date']",
+          "explanation": "Slicing creates a new list containing the selected items without modifying the original.",
+          "language": "python"
+        },
+        {
+          "title": "Step Slicing",
+          "code": "numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n\n# Get every 3rd number\nevery_third = numbers[::3]\nprint(every_third)\n\n# Get even indices\neven_positions = numbers[::2]\nprint(even_positions)",
+          "output": "[0, 3, 6, 9]\n[0, 2, 4, 6, 8]",
+          "explanation": "The step parameter controls how many elements to skip between selections.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-024-01",
+          "type": "code-output",
+          "question": "What will be printed?",
+          "code": "numbers = [10, 20, 30, 40, 50]\nprint(numbers[1:4])",
+          "correctAnswer": "[20, 30, 40]",
+          "explanation": "Slice [1:4] starts at index 1 (20) and goes up to but not including index 4."
+        },
+        {
+          "id": "ex-024-02",
+          "type": "multiple-choice",
+          "question": "How do you get the last 2 items of a list?",
+          "options": [
+            "my_list[2:]",
+            "my_list[-2:]",
+            "my_list[:2]",
+            "my_list[:-2]"
+          ],
+          "correctAnswer": "my_list[-2:]",
+          "explanation": "[-2:] means 'from the second-to-last item to the end'."
+        },
+        {
+          "id": "ex-024-03",
+          "type": "code-write",
+          "question": "Given the list: days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']\nExtract the weekdays (Monday to Friday) using slicing.",
+          "starterCode": "days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']\n\n# Get weekdays using slicing\nweekdays = \n\nprint(weekdays)",
+          "solution": "days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']\n\n# Get weekdays using slicing\nweekdays = days[:5]\n\nprint(weekdays)",
+          "hints": [
+            "Weekdays are the first 5 items",
+            "Use [:5] to get items from index 0 to 4"
+          ],
+          "explanation": "days[:5] gets the first 5 items (Mon through Fri).",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "['Mon', 'Tue', 'Wed', 'Thu', 'Fri']",
+              "hidden": false
+            }
+          ]
+        },
+        {
+          "id": "ex-024-04",
+          "type": "code-output",
+          "question": "What will this print?",
+          "code": "text = ['H', 'e', 'l', 'l', 'o']\nprint(text[::-1])",
+          "correctAnswer": "['o', 'l', 'l', 'e', 'H']",
+          "explanation": "[::-1] reverses the list by using a step of -1."
+        },
+        {
+          "id": "ex-024-05",
+          "type": "code-write",
+          "question": "Create a list of numbers 1-10. Print only the even-positioned numbers (2nd, 4th, 6th, etc.) using slicing.",
+          "starterCode": "numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n# Get even positions (indices 1, 3, 5, ...)\neven_positions = \n\nprint(even_positions)",
+          "solution": "numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n# Get even positions (indices 1, 3, 5, ...)\neven_positions = numbers[1::2]\n\nprint(even_positions)",
+          "hints": [
+            "Start at index 1 (second item)",
+            "Use step 2 to skip every other item",
+            "Format: [start::step]"
+          ],
+          "explanation": "[1::2] starts at index 1 and takes every 2nd element.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "[2, 4, 6, 8, 10]",
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "py-025-list-methods",
+      "title": "List Methods and Operations",
+      "order": 3,
+      "difficulty": "beginner",
+      "xpReward": 80,
+      "estimatedMinutes": 40,
+      "tags": ["lists", "methods", "operations"],
+      "prerequisites": ["py-024-list-slicing"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "Modifying Lists"
+          },
+          {
+            "type": "text",
+            "content": "Lists are **mutable**, meaning you can change them after creation. Python provides many built-in methods to modify lists."
+          },
+          {
+            "type": "heading",
+            "content": "Adding Items"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "fruits = ['apple', 'banana']\n\n# append() - add to the end\nfruits.append('orange')\nprint(fruits)  # ['apple', 'banana', 'orange']\n\n# insert() - add at specific position\nfruits.insert(1, 'mango')\nprint(fruits)  # ['apple', 'mango', 'banana', 'orange']\n\n# extend() - add multiple items\nfruits.extend(['grape', 'kiwi'])\nprint(fruits)  # ['apple', 'mango', 'banana', 'orange', 'grape', 'kiwi']"
+          },
+          {
+            "type": "heading",
+            "content": "Removing Items"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "numbers = [1, 2, 3, 4, 5, 3]\n\n# remove() - removes first occurrence\nnumbers.remove(3)\nprint(numbers)  # [1, 2, 4, 5, 3]\n\n# pop() - removes and returns last item (or at index)\nlast = numbers.pop()\nprint(last)     # 3\nprint(numbers)  # [1, 2, 4, 5]\n\n# clear() - removes all items\nnumbers.clear()\nprint(numbers)  # []"
+          },
+          {
+            "type": "callout",
+            "variant": "warning",
+            "content": "⚠️ remove() only removes the FIRST matching item. Use a loop to remove all occurrences."
+          },
+          {
+            "type": "heading",
+            "content": "Other Useful Methods"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "numbers = [3, 1, 4, 1, 5, 9, 2, 6]\n\n# sort() - sorts the list in place\nnumbers.sort()\nprint(numbers)  # [1, 1, 2, 3, 4, 5, 6, 9]\n\n# reverse() - reverses the list in place\nnumbers.reverse()\nprint(numbers)  # [9, 6, 5, 4, 3, 2, 1, 1]\n\n# count() - counts occurrences\nprint(numbers.count(1))  # 2\n\n# index() - finds first index of item\nprint(numbers.index(5))  # 2"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Remember: sort() and reverse() modify the list directly. Use sorted() if you want a new sorted list."
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Building a Shopping List",
+          "code": "shopping_list = []\n\n# Add items\nshopping_list.append('milk')\nshopping_list.append('bread')\nshopping_list.append('eggs')\nprint(shopping_list)\n\n# Forgot something\nshopping_list.insert(1, 'butter')\nprint(shopping_list)\n\n# Remove item\nshopping_list.remove('bread')\nprint(shopping_list)",
+          "output": "['milk', 'bread', 'eggs']\n['milk', 'butter', 'bread', 'eggs']\n['milk', 'butter', 'eggs']",
+          "explanation": "This demonstrates common list operations: append, insert, and remove.",
+          "language": "python"
+        },
+        {
+          "title": "Sorting and Counting",
+          "code": "scores = [85, 92, 78, 92, 88, 95, 92]\n\n# How many 92s?\ncount_92 = scores.count(92)\nprint(f\"Score 92 appears {count_92} times\")\n\n# Sort scores\nscores.sort()\nprint(f\"Sorted: {scores}\")\n\n# Get highest score\nhighest = scores[-1]\nprint(f\"Highest: {highest}\")",
+          "output": "Score 92 appears 3 times\nSorted: [78, 85, 88, 92, 92, 92, 95]\nHighest: 95",
+          "explanation": "Shows how to count items, sort, and find min/max values.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-025-01",
+          "type": "code-write",
+          "question": "Create an empty list called 'tasks'. Add three tasks: 'email', 'meeting', 'code'. Then remove 'meeting'.",
+          "starterCode": "# Create empty list\n\n\n# Add tasks\n\n\n\n# Remove 'meeting'\n\n\nprint(tasks)",
+          "solution": "# Create empty list\ntasks = []\n\n# Add tasks\ntasks.append('email')\ntasks.append('meeting')\ntasks.append('code')\n\n# Remove 'meeting'\ntasks.remove('meeting')\n\nprint(tasks)",
+          "hints": [
+            "Use append() to add items",
+            "Use remove() to delete an item",
+            "Call remove with the item value: remove('meeting')"
+          ],
+          "explanation": "This exercise practices adding and removing items from a list.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "['email', 'code']",
+              "hidden": false
+            }
+          ]
+        },
+        {
+          "id": "ex-025-02",
+          "type": "multiple-choice",
+          "question": "What's the difference between append() and extend()?",
+          "options": [
+            "append() adds one item, extend() adds multiple items",
+            "append() is faster than extend()",
+            "extend() only works with strings",
+            "They do the same thing"
+          ],
+          "correctAnswer": "append() adds one item, extend() adds multiple items",
+          "explanation": "append() adds a single item to the end, while extend() adds all items from another iterable."
+        },
+        {
+          "id": "ex-025-03",
+          "type": "code-output",
+          "question": "What will be printed?",
+          "code": "numbers = [5, 2, 8, 1, 9]\nnumbers.sort()\nprint(numbers[0])",
+          "correctAnswer": "1",
+          "explanation": "sort() arranges numbers in ascending order, so numbers[0] is the smallest: 1."
+        },
+        {
+          "id": "ex-025-04",
+          "type": "code-write",
+          "question": "Given: numbers = [3, 7, 3, 9, 3, 1]\nCount how many times 3 appears and print the result.",
+          "starterCode": "numbers = [3, 7, 3, 9, 3, 1]\n\n# Count 3s\n\n\nprint(count)",
+          "solution": "numbers = [3, 7, 3, 9, 3, 1]\n\n# Count 3s\ncount = numbers.count(3)\n\nprint(count)",
+          "hints": [
+            "Use the count() method",
+            "Syntax: list.count(item)"
+          ],
+          "explanation": "count() returns how many times an item appears in the list.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "3",
+              "hidden": false
+            }
+          ]
+        },
+        {
+          "id": "ex-025-05",
+          "type": "multiple-choice",
+          "question": "What does pop() return?",
+          "options": [
+            "Nothing",
+            "The removed item",
+            "The entire list",
+            "True or False"
+          ],
+          "correctAnswer": "The removed item",
+          "explanation": "pop() removes AND returns the last item (or item at specified index)."
+        },
+        {
+          "id": "ex-025-06",
+          "type": "code-write",
+          "question": "Create a list [5, 1, 9, 3]. Sort it in descending order (largest to smallest) and print it.",
+          "starterCode": "numbers = [5, 1, 9, 3]\n\n# Sort in descending order\n\n\nprint(numbers)",
+          "solution": "numbers = [5, 1, 9, 3]\n\n# Sort in descending order\nnumbers.sort(reverse=True)\n\nprint(numbers)",
+          "hints": [
+            "Use sort() with reverse=True parameter",
+            "Or: sort() then reverse()"
+          ],
+          "explanation": "sort(reverse=True) sorts in descending order.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "[9, 5, 3, 1]",
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "py-026-tuples",
+      "title": "Tuples: Immutable Sequences",
+      "order": 4,
+      "difficulty": "beginner",
+      "xpReward": 65,
+      "estimatedMinutes": 30,
+      "tags": ["tuples", "immutable", "sequences"],
+      "prerequisites": ["py-025-list-methods"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What are Tuples?"
+          },
+          {
+            "type": "text",
+            "content": "Tuples are like lists, but **immutable** - once created, they cannot be changed. They use parentheses () instead of square brackets []."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Creating tuples\ncoordinates = (10, 20)\nrgb_color = (255, 128, 0)\nperson = (\"Alice\", 25, \"Engineer\")\n\n# Single-item tuple needs a trailing comma\nsingle = (42,)  # Note the comma!\n\n# Parentheses are optional\npoint = 5, 10\nprint(type(point))  # <class 'tuple'>"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 Why use tuples? They're faster than lists, use less memory, and protect data from accidental modification."
+          },
+          {
+            "type": "heading",
+            "content": "Accessing Tuple Items"
+          },
+          {
+            "type": "text",
+            "content": "Tuples support indexing and slicing just like lists:"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "months = (\"Jan\", \"Feb\", \"Mar\", \"Apr\")\n\nprint(months[0])    # Jan\nprint(months[-1])   # Apr\nprint(months[1:3])  # ('Feb', 'Mar')\nprint(len(months))  # 4"
+          },
+          {
+            "type": "heading",
+            "content": "Tuples are Immutable"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "point = (10, 20)\n\n# This will cause an error!\n# point[0] = 15  # TypeError: 'tuple' object does not support item assignment\n\n# To \"change\" a tuple, create a new one\npoint = (15, 20)  # This works - we're creating a new tuple"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Use tuples for data that shouldn't change: coordinates, RGB colors, database records."
+          },
+          {
+            "type": "heading",
+            "content": "Tuple Unpacking"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Assign multiple variables at once\nx, y = (10, 20)\nprint(x)  # 10\nprint(y)  # 20\n\n# Swap variables elegantly\na, b = 5, 10\na, b = b, a  # Swap!\nprint(a, b)  # 10 5"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Using Tuples for Coordinates",
+          "code": "# Store location data\nlocation = (40.7128, -74.0060)  # NYC coordinates\n\nlat, lon = location\nprint(f\"Latitude: {lat}\")\nprint(f\"Longitude: {lon}\")\n\n# Tuples in a list\ncities = [\n    (\"NYC\", 40.7128, -74.0060),\n    (\"LA\", 34.0522, -118.2437),\n    (\"Chicago\", 41.8781, -87.6298)\n]\n\nfor name, lat, lon in cities:\n    print(f\"{name}: {lat}, {lon}\")",
+          "output": "Latitude: 40.7128\nLongitude: -74.006\nNYC: 40.7128, -74.006\nLA: 34.0522, -118.2437\nChicago: 41.8781, -87.6298",
+          "explanation": "Tuples are perfect for fixed data like coordinates. Unpacking makes them easy to work with.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-026-01",
+          "type": "multiple-choice",
+          "question": "What's the main difference between lists and tuples?",
+          "options": [
+            "Tuples use () and are immutable",
+            "Tuples can only hold numbers",
+            "Tuples are slower than lists",
+            "Lists use () and tuples use []"
+          ],
+          "correctAnswer": "Tuples use () and are immutable",
+          "explanation": "Tuples use parentheses and cannot be modified after creation, unlike lists."
+        },
+        {
+          "id": "ex-026-02",
+          "type": "code-write",
+          "question": "Create a tuple called 'dimensions' with values (1920, 1080). Unpack it into variables 'width' and 'height', then print them.",
+          "starterCode": "# Create tuple\n\n\n# Unpack\n\n\nprint(f\"Width: {width}\")\nprint(f\"Height: {height}\")",
+          "solution": "# Create tuple\ndimensions = (1920, 1080)\n\n# Unpack\nwidth, height = dimensions\n\nprint(f\"Width: {width}\")\nprint(f\"Height: {height}\")",
+          "hints": [
+            "Use parentheses to create a tuple",
+            "Unpack: var1, var2 = tuple_name"
+          ],
+          "explanation": "Tuple unpacking assigns each tuple item to a variable in order.",
+          "testCases": []
+        },
+        {
+          "id": "ex-026-03",
+          "type": "code-output",
+          "question": "What will this print?",
+          "code": "rgb = (255, 128, 0)\nprint(rgb[1])",
+          "correctAnswer": "128",
+          "explanation": "Index 1 gives the second item in the tuple."
+        },
+        {
+          "id": "ex-026-04",
+          "type": "multiple-choice",
+          "question": "How do you create a single-item tuple?",
+          "options": [
+            "(42)",
+            "(42,)",
+            "[42]",
+            "{42}"
+          ],
+          "correctAnswer": "(42,)",
+          "explanation": "A single-item tuple needs a trailing comma: (42,). Without it, (42) is just an integer."
+        },
+        {
+          "id": "ex-026-05",
+          "type": "code-write",
+          "question": "Swap the values of a=10 and b=20 using tuple unpacking in one line. Print both.",
+          "starterCode": "a = 10\nb = 20\n\n# Swap in one line\n\n\nprint(a)\nprint(b)",
+          "solution": "a = 10\nb = 20\n\n# Swap in one line\na, b = b, a\n\nprint(a)\nprint(b)",
+          "hints": [
+            "Use: a, b = b, a",
+            "Python creates a temporary tuple for the swap"
+          ],
+          "explanation": "Tuple unpacking allows elegant variable swapping without a temp variable.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "20\n10",
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "py-027-sets",
+      "title": "Sets: Unique Collections",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 70,
+      "estimatedMinutes": 35,
+      "tags": ["sets", "unique", "collections"],
+      "prerequisites": ["py-026-tuples"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What are Sets?"
+          },
+          {
+            "type": "text",
+            "content": "Sets are **unordered** collections of **unique** items. No duplicates allowed! They use curly braces {} and are great for removing duplicates or testing membership."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Creating sets\nfruits = {\"apple\", \"banana\", \"orange\"}\nnumbers = {1, 2, 3, 4, 5}\n\n# Duplicates are automatically removed\nduplicates = {1, 2, 2, 3, 3, 3}\nprint(duplicates)  # {1, 2, 3}\n\n# Empty set (can't use {} - that's a dict!)\nempty_set = set()"
+          },
+          {
+            "type": "callout",
+            "variant": "warning",
+            "content": "⚠️ {} creates an empty dictionary, not a set! Use set() for an empty set."
+          },
+          {
+            "type": "heading",
+            "content": "Set Operations"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Add and remove\ncolors = {\"red\", \"green\"}\ncolors.add(\"blue\")\nprint(colors)  # {'red', 'green', 'blue'}\n\ncolors.remove(\"red\")\nprint(colors)  # {'green', 'blue'}\n\n# Membership testing (very fast!)\nprint(\"green\" in colors)  # True\nprint(\"red\" in colors)    # False"
+          },
+          {
+            "type": "heading",
+            "content": "Mathematical Set Operations"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "A = {1, 2, 3, 4}\nB = {3, 4, 5, 6}\n\n# Union (all items from both)\nprint(A | B)  # {1, 2, 3, 4, 5, 6}\n\n# Intersection (common items)\nprint(A & B)  # {3, 4}\n\n# Difference (in A but not B)\nprint(A - B)  # {1, 2}\n\n# Symmetric difference (in either, but not both)\nprint(A ^ B)  # {1, 2, 5, 6}"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Sets are perfect for finding unique items, checking membership, or mathematical operations!"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Removing Duplicates",
+          "code": "# Remove duplicates from a list\nscores = [85, 90, 85, 78, 90, 92, 78]\nunique_scores = set(scores)\nprint(unique_scores)\n\n# Convert back to list if needed\nunique_list = list(unique_scores)\nprint(unique_list)",
+          "output": "{78, 85, 90, 92}\n[78, 85, 90, 92]",
+          "explanation": "Converting a list to a set automatically removes duplicates.",
+          "language": "python"
+        },
+        {
+          "title": "Finding Common Students",
+          "code": "math_class = {\"Alice\", \"Bob\", \"Charlie\", \"Diana\"}\nscience_class = {\"Bob\", \"Diana\", \"Eve\", \"Frank\"}\n\n# Students in both classes\nboth = math_class & science_class\nprint(f\"In both: {both}\")\n\n# Students in either class\nall_students = math_class | science_class\nprint(f\"Total students: {len(all_students)}\")",
+          "output": "In both: {'Bob', 'Diana'}\nTotal students: 6",
+          "explanation": "Set operations make it easy to find overlaps and unions.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-027-01",
+          "type": "code-write",
+          "question": "Create a list with duplicates: [1, 2, 2, 3, 3, 3, 4]. Convert it to a set to remove duplicates, then print the result.",
+          "starterCode": "numbers = [1, 2, 2, 3, 3, 3, 4]\n\n# Convert to set\n\n\nprint(unique)",
+          "solution": "numbers = [1, 2, 2, 3, 3, 3, 4]\n\n# Convert to set\nunique = set(numbers)\n\nprint(unique)",
+          "hints": [
+            "Use set() function",
+            "set(list) removes duplicates automatically"
+          ],
+          "explanation": "Converting a list to a set automatically removes all duplicate values.",
+          "testCases": []
+        },
+        {
+          "id": "ex-027-02",
+          "type": "multiple-choice",
+          "question": "What makes sets different from lists?",
+          "options": [
+            "Sets are unordered and contain only unique items",
+            "Sets use () instead of []",
+            "Sets can only hold numbers",
+            "Sets are slower than lists"
+          ],
+          "correctAnswer": "Sets are unordered and contain only unique items",
+          "explanation": "Sets automatically remove duplicates and don't maintain order."
+        },
+        {
+          "id": "ex-027-03",
+          "type": "code-output",
+          "question": "What will be printed?",
+          "code": "A = {1, 2, 3}\nB = {2, 3, 4}\nprint(A & B)",
+          "correctAnswer": "{2, 3}",
+          "explanation": "& is the intersection operator - it returns items found in both sets."
+        },
+        {
+          "id": "ex-027-04",
+          "type": "code-write",
+          "question": "Create two sets: Set A = {1, 2, 3, 4} and Set B = {3, 4, 5, 6}. Find their union (all unique items from both).",
+          "starterCode": "A = {1, 2, 3, 4}\nB = {3, 4, 5, 6}\n\n# Find union\n\n\nprint(union)",
+          "solution": "A = {1, 2, 3, 4}\nB = {3, 4, 5, 6}\n\n# Find union\nunion = A | B\n\nprint(union)",
+          "hints": [
+            "Use the | operator for union",
+            "Or use: A.union(B)"
+          ],
+          "explanation": "The union operator | combines all unique items from both sets.",
+          "testCases": []
+        },
+        {
+          "id": "ex-027-05",
+          "type": "multiple-choice",
+          "question": "How do you create an empty set?",
+          "options": [
+            "{}",
+            "set()",
+            "[]",
+            "set{}"
+          ],
+          "correctAnswer": "set()",
+          "explanation": "{} creates an empty dictionary, not a set. Use set() for an empty set."
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "proj-module-02",
+    "title": "Contact Book Manager",
+    "description": "Build a contact management system using lists and dictionaries to store and organize contact information.",
+    "difficulty": "intermediate",
+    "estimatedHours": 3,
+    "xpReward": 300,
+    "requirements": [
+      "Store contacts in a list of dictionaries",
+      "Each contact: name, phone, email, tags (set)",
+      "Add new contacts",
+      "Search contacts by name",
+      "Find contacts with specific tags",
+      "Remove duplicates from phone numbers"
+    ],
+    "starterCode": "# Contact Book Manager\ncontacts = []\n\ndef add_contact(name, phone, email, tags):\n    # TODO: Add contact to list\n    pass\n\ndef find_by_tag(tag):\n    # TODO: Return all contacts with this tag\n    pass\n\n# Test your code\nadd_contact(\"Alice\", \"555-1234\", \"alice@email.com\", {\"work\", \"friend\"})\nadd_contact(\"Bob\", \"555-5678\", \"bob@email.com\", {\"family\"})",
+    "sampleOutput": "Contact Added: Alice\nContacts with 'work' tag:\n- Alice (555-1234)"
+  }
+}

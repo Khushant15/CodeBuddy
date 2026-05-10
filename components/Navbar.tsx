@@ -49,9 +49,14 @@ export function Navbar() {
   useEffect(() => { setOpen(false); }, [pathname]);
 
   const handleLogout = async () => {
-    await logoutUser();
-    toast.success("Logged out successfully");
-    router.push("/");
+    try {
+      await logoutUser();
+      toast.success("Logged out successfully");
+      // Use window.location to force a full reload and bypass auth hook redirects
+      window.location.href = "/";
+    } catch (error) {
+      toast.error("Logout failed");
+    }
   };
 
   const links = user ? appLinks : publicLinks;

@@ -1,7 +1,13 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, User, Sparkles, Loader2, Trash2 } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, Sparkles, Loader2, Trash2, GraduationCap } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { ContextualHelp } from "@/lib/chatTypes";
+import { useChat } from "./ChatContext";
+import { auth } from "@/app/firebase/config";
+import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
+import Link from "next/link";
 
 interface Message {
   id: number;
@@ -34,13 +40,42 @@ function renderContent(text: string) {
 }
 
 export function ChatBot() {
-  const [open, setOpen] = useState(false);
+  const { isOpen: open, setIsOpen: setOpen } = useChat();
   const [messages, setMessages] = useState<Message[]>([WELCOME]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [unread, setUnread] = useState(0);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (u) => {
+      setUser(u);
+      setAuthLoading(false);
+    });
+    return unsub;
+  }, []);
+
+  // Determine context
+  const isChallenge = pathname.includes("/practice");
+  const isLesson = pathname.includes("/learn");
+  
+  const context: ContextualHelp = {
+    currentChallenge: isChallenge ? (pathname.split("/").pop() || "Practice Page") : undefined,
+    currentLesson: isLesson ? (searchParams.get("id") || "Leaning Session") : undefined,
+    behavior: {
+      noDirectSolutions: isChallenge || isLesson,
+      hintMode: isChallenge,
+      explainMode: isLesson
+    }
+  };
+
+  const isTutorMode = isChallenge || isLesson;
 
   useEffect(() => {
     if (open) {
@@ -51,7 +86,7 @@ export function ChatBot() {
 
   const send = async () => {
     const msg = input.trim();
-    if (!msg || loading) return;
+    if (!msg || loading || !user) return;
     setInput("");
 
     const userMsg: Message = { id: Date.now(), role: "user", content: msg, ts: new Date() };
@@ -62,7 +97,7 @@ export function ChatBot() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg }),
+        body: JSON.stringify({ message: msg, context }),
       });
       const data = await res.json();
       const botMsg: Message = {
@@ -104,7 +139,7 @@ export function ChatBot() {
       >
         {open
           ? <X className="w-5 h-5 text-[var(--neon-violet)]" />
-          : <MessageCircle className="w-6 h-6 text-[var(--void-950)]" />
+          : isTutorMode ? <GraduationCap className="w-6 h-6 text-[var(--void-950)]" /> : <MessageCircle className="w-6 h-6 text-[var(--void-950)]" />
         }
         {!open && unread > 0 && (
           <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[var(--neon-pink)] text-white text-[10px] font-bold flex items-center justify-center">
@@ -138,8 +173,8 @@ export function ChatBot() {
                   <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[var(--neon-green)] border-2 border-[rgba(6,5,18,1)]" style={{ boxShadow: "0 0 6px var(--neon-green)" }} />
                 </div>
                 <div>
-                  <div className="font-heading text-xs font-700 tracking-wider text-white">CODEBUDDY AI</div>
-                  <div className="text-[10px] font-mono text-[var(--neon-green)]">● Online · Groq llama-3.3-70b</div>
+                   <div className="font-heading text-xs font-700 tracking-wider text-white">CODEBUDDY {isTutorMode ? "TUTOR" : "AI"}</div>
+                   <div className="text-[10px] font-mono text-[var(--neon-green)]">● {isTutorMode ? "Context Aware" : "Online"} · Groq llama-3.3</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -186,32 +221,45 @@ export function ChatBot() {
 
             {/* Input */}
             <div className="px-4 pb-4 pt-2 border-t border-[rgba(255,255,255,0.05)] flex-shrink-0">
-              <div className="flex gap-2 items-end">
-                <textarea
-                  ref={inputRef}
-                  rows={1}
-                  value={input}
-                  onChange={e => setInput(e.target.value)}
-                  onKeyDown={handleKey}
-                  placeholder="Ask a coding question…"
-                  className="flex-1 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-xl px-3.5 py-2.5 text-[13px] text-white/80 placeholder:text-white/20 outline-none resize-none max-h-[100px] font-body leading-relaxed"
-                  style={{ minHeight: 40 }}
-                  onInput={e => {
-                    const t = e.currentTarget;
-                    t.style.height = "auto";
-                    t.style.height = Math.min(t.scrollHeight, 100) + "px";
-                  }}
-                />
-                <button onClick={send} disabled={!input.trim() || loading}
-                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all disabled:opacity-30"
-                  style={{
-                    background: input.trim() && !loading ? "var(--neon-green)" : "rgba(255,255,255,0.05)",
-                    boxShadow: input.trim() && !loading ? "0 0 16px rgba(0,255,135,0.4)" : "none",
-                  }}>
-                  <Send className="w-4 h-4" style={{ color: input.trim() && !loading ? "var(--void-950)" : "rgba(255,255,255,0.2)" }} />
-                </button>
-              </div>
-              <p className="text-[9px] font-mono text-white/15 mt-1.5 text-center">⇧↵ newline · ↵ send · Powered by Groq</p>
+              {authLoading ? (
+                <div className="h-10 flex items-center justify-center">
+                  <Loader2 className="w-4 h-4 animate-spin text-white/20" />
+                </div>
+              ) : !user ? (
+                <div className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl p-3 text-center">
+                  <p className="text-xs text-white/40 mb-2 font-mono">Login required to use AI Chat</p>
+                  <Link href="/login" onClick={() => setOpen(false)} className="text-[11px] font-bold text-[var(--neon-green)] hover:underline flex items-center justify-center gap-1">
+                    <Sparkles size={12} /> Sign In / Sign Up
+                  </Link>
+                </div>
+              ) : (
+                <div className="flex gap-2 items-end">
+                  <textarea
+                    ref={inputRef}
+                    rows={1}
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
+                    onKeyDown={handleKey}
+                    placeholder="Ask a coding question…"
+                    className="flex-1 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-xl px-3.5 py-2.5 text-[13px] text-white/80 placeholder:text-white/20 outline-none resize-none max-h-[100px] font-body leading-relaxed"
+                    style={{ minHeight: 40 }}
+                    onInput={e => {
+                      const t = e.currentTarget;
+                      t.style.height = "auto";
+                      t.style.height = Math.min(t.scrollHeight, 100) + "px";
+                    }}
+                  />
+                  <button onClick={send} disabled={!input.trim() || loading}
+                    className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all disabled:opacity-30"
+                    style={{
+                      background: input.trim() && !loading ? "var(--neon-green)" : "rgba(255,255,255,0.05)",
+                      boxShadow: input.trim() && !loading ? "0 0 16px rgba(0,255,135,0.4)" : "none",
+                    }}>
+                    <Send className="w-4 h-4" style={{ color: input.trim() && !loading ? "var(--void-950)" : "rgba(255,255,255,0.2)" }} />
+                  </button>
+                </div>
+              )}
+              {user && <p className="text-[9px] font-mono text-white/15 mt-1.5 text-center">⇧↵ newline · ↵ send · Powered by Groq</p>}
             </div>
           </motion.div>
         )}

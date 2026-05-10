@@ -1,0 +1,786 @@
+{
+  "id": "python-module-03-functions",
+  "title": "Functions and Code Reusability",
+  "description": "Learn to write reusable, modular code with functions. Master parameters, return values, scope, lambda functions, and functional programming concepts.",
+  "track": "python",
+  "order": 3,
+  "estimatedHours": 10,
+  "difficulty": "intermediate",
+  "prerequisites": ["python-module-02-data-structures"],
+  "learningObjectives": [
+    "Define and call functions with clear purposes",
+    "Use parameters and arguments effectively",
+    "Return values and handle multiple return values",
+    "Understand variable scope (local vs global)",
+    "Write lambda functions for simple operations",
+    "Apply functional programming with map, filter, reduce"
+  ],
+  "lessons": [
+    {
+      "id": "py-038-function-basics",
+      "title": "Introduction to Functions",
+      "order": 1,
+      "difficulty": "beginner",
+      "xpReward": 75,
+      "estimatedMinutes": 35,
+      "tags": ["functions", "basics", "def"],
+      "prerequisites": ["py-025-list-methods"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What are Functions?"
+          },
+          {
+            "type": "text",
+            "content": "Functions are reusable blocks of code that perform specific tasks. Think of them as mini-programs within your program. Instead of writing the same code multiple times, you define it once in a function and call it whenever needed."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Define a function\ndef greet():\n    print(\"Hello, World!\")\n\n# Call the function\ngreet()  # Output: Hello, World!\ngreet()  # Output: Hello, World!"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 The def keyword defines a function. The parentheses () are required, even if the function takes no parameters."
+          },
+          {
+            "type": "heading",
+            "content": "Function Anatomy"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "def function_name():\n    # Function body (indented)\n    # Code to execute\n    print(\"This is the function body\")\n    \n# Function name rules:\n# - Use lowercase with underscores\n# - Should describe what it does\n# - Follow same rules as variables"
+          },
+          {
+            "type": "heading",
+            "content": "Why Use Functions?"
+          },
+          {
+            "type": "text",
+            "content": "**1. Reusability** - Write once, use many times\n**2. Organization** - Break complex problems into smaller pieces\n**3. Maintainability** - Fix bugs in one place\n**4. Readability** - Well-named functions make code self-documenting"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Without functions (repetitive)\nprint(\"========\")\nprint(\"Welcome!\")\nprint(\"========\")\n\nprint(\"========\")\nprint(\"Goodbye!\")\nprint(\"========\")\n\n# With functions (clean)\ndef print_banner(message):\n    print(\"========\")\n    print(message)\n    print(\"========\")\n\nprint_banner(\"Welcome!\")\nprint_banner(\"Goodbye!\")"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Pro tip: If you're writing the same code twice, consider making it a function!"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Simple Function",
+          "code": "def say_hello():\n    print(\"Hello, programmer!\")\n    print(\"Let's code!\")\n\nsay_hello()\nprint(\"---\")\nsay_hello()",
+          "output": "Hello, programmer!\nLet's code!\n---\nHello, programmer!\nLet's code!",
+          "explanation": "The function is defined once but called twice, executing the code each time.",
+          "language": "python"
+        },
+        {
+          "title": "Calculation Function",
+          "code": "def calculate_area():\n    length = 10\n    width = 5\n    area = length * width\n    print(f\"Area: {area}\")\n\ncalculate_area()",
+          "output": "Area: 50",
+          "explanation": "Functions can perform calculations and have their own variables.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-038-01",
+          "type": "code-write",
+          "question": "Define a function called 'introduce' that prints your name and favorite hobby. Then call it.",
+          "starterCode": "# Define the function\n\n\n\n# Call it\n",
+          "solution": "# Define the function\ndef introduce():\n    print(\"My name is Alice\")\n    print(\"I love coding\")\n\n# Call it\nintroduce()",
+          "hints": [
+            "Use def keyword",
+            "Don't forget the colon :",
+            "Indent the function body",
+            "Call with function_name()"
+          ],
+          "explanation": "Functions must be defined before they can be called.",
+          "testCases": []
+        },
+        {
+          "id": "ex-038-02",
+          "type": "multiple-choice",
+          "question": "What keyword is used to define a function?",
+          "options": [
+            "function",
+            "def",
+            "define",
+            "func"
+          ],
+          "correctAnswer": "def",
+          "explanation": "In Python, we use 'def' to define functions."
+        },
+        {
+          "id": "ex-038-03",
+          "type": "code-output",
+          "question": "How many times will 'Hello' be printed?",
+          "code": "def greet():\n    print(\"Hello\")\n\ngreet()\ngreet()\ngreet()",
+          "correctAnswer": "3",
+          "explanation": "The function is called 3 times, so 'Hello' prints 3 times."
+        },
+        {
+          "id": "ex-038-04",
+          "type": "code-write",
+          "question": "Create a function called 'draw_line' that prints 20 dashes (----...). Call it 3 times.",
+          "starterCode": "# Define draw_line\n\n\n\n# Call it 3 times\n",
+          "solution": "# Define draw_line\ndef draw_line():\n    print(\"-\" * 20)\n\n# Call it 3 times\ndraw_line()\ndraw_line()\ndraw_line()",
+          "hints": [
+            "Use \"-\" * 20 to create 20 dashes",
+            "Remember to indent function body"
+          ],
+          "explanation": "String multiplication creates repeated characters.",
+          "testCases": []
+        },
+        {
+          "id": "ex-038-05",
+          "type": "multiple-choice",
+          "question": "What happens if you call a function before defining it?",
+          "options": [
+            "It works fine",
+            "Python gives a NameError",
+            "It waits until the function is defined",
+            "Nothing happens"
+          ],
+          "correctAnswer": "Python gives a NameError",
+          "explanation": "You must define a function before calling it, or Python won't recognize it."
+        }
+      ]
+    },
+    {
+      "id": "py-039-parameters-arguments",
+      "title": "Function Parameters and Arguments",
+      "order": 2,
+      "difficulty": "beginner",
+      "xpReward": 80,
+      "estimatedMinutes": 40,
+      "tags": ["functions", "parameters", "arguments"],
+      "prerequisites": ["py-038-function-basics"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What are Parameters?"
+          },
+          {
+            "type": "text",
+            "content": "Parameters make functions flexible by allowing them to accept input values. They're like variables that receive values when the function is called."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Function with one parameter\ndef greet(name):\n    print(f\"Hello, {name}!\")\n\ngreet(\"Alice\")  # Hello, Alice!\ngreet(\"Bob\")    # Hello, Bob!"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 Parameter = variable in function definition. Argument = actual value passed when calling."
+          },
+          {
+            "type": "heading",
+            "content": "Multiple Parameters"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "def add_numbers(a, b):\n    result = a + b\n    print(f\"{a} + {b} = {result}\")\n\nadd_numbers(5, 3)   # 5 + 3 = 8\nadd_numbers(10, 7)  # 10 + 7 = 17"
+          },
+          {
+            "type": "heading",
+            "content": "Default Parameter Values"
+          },
+          {
+            "type": "text",
+            "content": "You can give parameters default values. If no argument is provided, the default is used."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "def greet(name, greeting=\"Hello\"):\n    print(f\"{greeting}, {name}!\")\n\ngreet(\"Alice\")              # Hello, Alice!\ngreet(\"Bob\", \"Hi\")          # Hi, Bob!\ngreet(\"Charlie\", \"Hey\")     # Hey, Charlie!"
+          },
+          {
+            "type": "callout",
+            "variant": "warning",
+            "content": "⚠️ Default parameters must come AFTER non-default parameters!"
+          },
+          {
+            "type": "heading",
+            "content": "Keyword Arguments"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "def describe_pet(animal, name, age):\n    print(f\"{name} is a {age} year old {animal}\")\n\n# Positional arguments\ndescribe_pet(\"dog\", \"Rex\", 3)\n\n# Keyword arguments (can be in any order)\ndescribe_pet(name=\"Fluffy\", age=2, animal=\"cat\")\ndescribe_pet(age=5, animal=\"parrot\", name=\"Polly\")"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Keyword arguments make code more readable and prevent argument order mistakes!"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Personalized Greeting",
+          "code": "def greet_user(name, time_of_day=\"day\"):\n    greetings = {\n        \"morning\": \"Good morning\",\n        \"afternoon\": \"Good afternoon\",\n        \"evening\": \"Good evening\",\n        \"day\": \"Hello\"\n    }\n    message = greetings.get(time_of_day, \"Hello\")\n    print(f\"{message}, {name}!\")\n\ngreet_user(\"Alice\")\ngreet_user(\"Bob\", \"morning\")\ngreet_user(\"Charlie\", \"evening\")",
+          "output": "Hello, Alice!\nGood morning, Bob!\nGood evening, Charlie!",
+          "explanation": "The function uses a default parameter and a dictionary to customize greetings.",
+          "language": "python"
+        },
+        {
+          "title": "Calculate Rectangle Area",
+          "code": "def rectangle_area(length, width):\n    area = length * width\n    print(f\"Rectangle {length}x{width} has area: {area}\")\n\nrectangle_area(5, 3)\nrectangle_area(10, 2)\nrectangle_area(width=7, length=4)  # Keyword args",
+          "output": "Rectangle 5x3 has area: 15\nRectangle 10x2 has area: 20\nRectangle 4x7 has area: 28",
+          "explanation": "Parameters make the function work with any rectangle dimensions.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-039-01",
+          "type": "code-write",
+          "question": "Write a function 'multiply' that takes two numbers and prints their product. Call it with 6 and 7.",
+          "starterCode": "# Define multiply function\n\n\n\n# Call it\n",
+          "solution": "# Define multiply function\ndef multiply(a, b):\n    print(a * b)\n\n# Call it\nmultiply(6, 7)",
+          "hints": [
+            "Function needs two parameters",
+            "Multiply them: a * b",
+            "Use print() to display result"
+          ],
+          "explanation": "The function accepts two parameters and prints their product.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "42",
+              "hidden": false
+            }
+          ]
+        },
+        {
+          "id": "ex-039-02",
+          "type": "multiple-choice",
+          "question": "What's the difference between parameters and arguments?",
+          "options": [
+            "They're the same thing",
+            "Parameters are in the definition, arguments are the actual values",
+            "Arguments are in the definition, parameters are the values",
+            "Parameters are for numbers, arguments are for strings"
+          ],
+          "correctAnswer": "Parameters are in the definition, arguments are the actual values",
+          "explanation": "Parameters are placeholders in the function definition; arguments are the real values you pass."
+        },
+        {
+          "id": "ex-039-03",
+          "type": "code-write",
+          "question": "Create a function 'make_profile' with parameters: name, age, and city (default: 'Unknown'). Print a profile message.",
+          "starterCode": "# Define function\n\n\n\n# Test calls\nmake_profile(\"Alice\", 25, \"NYC\")\nmake_profile(\"Bob\", 30)",
+          "solution": "# Define function\ndef make_profile(name, age, city=\"Unknown\"):\n    print(f\"{name}, {age} years old, from {city}\")\n\n# Test calls\nmake_profile(\"Alice\", 25, \"NYC\")\nmake_profile(\"Bob\", 30)",
+          "hints": [
+            "Default parameter: city=\"Unknown\"",
+            "Use f-string to format output"
+          ],
+          "explanation": "Default parameters provide values when arguments aren't supplied.",
+          "testCases": []
+        },
+        {
+          "id": "ex-039-04",
+          "type": "code-output",
+          "question": "What will be printed?",
+          "code": "def combine(a, b, separator=\"-\"):\n    print(f\"{a}{separator}{b}\")\n\ncombine(\"hello\", \"world\")",
+          "correctAnswer": "hello-world",
+          "explanation": "The default separator '-' is used because no third argument was provided."
+        },
+        {
+          "id": "ex-039-05",
+          "type": "multiple-choice",
+          "question": "Can you use keyword arguments in any order?",
+          "options": [
+            "No, order always matters",
+            "Yes, if you use parameter names",
+            "Only for default parameters",
+            "Only for strings"
+          ],
+          "correctAnswer": "Yes, if you use parameter names",
+          "explanation": "Keyword arguments can be in any order because you specify which parameter gets which value."
+        }
+      ]
+    },
+    {
+      "id": "py-040-return-values",
+      "title": "Return Values and Output",
+      "order": 3,
+      "difficulty": "beginner",
+      "xpReward": 85,
+      "estimatedMinutes": 40,
+      "tags": ["functions", "return", "output"],
+      "prerequisites": ["py-039-parameters-arguments"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What is Return?"
+          },
+          {
+            "type": "text",
+            "content": "The return statement sends a value back to the code that called the function. This allows functions to compute results that you can store in variables or use in expressions."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "def add(a, b):\n    return a + b\n\n# Store the result\nresult = add(5, 3)\nprint(result)  # 8\n\n# Use directly\nprint(add(10, 20))  # 30\n\n# Use in expressions\ntotal = add(5, 3) + add(2, 4)\nprint(total)  # 14"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 return ends the function immediately. Code after return won't execute!"
+          },
+          {
+            "type": "heading",
+            "content": "Return vs Print"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Print: displays to console, returns None\ndef greet_print(name):\n    print(f\"Hello, {name}\")\n\n# Return: sends value back\ndef greet_return(name):\n    return f\"Hello, {name}\"\n\nx = greet_print(\"Alice\")   # Prints: Hello, Alice\nprint(x)                    # None\n\ny = greet_return(\"Bob\")    # Returns the string\nprint(y)                    # Hello, Bob"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Use return when you want to use the result elsewhere. Use print for debugging or displaying info."
+          },
+          {
+            "type": "heading",
+            "content": "Multiple Return Values"
+          },
+          {
+            "type": "text",
+            "content": "Python functions can return multiple values as a tuple:"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "def get_dimensions():\n    width = 1920\n    height = 1080\n    return width, height\n\n# Unpack the returned values\nw, h = get_dimensions()\nprint(f\"Width: {w}, Height: {h}\")\n\n# Or get as tuple\ndims = get_dimensions()\nprint(dims)  # (1920, 1080)"
+          },
+          {
+            "type": "heading",
+            "content": "Early Return"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "def divide(a, b):\n    if b == 0:\n        return \"Error: Division by zero\"\n    return a / b\n\nprint(divide(10, 2))  # 5.0\nprint(divide(10, 0))  # Error: Division by zero"
+          },
+          {
+            "type": "callout",
+            "variant": "warning",
+            "content": "⚠️ If a function doesn't have a return statement, it returns None by default."
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Calculate Circle Area",
+          "code": "def circle_area(radius):\n    pi = 3.14159\n    area = pi * radius ** 2\n    return area\n\n# Use the returned value\nsmall_circle = circle_area(5)\nlarge_circle = circle_area(10)\n\nprint(f\"Small: {small_circle:.2f}\")\nprint(f\"Large: {large_circle:.2f}\")\nprint(f\"Difference: {large_circle - small_circle:.2f}\")",
+          "output": "Small: 78.54\nLarge: 314.16\nDifference: 235.62",
+          "explanation": "The function returns a value we can store and use in calculations.",
+          "language": "python"
+        },
+        {
+          "title": "Get Min and Max",
+          "code": "def get_stats(numbers):\n    minimum = min(numbers)\n    maximum = max(numbers)\n    return minimum, maximum\n\nscores = [85, 92, 78, 95, 88]\nmin_score, max_score = get_stats(scores)\n\nprint(f\"Lowest: {min_score}\")\nprint(f\"Highest: {max_score}\")",
+          "output": "Lowest: 78\nHighest: 95",
+          "explanation": "Returning multiple values as a tuple allows unpacking into separate variables.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-040-01",
+          "type": "code-write",
+          "question": "Write a function 'square' that takes a number and returns its square. Test with 8.",
+          "starterCode": "# Define square function\n\n\n\n# Test it\nresult = square(8)\nprint(result)",
+          "solution": "# Define square function\ndef square(n):\n    return n * n\n\n# Test it\nresult = square(8)\nprint(result)",
+          "hints": [
+            "Square means n * n or n ** 2",
+            "Use return, not print",
+            "Store the result in a variable"
+          ],
+          "explanation": "The function returns the squared value which we can store and use.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "64",
+              "hidden": false
+            }
+          ]
+        },
+        {
+          "id": "ex-040-02",
+          "type": "multiple-choice",
+          "question": "What does a function return if it has no return statement?",
+          "options": [
+            "0",
+            "Empty string",
+            "None",
+            "Error"
+          ],
+          "correctAnswer": "None",
+          "explanation": "Functions without an explicit return statement return None by default."
+        },
+        {
+          "id": "ex-040-03",
+          "type": "code-output",
+          "question": "What will be printed?",
+          "code": "def mystery(x):\n    return x * 2\n    print(\"This won't run\")\n\nprint(mystery(5))",
+          "correctAnswer": "10",
+          "explanation": "return exits the function immediately, so the print statement never executes."
+        },
+        {
+          "id": "ex-040-04",
+          "type": "code-write",
+          "question": "Create a function 'is_even' that returns True if a number is even, False otherwise. Test with 7.",
+          "starterCode": "# Define is_even\n\n\n\n# Test\nprint(is_even(7))",
+          "solution": "# Define is_even\ndef is_even(n):\n    return n % 2 == 0\n\n# Test\nprint(is_even(7))",
+          "hints": [
+            "Even numbers have remainder 0 when divided by 2",
+            "Use modulo operator: n % 2",
+            "Return the boolean result"
+          ],
+          "explanation": "The function returns a boolean value based on the condition.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "False",
+              "hidden": false
+            }
+          ]
+        },
+        {
+          "id": "ex-040-05",
+          "type": "code-write",
+          "question": "Write a function that returns both the sum and product of two numbers. Test with 4 and 5.",
+          "starterCode": "# Define calc_sum_product\n\n\n\n# Test and unpack\nsum_result, product_result = calc_sum_product(4, 5)\nprint(sum_result)\nprint(product_result)",
+          "solution": "# Define calc_sum_product\ndef calc_sum_product(a, b):\n    return a + b, a * b\n\n# Test and unpack\nsum_result, product_result = calc_sum_product(4, 5)\nprint(sum_result)\nprint(product_result)",
+          "hints": [
+            "Return two values: sum, product",
+            "Separate with comma: return a+b, a*b",
+            "Unpack when calling"
+          ],
+          "explanation": "Returning multiple values creates a tuple that can be unpacked.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "9\n20",
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "py-041-variable-scope",
+      "title": "Variable Scope: Local vs Global",
+      "order": 4,
+      "difficulty": "intermediate",
+      "xpReward": 75,
+      "estimatedMinutes": 35,
+      "tags": ["functions", "scope", "variables"],
+      "prerequisites": ["py-040-return-values"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What is Scope?"
+          },
+          {
+            "type": "text",
+            "content": "Scope determines where in your code a variable can be accessed. Python has two main scopes: **local** (inside functions) and **global** (outside functions)."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Global variable (accessible everywhere)\nusername = \"Alice\"\n\ndef greet():\n    # Local variable (only in this function)\n    message = \"Hello\"\n    print(f\"{message}, {username}\")\n\ngreet()  # Works: Hello, Alice\nprint(username)  # Works: Alice\nprint(message)   # Error! message is local to greet()"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 Local variables are created when a function starts and destroyed when it ends."
+          },
+          {
+            "type": "heading",
+            "content": "Local Scope"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "def calculate():\n    x = 10  # Local to calculate()\n    y = 20  # Local to calculate()\n    return x + y\n\nresult = calculate()\nprint(result)  # 30\n# print(x)  # Error! x doesn't exist here"
+          },
+          {
+            "type": "heading",
+            "content": "Global Scope"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "counter = 0  # Global variable\n\ndef increment():\n    global counter  # Tell Python we want to modify the global\n    counter += 1\n\nincrement()\nincrement()\nprint(counter)  # 2"
+          },
+          {
+            "type": "callout",
+            "variant": "warning",
+            "content": "⚠️ Avoid using global variables when possible. Pass values as parameters instead!"
+          },
+          {
+            "type": "heading",
+            "content": "Best Practice: Avoid Global"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Bad: using global\ncounter = 0\ndef increment():\n    global counter\n    counter += 1\n\n# Better: using parameters and return\ndef increment(counter):\n    return counter + 1\n\ncounter = 0\ncounter = increment(counter)\ncounter = increment(counter)\nprint(counter)  # 2"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Functions should be self-contained. Pass data in via parameters, get data out via return."
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Understanding Scope",
+          "code": "name = \"Global Alice\"  # Global\n\ndef func1():\n    name = \"Local Bob\"  # Local to func1\n    print(f\"Inside func1: {name}\")\n\ndef func2():\n    print(f\"Inside func2: {name}\")  # Uses global\n\nfunc1()\nfunc2()\nprint(f\"Outside: {name}\")",
+          "output": "Inside func1: Local Bob\nInside func2: Global Alice\nOutside: Global Alice",
+          "explanation": "Each function has its own local scope. If a variable isn't found locally, Python looks globally.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-041-01",
+          "type": "multiple-choice",
+          "question": "What is the scope of a variable defined inside a function?",
+          "options": [
+            "Global",
+            "Local",
+            "Universal",
+            "Protected"
+          ],
+          "correctAnswer": "Local",
+          "explanation": "Variables defined inside a function are local and can't be accessed outside."
+        },
+        {
+          "id": "ex-041-02",
+          "type": "code-output",
+          "question": "What will be printed?",
+          "code": "x = 10\n\ndef change_x():\n    x = 20\n    print(x)\n\nchange_x()\nprint(x)",
+          "correctAnswer": "20\n10",
+          "explanation": "The function creates a new local x. The global x remains unchanged."
+        },
+        {
+          "id": "ex-041-03",
+          "type": "code-write",
+          "question": "Write a function that takes a number and returns it doubled. Don't use global variables.",
+          "starterCode": "# Define double function\n\n\n\n# Test\nprint(double(7))",
+          "solution": "# Define double function\ndef double(n):\n    return n * 2\n\n# Test\nprint(double(7))",
+          "hints": [
+            "Use a parameter for input",
+            "Use return for output",
+            "No global keyword needed!"
+          ],
+          "explanation": "Parameters and return values eliminate the need for global variables.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "14",
+              "hidden": false
+            }
+          ]
+        },
+        {
+          "id": "ex-041-04",
+          "type": "multiple-choice",
+          "question": "Which keyword is used to modify a global variable inside a function?",
+          "options": [
+            "public",
+            "global",
+            "extern",
+            "shared"
+          ],
+          "correctAnswer": "global",
+          "explanation": "The global keyword tells Python you want to modify a global variable."
+        }
+      ]
+    },
+    {
+      "id": "py-042-lambda-functions",
+      "title": "Lambda Functions: Anonymous Functions",
+      "order": 5,
+      "difficulty": "intermediate",
+      "xpReward": 80,
+      "estimatedMinutes": 35,
+      "tags": ["lambda", "functions", "functional-programming"],
+      "prerequisites": ["py-041-variable-scope"],
+      "theory": {
+        "sections": [
+          {
+            "type": "heading",
+            "content": "What are Lambda Functions?"
+          },
+          {
+            "type": "text",
+            "content": "Lambda functions are small, anonymous functions defined with the lambda keyword. They can have any number of parameters but only one expression."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Regular function\ndef square(x):\n    return x ** 2\n\n# Lambda function (same thing)\nsquare_lambda = lambda x: x ** 2\n\nprint(square(5))         # 25\nprint(square_lambda(5))  # 25"
+          },
+          {
+            "type": "callout",
+            "variant": "info",
+            "content": "💡 Syntax: lambda parameters: expression\nThe expression result is automatically returned."
+          },
+          {
+            "type": "heading",
+            "content": "When to Use Lambda"
+          },
+          {
+            "type": "text",
+            "content": "Use lambdas for simple, one-line operations, especially when passing functions as arguments. For complex logic, use regular def functions."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# Multiple parameters\nadd = lambda a, b: a + b\nprint(add(3, 5))  # 8\n\n# Used inline (common with sorted, map, filter)\nnumbers = [(1, 'one'), (3, 'three'), (2, 'two')]\nsorted_nums = sorted(numbers, key=lambda x: x[0])\nprint(sorted_nums)  # [(1, 'one'), (2, 'two'), (3, 'three')]"
+          },
+          {
+            "type": "heading",
+            "content": "Lambda with Built-in Functions"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "content": "# With map() - apply function to each item\nnumbers = [1, 2, 3, 4, 5]\nsquared = list(map(lambda x: x ** 2, numbers))\nprint(squared)  # [1, 4, 9, 16, 25]\n\n# With filter() - keep items that return True\nevens = list(filter(lambda x: x % 2 == 0, numbers))\nprint(evens)  # [2, 4]"
+          },
+          {
+            "type": "callout",
+            "variant": "tip",
+            "content": "🎯 Lambda is great for quick operations. For anything more complex, use def for readability."
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Sorting with Lambda",
+          "code": "students = [\n    {'name': 'Alice', 'grade': 85},\n    {'name': 'Bob', 'grade': 92},\n    {'name': 'Charlie', 'grade': 78}\n]\n\n# Sort by grade\nsorted_students = sorted(students, key=lambda s: s['grade'])\n\nfor student in sorted_students:\n    print(f\"{student['name']}: {student['grade']}\")",
+          "output": "Charlie: 78\nAlice: 85\nBob: 92",
+          "explanation": "Lambda creates a quick key function for sorting dictionaries by a specific field.",
+          "language": "python"
+        },
+        {
+          "title": "Filter and Map",
+          "code": "prices = [10.00, 25.50, 8.75, 30.00, 15.25]\n\n# Filter: prices over $15\nexpensive = list(filter(lambda p: p > 15, prices))\nprint(f\"Expensive: {expensive}\")\n\n# Map: apply 20% discount\ndiscounted = list(map(lambda p: p * 0.8, prices))\nprint(f\"Discounted: {discounted}\")",
+          "output": "Expensive: [25.5, 30.0, 15.25]\nDiscounted: [8.0, 20.4, 7.0, 24.0, 12.2]",
+          "explanation": "Lambda functions work perfectly with filter() and map() for quick transformations.",
+          "language": "python"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "ex-042-01",
+          "type": "code-write",
+          "question": "Create a lambda function that takes a number and returns it tripled. Store in variable 'triple'. Test with 4.",
+          "starterCode": "# Define lambda\ntriple = \n\nprint(triple(4))",
+          "solution": "# Define lambda\ntriple = lambda x: x * 3\n\nprint(triple(4))",
+          "hints": [
+            "Syntax: lambda parameter: expression",
+            "Multiply by 3: x * 3"
+          ],
+          "explanation": "Lambda creates a simple one-line function.",
+          "testCases": [
+            {
+              "input": "",
+              "expectedOutput": "12",
+              "hidden": false
+            }
+          ]
+        },
+        {
+          "id": "ex-042-02",
+          "type": "multiple-choice",
+          "question": "How many expressions can a lambda function have?",
+          "options": [
+            "Unlimited",
+            "Only one",
+            "Up to 3",
+            "At least 2"
+          ],
+          "correctAnswer": "Only one",
+          "explanation": "Lambda functions can only contain a single expression, which is automatically returned."
+        },
+        {
+          "id": "ex-042-03",
+          "type": "code-write",
+          "question": "Use map() and lambda to convert this list to uppercase: ['apple', 'banana', 'orange']",
+          "starterCode": "fruits = ['apple', 'banana', 'orange']\n\n# Use map and lambda\nuppercase = \n\nprint(list(uppercase))",
+          "solution": "fruits = ['apple', 'banana', 'orange']\n\n# Use map and lambda\nuppercase = map(lambda s: s.upper(), fruits)\n\nprint(list(uppercase))",
+          "hints": [
+            "map(function, iterable)",
+            "Lambda: lambda s: s.upper()",
+            "Convert to list: list()"
+          ],
+          "explanation": "map() applies the lambda function to each item in the list.",
+          "testCases": []
+        },
+        {
+          "id": "ex-042-04",
+          "type": "code-output",
+          "question": "What will be printed?",
+          "code": "multiply = lambda x, y: x * y\nprint(multiply(6, 7))",
+          "correctAnswer": "42",
+          "explanation": "Lambda can have multiple parameters separated by commas."
+        },
+        {
+          "id": "ex-042-05",
+          "type": "code-write",
+          "question": "Use filter() and lambda to get only positive numbers from: [-5, 3, -2, 8, -1, 6]",
+          "starterCode": "numbers = [-5, 3, -2, 8, -1, 6]\n\n# Filter positives\npositives = \n\nprint(list(positives))",
+          "solution": "numbers = [-5, 3, -2, 8, -1, 6]\n\n# Filter positives\npositives = filter(lambda x: x > 0, numbers)\n\nprint(list(positives))",
+          "hints": [
+            "filter(function, iterable)",
+            "Lambda returns True for x > 0",
+            "Convert to list"
+          ],
+          "explanation": "filter() keeps only items where the lambda returns True.",
+          "testCases": []
+        }
+      ]
+    }
+  ],
+  "capstoneProject": {
+    "id": "proj-module-03",
+    "title": "Text Analysis Toolkit",
+    "description": "Build a set of functions to analyze text: count words, find longest word, calculate average word length, and more.",
+    "difficulty": "intermediate",
+    "estimatedHours": 3,
+    "xpReward": 350,
+    "requirements": [
+      "Function to count words in a string",
+      "Function to find the longest word",
+      "Function to calculate average word length",
+      "Function to count specific word occurrences",
+      "Use lambda for sorting words by length",
+      "Return multiple values where appropriate"
+    ],
+    "starterCode": "def count_words(text):\n    # TODO: Return word count\n    pass\n\ndef longest_word(text):\n    # TODO: Return the longest word\n    pass\n\ndef average_word_length(text):\n    # TODO: Return average length\n    pass\n\n# Test\nsample = \"Python programming is fun and rewarding\"\nprint(count_words(sample))\nprint(longest_word(sample))\nprint(average_word_length(sample))",
+    "sampleOutput": "Words: 6\nLongest: programming\nAverage length: 7.5"
+  }
+}
